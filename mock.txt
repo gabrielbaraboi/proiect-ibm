@@ -1,0 +1,34 @@
+User{
+    id: "12314142",
+    email: "aaa@gmail.com",
+    password: *****,
+    role: "student|company|admin|"
+    firstName: "sdasdah",
+    lastName: "sdagsdga",
+    companyName: "IBM"   
+}
+
+Post{
+    id: "12312312",
+    createdBy: idUser,
+    dateCreated:,
+    type: "offer | request",
+    description: "",
+    title: "",
+    programmingLanguage: "C",
+    workHours: "part-time | full-time",
+    workPlace: "Timisoara | remote",
+    requirements: ["asda","eass"]
+}
+
+Comments{
+    id: "!23124124",
+    postId: postId,
+    createdBy: userId,
+    comment: "Super tare",
+    datePosted
+}
+
+ENDPOINT-urile: localhost: / lista joburi
+                           /idPost detalii si comentarii
+                           /addPost
