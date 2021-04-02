@@ -1,0 +1,22 @@
+<!-- index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Job offers</title>
+  </head>
+  <body>
+    <div>
+        <% for(var i = 0; i < posturi.length; i++) {%>
+                  <li>
+                    <span><%= posturi[i].companie[0]['companyName'] %></span>
+                    <span><%= posturi[i]['title'] %></span>
+                    <span><%= posturi[i]['dateCreated'] %></span>
+                    <% var redirect = "detaliiPost?firma=" + posturi[i].companie[0]['companyName'] + "&id=" + posturi[i]['_id'];%>
+                    <a href = <%=redirect %>>Afla mai multe </a>
+                  </li>  
+                </form>
+        <% } %>
+    </div>
+  </body>
+</html>
