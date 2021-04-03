@@ -5,14 +5,14 @@ import Post from '../models/PostModel.js';
 export const getPosts = (req, res) => {
         Post.collection.aggregate([   //join la tabele pentru a avea si numele firmei
         
-            { $match : { type : "offer" }},
+            { $match : {}},
             { "$addFields": {"createdBy_id" :  { "$toObjectId": "$createdBy" }}},
             { $lookup:
                 {
                     from: 'Users',
                     localField: 'createdBy_id',
                     foreignField: '_id',
-                    as: 'companie'
+                    as: 'creator'
                 }
             }
         ]).toArray()
