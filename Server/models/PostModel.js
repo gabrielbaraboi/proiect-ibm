@@ -9,7 +9,7 @@ const PostSchema = mongoose.Schema({
     programmingLanguage: { type: String, required: true },
     workHours: { type: String, required: true },
     workPlace: { type: String, required: true },
-    requirements: { type: String, required: true }
+    requirements: { type: [String], required: true }
 });
 
 
