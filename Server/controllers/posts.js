@@ -2,31 +2,34 @@ import mongoose from "mongoose";
 import Post from '../models/PostModel.js';
 
 
-export const getPosts = (req, res) => {
-        Post.collection.aggregate([   //join la tabele pentru a avea si numele firmei
-        
-            { $match : {}},
-            { "$addFields": {"createdBy_id" :  { "$toObjectId": "$createdBy" }}},
-            { $lookup:
-                {
-                    from: 'Users',
-                    localField: 'createdBy_id',
-                    foreignField: '_id',
-                    as: 'creator'
-                }
-            },
-            {$unwind : '$creator'}
-        ]).toArray()
-            .then(results => {
-                res.status(200).json(results); //trimitem rezultatul 
+export const getPosts = async (req, res) => {
 
-            })
-            .catch(error => res.status(404).json({message:error.message}));
-    
+    try {
+        const posts = await Post.collection.aggregate([   
+            
+                { $match : {}},
+                { "$addFields": {"createdBy_id" :  { "$toObjectId": "$createdBy" }}},
+                { $lookup:
+                    {
+                        from: 'Users',
+                        localField: 'createdBy_id',
+                        foreignField: '_id',
+                        as: 'creator'
+                    }
+                },
+                {$unwind : '$creator'}
+            ]).toArray();
+
+        res.status(200).json(posts)
+
+    } catch(error) {
+        res.status(404).json( {message: error.message });
+    }
 }
 
-export const postDetails = (req, res) => {
-        Post.collection.aggregate([ //join la tabele pentru a avea si numele firmei
+export const postDetails = async (req, res) => {
+    try {
+        const post = await Post.collection.aggregate([ 
             
             { $match : { _id: mongoose.Types.ObjectId(req.query.id) }},
             { "$addFields": {"createdBy_id" :  { "$toObjectId": "$createdBy" }}},
@@ -38,9 +41,11 @@ export const postDetails = (req, res) => {
                     as: 'companie'
                 }
             }
-            ]).toArray()
-            .then(results => {
-                res.status(200).json(results); //trimitem rezultatul in detaliiPost.ejs prin varibila posturi
-            })
-            .catch((error)=>{res.status(404).json({message:error.message})});
+            ]).toArray();
+            
+        res.status(200).json(post)
+
+    } catch(error) {
+        res.status(404).json( {message: error.message });
+    }
 }
