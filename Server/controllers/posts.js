@@ -14,10 +14,11 @@ export const getPosts = (req, res) => {
                     foreignField: '_id',
                     as: 'creator'
                 }
-            }
+            },
+            {$unwind : '$creator'}
         ]).toArray()
             .then(results => {
-                res.status(200).json(results); //trimitem rezultatul in index.ejs prin varibila posturi
+                res.status(200).json(results); //trimitem rezultatul 
 
             })
             .catch(error => res.status(404).json({message:error.message}));
