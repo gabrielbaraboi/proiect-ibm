@@ -28,6 +28,9 @@ export const ShowPost = () => {
                     <Angajator>
                         {post.name}
                     </Angajator>
+                    <ApplyButton>
+                        Aplica pentru acest job
+                    </ApplyButton>
                 </TitleDiv>
                 <JobCriteria>
                     <CriteriaRow>
@@ -54,13 +57,12 @@ export const ShowPost = () => {
                     </PostDescription>
 
                     <LabelTag htmlFor="requirements"><b>Cerinte:</b></LabelTag>
-                    <ul>
+                    <ListRequirements>
                     {post.requirements.map((req) => (
                         <li>{req}</li>
                     ))}
-                    </ul>
+                    </ListRequirements>
                 </AdditinalInfoDiv>
-                
             </Card>
         </Container>
         
@@ -71,6 +73,7 @@ const Container = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
+padding: 1rem;
 `
 
 const TitleDiv = styled.div`
@@ -85,8 +88,7 @@ flex-direction: column;
 align-items: center;
 border-radius: 20px;
 padding:0 0 1rem 0;
-background: rgb(155,164,255);
-background: linear-gradient(180deg, rgba(155,164,255,1) 9%, rgba(139,186,255,1) 99%);
+box-shadow: 5px 2px 50px black;
 `
 
 const Title = styled.div`
@@ -133,4 +135,23 @@ const PostDescription = styled.div`
 const LabelTag = styled.label`
     font-size: 1.2rem;
     padding: 1rem;
+`
+
+const ApplyButton = styled.button`
+    background: rgb(91,205,84);
+    background: linear-gradient(180deg, rgba(91,205,84,1) 0%, rgba(46,201,64,1) 100%);
+    margin: 0 0 1rem 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    transition: 1s ease;
+    :hover{
+        cursor: pointer;
+        transform: translateY(5px);
+    }
+`
+
+const ListRequirements = styled.ul`
+    margin: 0;
 `
