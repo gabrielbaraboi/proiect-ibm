@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ShowPosts } from "./components/ShowPosts.component";
 import { ShowPost } from "./components/ShowPost.component"
 
-import useStyles from './styles';
 
 const App = ()=>{
     /*const classes = useStyles();
