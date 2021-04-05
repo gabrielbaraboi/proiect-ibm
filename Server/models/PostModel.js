@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const PostSchema = mongoose.Schema({
     createdBy: { type: String, required: true },
-    dateCreated: { type: Date, required: true },
+    dateCreated: { type: Date, required: true ,default:new Date()},
     type: { type: String, required: true },
     description: { type: String, required: true },
     title: { type: String, required: true },

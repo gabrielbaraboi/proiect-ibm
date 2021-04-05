@@ -1,10 +1,10 @@
 import mongoose from 'mongoose'
 
 const CommentSchema = mongoose.Schema({
-    postId: { type: String, required: true },
-    createdBy: { type: Date, required: true },
+    postID: { type: String, required: true },
+    createdBy: { type: String, required: true },
     comment: { type: String, required: true },
-    datePosted: { type: String, required: true },
+    datePosted: { type: Date, required: true, default: new Date() }
 });
 
 

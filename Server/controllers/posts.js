@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import Post from '../models/PostModel.js';
 import Comment from '../models/CommentModel.js';
+import PostModel from "../models/PostModel.js";
+import CommentModel from "../models/CommentModel.js";
 
 export const getPosts = async (req, res) => {
 
@@ -44,7 +46,7 @@ export const postDetails = async (req, res) => {
             },
             {$unwind : '$creator'},
             { $project : { "createdBy_id": 0, "creator.password": 0, "creator.email": 0, "creator._id": 0 }}
-            ]).toArray();
+            ]).next();
             
         const comments = await Comment.collection.aggregate([ 
             { $match : { postID: req.params.id }},
@@ -65,6 +67,28 @@ export const postDetails = async (req, res) => {
         res.status(200).json( {post, comments} )
 
     } catch(error) {
+        res.status(404).json( {message: error.message });
+    }
+}
+export const createPost = async(req,res)=>{
+    const post = req.body;
+
+    const newPost = new PostModel({postId:req.params.id,post});
+    try {
+        await newPost.save();
+        res.status(201).json(newPost);
+    } catch (error) {
+        res.status(404).json( {message: error.message });
+    }
+}
+export const createComment = async(req,res)=>{
+    const comment = req.body;
+    comment['postID']=req.params.id;
+    const newComment = new CommentModel(comment);
+    try {
+        await newComment.save();
+        res.status(201).json(newComment);
+    } catch (error) {
         res.status(404).json( {message: error.message });
     }
 }
