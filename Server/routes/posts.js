@@ -5,6 +5,6 @@ import {postDetails} from '../controllers/posts.js'
 const router = express.Router();
 
 router.get('/',getPosts);
-router.get('/detaliiPost', postDetails);
+router.get('/:id', postDetails);
 
 export default router;
