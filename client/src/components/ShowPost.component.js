@@ -3,14 +3,13 @@ import styled from "styled-components";
 
 export const ShowPost = () => {
     const { id } = useParams();
-
+  
     const post = {
         id: id,
         createdBy: `123`,
         dateCreated:new Date(Date.now()).toString(),
         type: `offer`,
-        description: `We are looking for a JS developer. You will be part of a multi-cultural team, where you will be supported to test and apply your ideas while co-creating a better future.
-        Click the Apply button, check out the diverse range of roles and choose the one which fits you best!`,
+        description: `We are looking for a JS developer. You will be part of a multi-cultural team, where you will be supported to test and apply your ideas while co-creating a better future.`,
         name: `IBM`,
         programmingLanguage: `JavaScript`,
         title: `JS developer`,
@@ -18,140 +17,127 @@ export const ShowPost = () => {
         workPlace: `Timisoara`,
         requirements: [`English`, `React`]
     }
-    return(
-        <Container >
-            <Card>
-                <TitleDiv>
-                    <Title>
-                        {post.title}
-                    </Title>
-                    <Angajator>
-                        {post.name}
-                    </Angajator>
-                    <ApplyButton>
-                        Aplica pentru acest job
-                    </ApplyButton>
-                </TitleDiv>
-                <JobCriteria>
-                    <CriteriaRow>
-                        <CriteriaData>
-                            <b>Oras: </b> {post.workPlace}
-                        </CriteriaData>
-                        <CriteriaData>
-                            <b>Tip job: </b>{post.workHours}
-                        </CriteriaData>
-                    </CriteriaRow>
-                    <CriteriaRow>
-                        <CriteriaData>
-                            <b>Data postare: </b> {post.dateCreated}
-                        </CriteriaData>
-                        <CriteriaData>
-                            <b>Limbaj: </b>{post.programmingLanguage}
-                        </CriteriaData>
-                    </CriteriaRow>
-                </JobCriteria>
-                <AdditinalInfoDiv>
-                    <LabelTag htmlFor="descriereJob"><b>Descrierea jobului</b></LabelTag>
-                    <PostDescription>
-                        <div id="descriereJob">{post.description}</div>
-                    </PostDescription>
 
-                    <LabelTag htmlFor="requirements"><b>Cerinte:</b></LabelTag>
-                    <ListRequirements>
-                    {post.requirements.map((req) => (
-                        <li>{req}</li>
-                    ))}
-                    </ListRequirements>
-                </AdditinalInfoDiv>
-            </Card>
-        </Container>
-        
+    return(
+        <Container className="App">
+      <NavBar></NavBar>
+      <TopSection>
+        <Line></Line>
+        <ImagePlace></ImagePlace>
+        <Data>Postat: {post.dateCreated}</Data>
+      </TopSection>
+      <Title>{post.title}</Title>
+      <Company>{post.name}</Company>
+      <Place>{post.workPlace}</Place>
+      <PostData>
+        <PostDataRow>
+          <LabelPost htmlFor="about">Despre job:</LabelPost>
+          <About id="about">
+            {post.description}
+          </About>
+        </PostDataRow>
+        <PostDataRow>
+          <LabelPost htmlFor="requirements">Cerinte:</LabelPost>
+          <About id="requirements">
+            <CustomUL>
+              {post.requirements.map((req, idx) => (
+                <li key={idx}>{req}</li>
+              ))}
+            </CustomUL>
+          </About>
+        </PostDataRow>
+        <PostDataRow>
+          <LabelPost htmlFor="details">Informatii:</LabelPost>
+          <About id="details">
+            <CustomUL>
+              <li>Locatie: {post.workPlace}</li>
+              <li>Program: {post.workHours}</li>
+            </CustomUL>
+          </About>
+        </PostDataRow>
+      </PostData>
+    </Container>
     )
 }
 
 const Container = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-padding: 1rem;
-`
+text-align: center
+`;
 
-const TitleDiv = styled.div`
-width: 100%;
-margin: 1rem;
-`
+const NavBar = styled.div`
+  width: 100%;
+  height: 50px;
+  background-color: #c4c4c4;
+`;
 
-const Card = styled.div`
-width: 800px;
-display: flex;
-flex-direction: column;
-align-items: center;
-border-radius: 20px;
-padding:0 0 1rem 0;
-box-shadow: 5px 2px 50px black;
-`
+const TopSection = styled.div`
+  height: 200px;
+  position: relative;
+  left: 0px;
+`;
+
+const Line = styled.div`
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  background-color: black;
+  height: 0.5px;
+`;
+
+const ImagePlace = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 130px;
+  height: 130px;
+  transform: translate(-50%, -50%);
+  background-color: #c4c4c4;
+`;
 
 const Title = styled.div`
-font-size: 3rem;
-padding: 1rem;
-`
+  font-size: 2rem;
+  margin-top: -1.5rem;
+`;
 
-const Angajator = styled.div`
-    font-size: 1.2rem;
-    padding: 0 0 1rem 1rem;
-`
+const Company = styled.div`
+  font-size: 1.2rem;
+  padding-bottom: .2rem;
+`;
 
-const JobCriteria = styled.div`
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    width: 100%;
-    border: 1px solid black;
-`
+const Place = styled.div`
+  color: #7c7c7c;
+  font-size: 1rem;
+`;
 
-const CriteriaRow = styled.div`
-    display: flex;   
-`
+const PostData = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
-const CriteriaData = styled.div`
-    border: 1px solid white;
-    flex: 1;
-    font-size: 1.2rem;
-    padding: .8rem;
-    border: 1px solid black;
-`
+const LabelPost = styled.label`
+  font-size: 1rem;
+  font-weight: bold;
+  flex-shrink: 0;
+  margin: 0 5rem 0 0;
+`;
 
-const AdditinalInfoDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-`
+const PostDataRow = styled.div`
+  display: flex;
+  padding: 2rem 5rem;
+`;
 
-const PostDescription = styled.div`
-    padding: 0 1rem;
-    font-size: 1.1rem;
-`
+const About = styled.div`
+  text-align: left;
+`;
 
-const LabelTag = styled.label`
-    font-size: 1.2rem;
-    padding: 1rem;
-`
+const Data = styled.div`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  color: #7c7c7c;
+  padding: 0 2rem;
+`;
 
-const ApplyButton = styled.button`
-    background: rgb(91,205,84);
-    background: linear-gradient(180deg, rgba(91,205,84,1) 0%, rgba(46,201,64,1) 100%);
-    margin: 0 0 1rem 1rem;
-    padding: 1rem;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    transition: 1s ease;
-    :hover{
-        cursor: pointer;
-        transform: translateY(5px);
-    }
-`
-
-const ListRequirements = styled.ul`
+const CustomUL = styled.ul`
     margin: 0;
-`
+`;
