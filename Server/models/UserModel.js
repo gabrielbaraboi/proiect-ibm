@@ -5,7 +5,8 @@ const UserSchema = mongoose.Schema({
     password: { type: String, required: true }
 },
 {
-    discriminatorKey: 'role'
+    discriminatorKey: 'role',
+    collection : 'Users'
 });
 
-export default mongoose.model('User', UserSchema, 'Users');
+export default mongoose.model('User', UserSchema);
