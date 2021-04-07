@@ -1,0 +1,3 @@
+{
+    "mongoURI":"mongodb+srv://alex:1@clusterproiect.d25lj.mongodb.net/JobPlatform?retryWrites=true&w=majority"
+}

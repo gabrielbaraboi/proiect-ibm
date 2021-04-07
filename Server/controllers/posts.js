@@ -23,7 +23,7 @@ export const getPosts = async (req, res) => {
                 {$project : { "createdBy_id": 0, "creator.password": 0, "creator.email": 0, "creator._id": 0 }}
             ]).toArray();
 
-        res.status(200).json(posts)
+        res.status(200).json(posts);
 
     } catch(error) {
         res.status(404).json( {message: error.message });
