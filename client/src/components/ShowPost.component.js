@@ -1,46 +1,43 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 
 export const ShowPost = () => {
     const { id } = useParams();
-  
-    const post = {
-        id: id,
-        createdBy: `123`,
-        dateCreated:new Date(Date.now()).toString(),
-        type: `offer`,
-        description: `We are looking for a JS developer. You will be part of a multi-cultural team, where you will be supported to test and apply your ideas while co-creating a better future.`,
-        name: `IBM`,
-        programmingLanguage: `JavaScript`,
-        title: `JS developer`,
-        workHours: `full-time`,
-        workPlace: `Timisoara`,
-        requirements: [`English`, `React`]
-    }
 
+    const [postData, setPostData] = useState({})
+    
+    useEffect(() => 
+      axios.get(`http://localhost:9000/posts/${id}`)
+        .then( res => {
+          setPostData(res.data);})
+        .catch(err => console.log(err))
+      ,[])
+  
     return(
         <Container className="App">
       <NavBar></NavBar>
       <TopSection>
         <Line></Line>
         <ImagePlace></ImagePlace>
-        <Data>Postat: {post.dateCreated}</Data>
+        <Data>Postat: {postData?.post?.dateCreated?.slice(0,10)}</Data>
       </TopSection>
-      <Title>{post.title}</Title>
-      <Company>{post.name}</Company>
-      <Place>{post.workPlace}</Place>
+      <Title>{postData?.post?.title}</Title>
+      <Company>{postData?.post?.creator?.companyName}</Company>
+      <Place>{postData?.post?.workPlace}</Place>
       <PostData>
         <PostDataRow>
           <LabelPost htmlFor="about">Despre job:</LabelPost>
           <About id="about">
-            {post.description}
+            {postData?.post?.description}
           </About>
         </PostDataRow>
         <PostDataRow>
           <LabelPost htmlFor="requirements">Cerinte:</LabelPost>
           <About id="requirements">
             <CustomUL>
-              {post.requirements.map((req, idx) => (
+              {postData?.post?.requirements.map((req, idx) => (
                 <li key={idx}>{req}</li>
               ))}
             </CustomUL>
@@ -50,8 +47,8 @@ export const ShowPost = () => {
           <LabelPost htmlFor="details">Informatii:</LabelPost>
           <About id="details">
             <CustomUL>
-              <li>Locatie: {post.workPlace}</li>
-              <li>Program: {post.workHours}</li>
+              <li>Locatie: {postData?.post?.workPlace}</li>
+              <li>Program: {postData?.post?.workHours}</li>
             </CustomUL>
           </About>
         </PostDataRow>
