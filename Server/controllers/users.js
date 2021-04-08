@@ -70,3 +70,37 @@ export const createUser = async(req,res)=>{
                 }).catch(err=>res.status(400).json({message:err.message}));
 
 }
+
+// login
+export const login = async(req,res)=>{
+    const { email, password } = req.body;
+
+    UserModel.findOne({ email })
+                .then(user=>{
+                    if (!user) {
+                        return res.status(400).json({message: 'This email is not registered with an account!'});
+                    }
+                    bcrypt.compare(password, user.password)
+                        .then(isMatch => {
+                            if(!isMatch) {
+                                return res.status(400).json({ msg: 'The credentials are invalid!' });
+                            }
+                            
+                            jwt.sign(
+                                { id: user.id },
+                                config.get('jwtSecret'),
+                                {expiresIn: 5400},
+                                (err, token) => {
+                
+                                    if(err) throw err;
+                                    res.status(200).json({
+                                        token,
+                                        user: user
+                                    });
+                                }
+                            );
+                        })
+
+                }).catch(err=>res.status(400).json({message:err.message}));
+
+}
