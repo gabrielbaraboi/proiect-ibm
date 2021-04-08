@@ -3,24 +3,28 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { ShowPosts } from "./components/ShowPosts.component";
 import { ShowPost } from "./components/ShowPost.component"
+import GlobalStyle from "./GlobalStyle"
 
 
-const App = ()=>{
-    /*const classes = useStyles();
-    const dispatch = useDispatch();
+const App = () => {
+  /*const classes = useStyles();
+  const dispatch = useDispatch();
 
-    useEffect(()=>{
-        dispatch(getPosts());
-    },[dispatch]);*/
-    return (
-        <Router>
-        <div>
-          <Route exact path='/' component={ShowPosts} />
-          <Route path='/:id' component={ShowPost}/>
-          {//<Route path='/add' component={AddPost}></Route> 
-          }
-        </div>
-      </Router>
-    );
+  useEffect(()=>{
+      dispatch(getPosts());
+  },[dispatch]);*/
+  return (
+    <Router>
+      <GlobalStyle></GlobalStyle>
+      <div>
+        <Route exact path='/' component={ShowPosts} />
+        <Route path='/:id' component={ShowPost} />
+        {/*<Route path='/login' component={Login} />
+        <Route path='/register' component={Register} />
+        //<Route path='/add' component={AddPost}></Route> 
+        */}
+      </div>
+    </Router>
+  );
 }
 export default App;
