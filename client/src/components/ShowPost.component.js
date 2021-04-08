@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
+import NavBar from "./NavBar.component"
 
 export const ShowPost = () => {
     const { id } = useParams();
@@ -16,7 +17,7 @@ export const ShowPost = () => {
       ,[])
   
     return(
-        <Container className="App">
+    <Container className="App">
       <NavBar></NavBar>
       <TopSection>
         <Line></Line>
@@ -61,11 +62,11 @@ const Container = styled.div`
 text-align: center
 `;
 
-const NavBar = styled.div`
-  width: 100%;
-  height: 50px;
-  background-color: #c4c4c4;
-`;
+// const NavBar = styled.div`
+//   width: 100%;
+//   height: 50px;
+//   background-color: #c4c4c4;
+// `;
 
 const TopSection = styled.div`
   height: 200px;
