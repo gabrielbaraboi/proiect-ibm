@@ -73,6 +73,7 @@ export const postDetails = async (req, res) => {
 }
 export const createPost = async(req,res)=>{
     const post = req.body;
+    post['createdBy']=req.user.id;
     const newPost = new PostModel(post);
 
     try {
@@ -81,10 +82,12 @@ export const createPost = async(req,res)=>{
     } catch (error) {
         res.status(404).json( {message: error.message });
     }
+
 }
 export const createComment = async(req,res)=>{
     const comment = req.body;
     comment['postID']=req.params.id;
+    comment['createdBy']=req.user.id;
     const newComment = new CommentModel(comment);
     try {
         await newComment.save();
