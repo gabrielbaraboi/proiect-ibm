@@ -52,7 +52,9 @@ export const createUser = async(req,res)=>{
                                     }
                                 }
                                 jwt.sign(
-                                    {id:usr.id},
+                                    {id:usr.id,
+                                    role
+                                    },
                                     config.get('jwtSecret'),
                                     {expiresIn:5400},
                                     (err,token)=>{
@@ -87,7 +89,10 @@ export const login = async(req,res)=>{
                             }
                             
                             jwt.sign(
-                                { id: user.id },
+                                { 
+                                    id: user.id,
+                                    role:user.role 
+                                },
                                 config.get('jwtSecret'),
                                 {expiresIn: 5400},
                                 (err, token) => {

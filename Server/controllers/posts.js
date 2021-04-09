@@ -72,10 +72,18 @@ export const postDetails = async (req, res) => {
     }
 }
 export const createPost = async(req,res)=>{
-    const post = req.body;
-    post['createdBy']=req.user.id;
-    const newPost = new PostModel(post);
 
+    const post = {
+        description: req.body.description,
+        title: req.body.title,
+        programmingLanguage: req.body.programmingLanguage,
+        workHours: req.body.workHours,
+        workPlace: req.body.workPlace,
+        requirements: req.body.requirements
+    };
+    post['createdBy']=req.user.id;
+    post['type']=req.user.role==='student'?'request':'offer';
+    const newPost = new PostModel(post);
     try {
         await newPost.save();
         res.status(201).json(newPost);
@@ -85,7 +93,9 @@ export const createPost = async(req,res)=>{
 
 }
 export const createComment = async(req,res)=>{
-    const comment = req.body;
+    const comment = {
+        comment:req.body.comment
+    };
     comment['postID']=req.params.id;
     comment['createdBy']=req.user.id;
     const newComment = new CommentModel(comment);
