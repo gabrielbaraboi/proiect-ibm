@@ -15,7 +15,7 @@ export const ShowPost = () => {
           setPostData(res.data);})
         .catch(err => console.log(err))
       ,[])
-  
+    //console.log(postData)
     return(
     <Container className="App">
       <NavBar></NavBar>
@@ -39,17 +39,17 @@ export const ShowPost = () => {
           <About id="requirements">
             <CustomUL>
               {postData?.post?.requirements.map((req, idx) => (
-                <li key={idx}>{req}</li>
+                <CustomLi key={idx}>{req}</CustomLi>
               ))}
             </CustomUL>
           </About>
         </PostDataRow>
         <PostDataRow>
-          <LabelPost htmlFor="details">Informatii:</LabelPost>
+          <LabelPost htmlFor="details">Detalii:</LabelPost>
           <About id="details">
             <CustomUL>
-              <li>Locatie: {postData?.post?.workPlace}</li>
-              <li>Program: {postData?.post?.workHours}</li>
+              <CustomLi>Locatie: {postData?.post?.workPlace}</CustomLi>
+              <CustomLi>Program: {postData?.post?.workHours}</CustomLi>
             </CustomUL>
           </About>
         </PostDataRow>
@@ -61,12 +61,6 @@ export const ShowPost = () => {
 const Container = styled.div`
 text-align: center
 `;
-
-// const NavBar = styled.div`
-//   width: 100%;
-//   height: 50px;
-//   background-color: #c4c4c4;
-// `;
 
 const TopSection = styled.div`
   height: 200px;
@@ -105,6 +99,7 @@ const Company = styled.div`
 const Place = styled.div`
   color: #7c7c7c;
   font-size: 1rem;
+  padding-bottom: 1rem;
 `;
 
 const PostData = styled.div`
@@ -113,15 +108,24 @@ const PostData = styled.div`
 `;
 
 const LabelPost = styled.label`
+  width: 100px;
   font-size: 1rem;
   font-weight: bold;
   flex-shrink: 0;
-  margin: 0 5rem 0 0;
+  margin: 0 2rem 0 0;
+  text-align: left;
+  @media (max-width: 1000px){
+    padding-bottom: 1rem;
+  }
+  
 `;
 
 const PostDataRow = styled.div`
   display: flex;
-  padding: 2rem 5rem;
+  @media (max-width: 1000px){
+    flex-direction: column;
+  }
+  padding: 1rem 5rem;
 `;
 
 const About = styled.div`
@@ -134,8 +138,19 @@ const Data = styled.div`
   top: 50%;
   color: #7c7c7c;
   padding: 0 2rem;
+  @media (max-width: 1000px){
+    top: 0;
+    padding: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
 `;
 
 const CustomUL = styled.ul`
     margin: 0;
+    list-style-type: none;
+`;
+
+const CustomLi = styled.li`
+  padding: 0 0 .2rem 0;
 `;
