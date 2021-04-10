@@ -3,15 +3,22 @@ import Post from '../models/PostModel.js';
 import Comment from '../models/CommentModel.js';
 import PostModel from "../models/PostModel.js";
 import CommentModel from "../models/CommentModel.js";
-
+const pageSize=8;
 
 export const getPosts = async (req, res) => {
 
+    const {sorting,date} = req.query;
     try {
+        
+        const sorting_r=sorting==='asc'?1:-1;
+        const date_r = new Date(date);
+        const filter=!isNaN(date_r)?sorting_r===1?{dateCreated: {$gt: date_r}}:{dateCreated: {$lt: date_r}}:{};
         const posts = await Post.collection.aggregate([   
             
-                { $match : {}},
+                { $match : filter},
                 { "$addFields": {"createdBy_id" :  { "$toObjectId": "$createdBy" }}},
+                {$sort : {dateCreated : sorting_r}},
+                {$limit : pageSize},
                 { $lookup:
                     {
                         from: 'Users',
@@ -23,8 +30,9 @@ export const getPosts = async (req, res) => {
                 {$unwind : '$creator'},
                 {$project : { "createdBy_id": 0, "creator.password": 0, "creator.email": 0, "creator._id": 0 }}
             ]).toArray();
-
-        res.status(200).json(posts);
+        //Last loaded post date console.log(posts[pageSize-1].dateCreated); 
+        const hasPosts=posts.length>0;   
+        res.status(200).json({posts,lastPostDate:hasPosts?posts[posts.length-1].dateCreated:'same'});
 
     } catch(error) {
         res.status(404).json( {message: error.message });
