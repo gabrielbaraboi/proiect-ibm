@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import NavBar from "./NavBar.component"
+import { CommentSection } from "./CommentSection.component";
 
 export const ShowPost = () => {
     const { id } = useParams();
@@ -15,9 +16,10 @@ export const ShowPost = () => {
           setPostData(res.data);})
         .catch(err => console.log(err))
       ,[])
-    //console.log(postData)
+    console.log(postData)
     return(
-    <Container className="App">
+      <div>
+    <ShowPostContainer className="App">
       <NavBar></NavBar>
       <TopSection>
         <Line></Line>
@@ -54,11 +56,14 @@ export const ShowPost = () => {
           </About>
         </PostDataRow>
       </PostData>
-    </Container>
+    </ShowPostContainer>
+    <CommentSection comments={postData?.comments}></CommentSection>
+    </div>
+    
     )
 }
 
-const Container = styled.div`
+const ShowPostContainer = styled.div`
 text-align: center
 `;
 
@@ -107,7 +112,7 @@ const PostData = styled.div`
   flex-direction: column;
 `;
 
-const LabelPost = styled.label`
+export const LabelPost = styled.label`
   width: 100px;
   font-size: 1rem;
   font-weight: bold;
