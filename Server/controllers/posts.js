@@ -7,7 +7,7 @@ const pageSize=8;
 
 export const getPosts = async (req, res) => {
 
-    const {sorting, date, programmingLanguage, workHours, workPlace} = req.query;
+    const {sorting, date, programmingLanguage, workHours, workPlace, type} = req.query;
     
     try {
         
@@ -18,7 +18,7 @@ export const getPosts = async (req, res) => {
         if(programmingLanguage) filter['programmingLanguage'] = programmingLanguage;
         if(workHours) filter['workHours'] = workHours;
         if(workPlace) filter['workPlace'] = workPlace;
-        console.log(filter)
+        if(type) filter['type'] = type;
         
         const posts = await Post.collection.aggregate([   
             

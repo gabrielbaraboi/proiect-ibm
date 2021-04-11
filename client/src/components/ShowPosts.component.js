@@ -16,6 +16,7 @@ class ShowPosts extends Component {
       programmingLanguage: new URLSearchParams(this.props.location.search).get('programmingLanguage'),
       workHours: new URLSearchParams(this.props.location.search).get('workHours'),
       workPlace: new URLSearchParams(this.props.location.search).get('workPlace'),
+      type: new URLSearchParams(this.props.location.search).get('type'),
       lastPostDate:'none',
       hasMore:false,
       pageNumber:0
@@ -53,7 +54,7 @@ class ShowPosts extends Component {
     else if(this.state.pageNumber!==prevState.pageNumber)
       axios
         .get('http://localhost:9000/posts/',{
-        params:{sorting: this.state.sorting, date: this.state.lastPostDate, programmingLanguage: this.state.programmingLanguage, workHours: this.state.workHours, workPlace: this.state.workPlace}
+        params:{sorting: this.state.sorting, date: this.state.lastPostDate, programmingLanguage: this.state.programmingLanguage, workHours: this.state.workHours, workPlace: this.state.workPlace, type: this.state.type}
         })
         .then(res => {
           this.setState(prevState=>({
