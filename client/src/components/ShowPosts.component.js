@@ -9,18 +9,58 @@ class ShowPosts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      sorting:'desc',
+      lastPostDate:'none',
+      hasMore:false,
+      pageNumber:0
     };
+    this.onScroll=this.onScroll.bind(this);
+  }
+  onScroll()
+  {
+    const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
+    if (bottom&&this.state.hasMore) {
+      this.setState((prevState)=>({
+        ...prevState,
+        pageNumber:this.state.pageNumber+1
+      }))
+    }
   }
 
   componentDidMount() {
-    axios
-      .get('http://localhost:9000/posts/')
-        .then(res => {
-          this.setState({posts: res.data})
-        })
-      .catch(err => {console.log(err);})
+    this.setState(prevState=>({
+      ...prevState,
+      pageNumber:1
+    }));
+    document.addEventListener('scroll', this.onScroll);
   };
+
+  componentDidUpdate(prevProps,prevState){
+    if(this.state.sorting!==prevState.sorting)
+      this.setState(prevState=>({
+        ...prevState,
+        pageNumber:1,
+        posts:[],
+        lastPostDate:'none'
+      }));
+      
+    else if(this.state.pageNumber!==prevState.pageNumber)
+      axios
+        .get('http://localhost:9000/posts/',{
+        params:{sorting: this.state.sorting, date: this.state.lastPostDate}
+        })
+        .then(res => {
+          this.setState(prevState=>({
+            ...prevState,
+            posts: [...this.state.posts,...res.data.posts],
+            lastPostDate: res.data.posts.length>0?res.data.lastPostDate:this.state.lastPostDate,
+            hasMore: res.data.posts.length>0
+          }));
+        })
+      .catch(err => {console.log(err);});
+      
+  }
 
   render() {
     const posts = this.state.posts;
@@ -34,7 +74,6 @@ class ShowPosts extends Component {
         <PostCard post={post} key={k} />
       );
     }
-
     return (
       <main>
         <NavBar></NavBar>
