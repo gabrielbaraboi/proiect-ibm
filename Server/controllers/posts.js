@@ -15,11 +15,11 @@ export const getPosts = async (req, res) => {
         const date_r = new Date(date);
         const filter=!isNaN(date_r)?sorting_r===1?{dateCreated: {$gt: date_r}}:{dateCreated: {$lt: date_r}}:{};
         
-        if(programmingLanguage) filter['programmingLanguage'] = programmingLanguage;
-        if(workHours) filter['workHours'] = workHours;
-        if(workPlace) filter['workPlace'] = workPlace;
+        if(programmingLanguage) filter['programmingLanguage'] = { $in : programmingLanguage };
+        if(workHours) filter['workHours'] = { $in : workHours };
+        if(workPlace) filter['workPlace'] = { $in : workPlace };
         if(type) filter['type'] = type;
-        
+        // const filter =  { workPlace: {$in : ["Timisoara", "Bucharest"] } }
         const posts = await Post.collection.aggregate([   
             
                 { $match : filter },

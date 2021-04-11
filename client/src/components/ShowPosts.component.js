@@ -13,10 +13,10 @@ class ShowPosts extends Component {
     this.state = {
       posts: [],
       sorting: new URLSearchParams(this.props.location.search).get('sort'),
-      programmingLanguage: new URLSearchParams(this.props.location.search).get('programmingLanguage'),
-      workHours: new URLSearchParams(this.props.location.search).get('workHours'),
-      workPlace: new URLSearchParams(this.props.location.search).get('workPlace'),
-      type: new URLSearchParams(this.props.location.search).get('type'),
+      programmingLanguage: new URLSearchParams(this.props.location.search).getAll('programmingLanguage'),
+      workHours: new URLSearchParams(this.props.location.search).getAll('workHours'),
+      workPlace: new URLSearchParams(this.props.location.search).getAll('workPlace'),
+      type: new URLSearchParams(this.props.location.search).getAll('type'),
       lastPostDate:'none',
       hasMore:false,
       pageNumber:0
@@ -68,6 +68,7 @@ class ShowPosts extends Component {
       
   }
   render() {   
+    console.log(this.state.workPlace)
     const posts = this.state.posts;
     console.log("PrintBook: " + posts);
     let postList;
