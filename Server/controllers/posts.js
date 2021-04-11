@@ -7,15 +7,22 @@ const pageSize=8;
 
 export const getPosts = async (req, res) => {
 
-    const {sorting,date} = req.query;
+    const {sorting, date, programmingLanguage, workHours, workPlace, type} = req.query;
+    
     try {
         
         const sorting_r=sorting==='asc'?1:-1;
         const date_r = new Date(date);
         const filter=!isNaN(date_r)?sorting_r===1?{dateCreated: {$gt: date_r}}:{dateCreated: {$lt: date_r}}:{};
+        
+        if(programmingLanguage) filter['programmingLanguage'] = programmingLanguage;
+        if(workHours) filter['workHours'] = workHours;
+        if(workPlace) filter['workPlace'] = workPlace;
+        if(type) filter['type'] = type;
+        
         const posts = await Post.collection.aggregate([   
             
-                { $match : filter},
+                { $match : filter },
                 { "$addFields": {"createdBy_id" :  { "$toObjectId": "$createdBy" }}},
                 {$sort : {dateCreated : sorting_r}},
                 {$limit : pageSize},
