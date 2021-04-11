@@ -5,12 +5,17 @@ import NavBar from "./NavBar.component";
 import PostCard from "./PostCard.component"
 
 
+
 class ShowPosts extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
       posts: [],
-      sorting:'desc',
+      sorting: new URLSearchParams(this.props.location.search).get('sort'),
+      programmingLanguage: new URLSearchParams(this.props.location.search).get('programmingLanguage'),
+      workHours: new URLSearchParams(this.props.location.search).get('workHours'),
+      workPlace: new URLSearchParams(this.props.location.search).get('workPlace'),
       lastPostDate:'none',
       hasMore:false,
       pageNumber:0
@@ -48,7 +53,7 @@ class ShowPosts extends Component {
     else if(this.state.pageNumber!==prevState.pageNumber)
       axios
         .get('http://localhost:9000/posts/',{
-        params:{sorting: this.state.sorting, date: this.state.lastPostDate}
+        params:{sorting: this.state.sorting, date: this.state.lastPostDate, programmingLanguage: this.state.programmingLanguage, workHours: this.state.workHours, workPlace: this.state.workPlace}
         })
         .then(res => {
           this.setState(prevState=>({
@@ -61,8 +66,7 @@ class ShowPosts extends Component {
       .catch(err => {console.log(err);});
       
   }
-
-  render() {
+  render() {   
     const posts = this.state.posts;
     console.log("PrintBook: " + posts);
     let postList;
