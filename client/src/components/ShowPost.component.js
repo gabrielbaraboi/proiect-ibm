@@ -89,22 +89,36 @@ const ImagePlace = styled.div`
   height: 130px;
   transform: translate(-50%, -50%);
   background-color: #c4c4c4;
+  @media (max-width: 1000px){
+    width: 100px;
+    height: 100px;
+  }
+  
 `;
 
 const Title = styled.div`
   font-size: 2rem;
   margin-top: -1.5rem;
+  @media (max-width: 1000px){
+    font-size: 1.5rem;
+  }
 `;
 
 const Company = styled.div`
   font-size: 1.2rem;
   padding-bottom: .2rem;
+  @media (max-width: 1000px){
+    font-size: 1rem;
+  }
 `;
 
 const Place = styled.div`
   color: #7c7c7c;
   font-size: 1rem;
   padding-bottom: 1rem;
+  @media (max-width: 1000px){
+    font-size: .8rem;
+  }
 `;
 
 const PostData = styled.div`
@@ -129,6 +143,7 @@ const PostDataRow = styled.div`
   display: flex;
   @media (max-width: 1000px){
     flex-direction: column;
+    padding: 1rem 1rem;
   }
   padding: 1rem 5rem;
 `;
@@ -144,7 +159,7 @@ const Data = styled.div`
   color: #7c7c7c;
   padding: 0 2rem;
   @media (max-width: 1000px){
-    top: 0;
+    top: 10%;
     padding: 0;
     left: 50%;
     transform: translate(-50%, 0);

@@ -31,24 +31,42 @@ const ImageDiv = styled.div`
     justify-content: center;
     align-items: center;
     margin: 0 1rem 0 0;
+    @media (max-width: 1000px){
+        width: 40px;
+        height: 40px;
+        margin: 0 .5rem 0 0;
+  }
+    
 `;
 
 const CommentDiv = styled.div`
     display: flex;
     flex-direction: column; 
     padding: 0 2rem;
+    @media (max-width: 1000px){
+        padding: 0 1rem;
+  }
 `;
 
 const CommentUserName = styled.div`
     font-weight: bold;
     margin: 0 0 .5rem 0;
+    @media (max-width: 1000px){
+        font-size: 1rem;
+  }
 `;
 
 const CommentText = styled.div`
     color: #7C7C7C;
     word-break: break-all;
+    @media (max-width: 1000px){
+        font-size: 1rem;
+  }
 `;
 
 const UserInitial = styled.div`
     font-size: 1.5rem;
+    @media (max-width: 1000px){
+        font-size: 1rem;
+  }
 `;

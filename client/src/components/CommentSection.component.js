@@ -33,6 +33,10 @@ export const CommentSection = ( { comments }) => {
 
 const Container = styled.div`
     padding: 0 5rem;
+    @media (max-width: 1000px){
+        margin: 0;
+        padding: 1rem;
+  }
 `;
 
 const CommentInfo = styled.div`
@@ -75,6 +79,11 @@ const ImageDiv = styled.div`
     justify-content: center;
     align-items: center;
     margin: 0rem 1.5rem 0 0;
+    @media (max-width: 1000px){
+        width: 50px;
+        height: 50px;
+        margin: 0 .5rem 0 0;
+  }
 `;
 
 const CommentInputContainer = styled.div`
@@ -83,6 +92,7 @@ const CommentInputContainer = styled.div`
     flex: 1;
     margin: 0 0 0 1.3rem;
     height: 200px;
+    
 `;
 
 const CommentInputTextArea = styled.textarea`
@@ -90,10 +100,16 @@ const CommentInputTextArea = styled.textarea`
     font-size: 1.2rem;
     width: 100%;
     height: 100%;
+    @media (max-width: 1000px){
+       height: 150px;
+  }
 `;
 
 const UserInitial = styled.div`
     font-size: 1.5rem;
+    @media (max-width: 1000px){
+        font-size: 1rem;
+  }
 `;
 
 const PostCommentButton = styled.button`
@@ -106,4 +122,8 @@ const PostCommentButton = styled.button`
         cursor: pointer;
         transform: translateY(5px);
     }
+    @media (max-width: 1000px){
+       padding: .5rem 0;
+       font-size: .8rem;
+  }
 `;
