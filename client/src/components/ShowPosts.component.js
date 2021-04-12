@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import NavBar from "./NavBar.component";
 import PostCard from "./PostCard.component"
-
+import App from "../App";
 
 
 class ShowPosts extends Component {
@@ -83,6 +83,7 @@ class ShowPosts extends Component {
     return (
       <main>
         <NavBar></NavBar>
+        <h1>{App.userRole}</h1>
         <Container>
           <Row>
             {postList}
