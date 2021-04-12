@@ -18,7 +18,7 @@ export const getPosts = async (req, res) => {
         if(programmingLanguage) filter['programmingLanguage'] = { $in : programmingLanguage };
         if(workHours) filter['workHours'] = { $in : workHours };
         if(workPlace) filter['workPlace'] = { $in : workPlace };
-        if(type) filter['type'] = type;
+        if(type) filter['type'] = {$in : type};
         // const filter =  { workPlace: {$in : ["Timisoara", "Bucharest"] } }
         const posts = await Post.collection.aggregate([   
             
