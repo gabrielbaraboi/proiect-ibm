@@ -59,6 +59,7 @@ export const createUser = async(req,res)=>{
                                     {expiresIn:5400},
                                     (err,token)=>{
                                         if(err) throw err;
+                                        res.cookie('token',token,{httpOnly : true});
                                         res.status(200).json({
                                             token,
                                             user:responseUser
@@ -76,7 +77,6 @@ export const createUser = async(req,res)=>{
 // login
 export const login = async(req,res)=>{
     const { email, password } = req.body;
-
     UserModel.findOne({ email })
                 .then(user=>{
                     if (!user) {
@@ -98,6 +98,7 @@ export const login = async(req,res)=>{
                                 (err, token) => {
                 
                                     if(err) throw err;
+                                    res.cookie('token',token,{httpOnly : true});
                                     res.status(200).json({
                                         token,
                                         user: user

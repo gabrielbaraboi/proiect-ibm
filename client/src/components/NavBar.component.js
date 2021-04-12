@@ -8,6 +8,7 @@ const NavBar = () => {
         <NavBarItem href="#">Posts</NavBarItem>
         <NavBarItem href="#">Companies</NavBarItem>
         <NavBarItem href="#">About</NavBarItem>
+        <NavBarButton href="/login">Log In</NavBarButton>
         <NavBarButton href="#">Sign Up</NavBarButton>
       </NavContainer>
     </Nav>

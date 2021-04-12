@@ -1,9 +1,29 @@
+import React from 'react';
 import styled from "styled-components"
 import { LabelPost } from "./ShowPost.component";
 import { Comment } from "./Comment.component";
+import { useParams } from "react-router-dom";
+import axios from 'axios';
 
 export const CommentSection = ( { comments }) => {
     console.log(comments);
+    const { id } = useParams();
+    const commentRef = React.useRef();
+    const submitComment = e =>{
+        e.preventDefault();
+        const comment = commentRef.current.value;
+        if(comment)
+            {
+                axios
+                .post(`http://localhost:9000/posts/${id}`,{comment},{withCredentials:true})
+                .then(res => {
+                    console.log("Am adaugat comentariul!");
+                    console.log(res.data);
+                    window.location.reload();
+                })
+              .catch(err => {console.log(err);});
+            }
+    }
     return (
         <Container>
             <CommentInfo>
@@ -18,8 +38,8 @@ export const CommentSection = ( { comments }) => {
                     <UserInitial>U</UserInitial>
                 </ImageDiv>
                 <CommentInputContainer>
-                    <CommentInputTextArea placeholder="Add a comment..." type="text"></CommentInputTextArea>
-                    <PostCommentButton>Posteaza</PostCommentButton>
+                    <CommentInputTextArea ref={commentRef} placeholder="Add a comment..." type="text"></CommentInputTextArea>
+                    <PostCommentButton onClick={submitComment}>Posteaza</PostCommentButton>
                 </CommentInputContainer>
             </AddComment>
             {

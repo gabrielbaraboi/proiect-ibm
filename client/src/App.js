@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { ShowPost } from "./components/ShowPost.component"
 import ShowPosts from "./components/ShowPosts.component"
+import Login from "./components/Login.component"
 import GlobalStyle from "./GlobalStyle"
 
 
@@ -13,13 +14,15 @@ const App = () => {
   useEffect(()=>{
       dispatch(getPosts());
   },[dispatch]);*/
+  const [userRole,setUserRole]=useState('guest');
   return (
     <Router>
       <GlobalStyle></GlobalStyle>
       <div>
         <Route exact path='/' component={ShowPosts} />
         <Route path='/post/:id' component={ShowPost} />
-        {/*<Route path='/login' component={Login} />
+        <Route path='/login' component={Login} />
+        {/*
         <Route path='/register' component={Register} />
         //<Route path='/add' component={AddPost}></Route> 
         */}
