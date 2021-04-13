@@ -70,11 +70,10 @@ class ShowPosts extends Component {
   render() {   
     console.log(this.state.workPlace)
     const posts = this.state.posts;
-    console.log("PrintBook: " + posts);
     let postList;
 
     if (!posts) {
-      postList = "there is no book record!";
+      postList = "there is no post record!";
     } else {
       postList = posts.map((post, k) =>
         <PostCard post={post} key={k} />
@@ -85,6 +84,7 @@ class ShowPosts extends Component {
         <NavBar></NavBar>
         <h1>{App.userRole}</h1>
         <Container>
+          <PageTitle>Last posts</PageTitle>
           <Row>
             {postList}
           </Row>
@@ -95,13 +95,36 @@ class ShowPosts extends Component {
 }
 
 const Container = styled.div`
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  @media (min-width: 576px) {
+    max-width: 540px;
+  }
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+  @media (min-width: 992px) {
+    max-width: 960px;
+  }
+  @media (min-width: 1200px) {
+    max-width: 1140px;
+  }
 `;
+
+const PageTitle = styled.p`
+  padding: 8px 20px;
+  margin: 30px 0;
+  font-size: 22px;
+  color: #3e3e3e;
+  border-radius: 5px;
+  display: inline-block;
+  background: #DCDCDC;
+  // text-transform: uppercase;
+`
 
 const Row = styled.div`
   display: flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
 `;
 
 export default ShowPosts;

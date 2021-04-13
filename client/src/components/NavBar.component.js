@@ -3,14 +3,14 @@ import styled from "styled-components";
 const NavBar = () => {
   return (
     <Nav>
-      <NavContainer>
+      <Container>
         <NavBarLogo href="/">Project IBM</NavBarLogo>
         <NavBarItem href="#">Posts</NavBarItem>
         <NavBarItem href="#">Companies</NavBarItem>
         <NavBarItem href="#">About</NavBarItem>
         <NavBarButton href="/login">Log In</NavBarButton>
         <NavBarButton href="#">Sign Up</NavBarButton>
-      </NavContainer>
+      </Container>
     </Nav>
   )
 }
@@ -22,13 +22,26 @@ const Nav = styled.div`
   font-weight: 300;
 `;
 
-const NavContainer = styled.div`
-  width: 1200px;
-  display: flex;
-  height: 70px;
+const Container = styled.div`
+  width: 100%;
   margin: 0 auto;
+  height: 70px;
+  display: flex;
   align-items: center;
   text-transform: uppercase;
+  
+  @media (min-width: 576px) {
+    max-width: 540px;
+  }
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+  @media (min-width: 992px) {
+    max-width: 960px;
+  }
+  @media (min-width: 1200px) {
+    max-width: 1140px;
+  }
 `;
 
 const NavBarLogo = styled.a`
@@ -41,7 +54,7 @@ const NavBarLogo = styled.a`
 
 const NavBarItem = styled.a`
   padding: 1.6rem 1rem;
-  margin: 0 10px;
+  margin: 0 5px;
   color: #ffffff !important;
   transition: all .2s ease-in-out;
   &:hover {
