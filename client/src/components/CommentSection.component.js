@@ -4,15 +4,16 @@ import { LabelPost } from "./ShowPost.component";
 import { Comment } from "./Comment.component";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
+import { useState } from 'react';
 
 export const CommentSection = ( { comments, connectedUser }) => {
     console.log(comments, connectedUser);
     const { id } = useParams();
-    const commentRef = React.useRef();
+    const [commentAdded, setComentAdded] = useState("");
     const submitComment = e =>{
         e.preventDefault();
-        const comment = commentRef.current.value;
-        if(comment)
+        const comment = commentAdded;
+        if(commentAdded !== "")
             {
                 axios
                 .post(`http://localhost:9000/posts/${id}`,{comment},{withCredentials:true})
@@ -38,7 +39,12 @@ export const CommentSection = ( { comments, connectedUser }) => {
                     <UserInitial>{connectedUser? connectedUser.user.firstName.charAt(0) : `U`}</UserInitial>
                 </ImageDiv>
                 <CommentInputContainer>
-                    <CommentInputTextArea ref={commentRef} placeholder="Add a comment..." type="text"></CommentInputTextArea>
+                    <CommentInputTextArea 
+                        placeholder="Add a comment..." 
+                        type="text" 
+                        value={commentAdded}
+                        onChange={(e) => setComentAdded(e.target.value)}>
+                    </CommentInputTextArea>
                     <PostCommentButton onClick={submitComment}>Posteaza</PostCommentButton>
                 </CommentInputContainer>
             </AddComment>
