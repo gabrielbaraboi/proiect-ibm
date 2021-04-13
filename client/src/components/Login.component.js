@@ -12,6 +12,7 @@ const Field = React.forwardRef(({label, type}, ref) => {
       </div>
     );
 });
+
 const Form = ({onSubmit}) => {
     const emailRef = React.useRef();
     const passwordRef = React.useRef();
@@ -33,20 +34,21 @@ const Form = ({onSubmit}) => {
       </form>
     );
 };
-export default () =>
-{
 
-  const history = useHistory();
+
+export default ({ parentCallback }) =>
+{
   const handleSubmit = data => {
     axios
     .post('http://localhost:9000/users/login',data,{withCredentials: true})
     .then(res => {
         console.log(res.data);
-        history.push("/");
-        
+        // history.push("/");
+        parentCallback(res.data);
     })
   .catch(err => {console.log(err);});
 };
+  //const history = useHistory();
     return (
         <div>
         <Form onSubmit={handleSubmit} />

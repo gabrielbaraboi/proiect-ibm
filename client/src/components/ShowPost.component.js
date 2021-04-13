@@ -5,7 +5,7 @@ import styled from "styled-components";
 import NavBar from "./NavBar.component"
 import { CommentSection } from "./CommentSection.component";
 
-export const ShowPost = () => {
+export const ShowPost = ( {connectedUser }) => {
     const { id } = useParams();
 
     const [postData, setPostData] = useState({})
