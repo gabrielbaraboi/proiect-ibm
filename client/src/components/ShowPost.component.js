@@ -57,7 +57,7 @@ export const ShowPost = ( {connectedUser }) => {
         </PostDataRow>
       </PostData>
     </ShowPostContainer>
-    <CommentSection comments={postData?.comments}></CommentSection>
+    <CommentSection comments={postData?.comments} connectedUser={connectedUser}></CommentSection>
     </div>
     
     )

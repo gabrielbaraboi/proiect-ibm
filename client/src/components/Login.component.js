@@ -45,10 +45,12 @@ export default ({ parentCallback }) =>
         console.log(res.data);
         // history.push("/");
         parentCallback(res.data);
+        history.push("/");
     })
   .catch(err => {console.log(err);});
 };
-  //const history = useHistory();
+    
+    const history = useHistory();
     return (
         <div>
         <Form onSubmit={handleSubmit} />

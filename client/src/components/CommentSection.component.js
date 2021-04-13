@@ -5,8 +5,8 @@ import { Comment } from "./Comment.component";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 
-export const CommentSection = ( { comments }) => {
-    console.log(comments);
+export const CommentSection = ( { comments, connectedUser }) => {
+    console.log(comments, connectedUser);
     const { id } = useParams();
     const commentRef = React.useRef();
     const submitComment = e =>{
@@ -35,7 +35,7 @@ export const CommentSection = ( { comments }) => {
             </CommentInfo>
             <AddComment>
                 <ImageDiv>
-                    <UserInitial>U</UserInitial>
+                    <UserInitial>{connectedUser? connectedUser.user.firstName.charAt(0) : `U`}</UserInitial>
                 </ImageDiv>
                 <CommentInputContainer>
                     <CommentInputTextArea ref={commentRef} placeholder="Add a comment..." type="text"></CommentInputTextArea>

@@ -7,6 +7,8 @@ import Login from "./components/Login.component"
 import GlobalStyle from "./GlobalStyle"
 import axios from "axios";
 
+import { useHistory } from 'react-router';
+
 
 const App = () => {
   
@@ -15,10 +17,13 @@ const App = () => {
   
   const getUserData = (data) => {
     setConnectedUser(data);
+    
+    
   }
 
   useEffect(() => {
-    console.log(connectedUser)
+    console.log(connectedUser);
+    
   }, [connectedUser])
   return (
     <Router>
