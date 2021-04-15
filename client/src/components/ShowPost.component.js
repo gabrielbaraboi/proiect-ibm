@@ -8,8 +8,7 @@ import { CommentSection } from "./CommentSection.component";
 export const ShowPost = ( {connectedUser }) => {
     const { id } = useParams();
 
-    const [postData, setPostData] = useState({})
-    const [commentPage,setCommentPage] = useState(0);
+    const [postData, setPostData] = useState({});
     
     useEffect(() => 
       axios.get(`http://localhost:9000/posts/postDetails/${id}`)
@@ -58,7 +57,7 @@ export const ShowPost = ( {connectedUser }) => {
         </PostDataRow>
       </PostData>
     </ShowPostContainer>
-    <CommentSection postID={id} connectedUser={connectedUser}></CommentSection>
+    <CommentSection postID={id} connectedUser={connectedUser} commentCount={postData?.commentCount}></CommentSection>
     </div>
     
     )

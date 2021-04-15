@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import useCommentSearch from '../customHooks/useCommentSearch';
 
-export const CommentSection = ( { postID, connectedUser }) => {
+export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
     console.log(postID, connectedUser);
     const { id } = useParams();
     const [commentAdded, setComentAdded] = useState("");
@@ -46,7 +46,7 @@ export const CommentSection = ( { postID, connectedUser }) => {
             <CommentInfo>
                 <LabelPost>Comentarii</LabelPost>
                 <CommentsCountDiv>
-                    <CommentsCount>{comments?.length}</CommentsCount>
+                    <CommentsCount>{commentCount}</CommentsCount>
                     <CommentsCountText>Comentarii</CommentsCountText>
                 </CommentsCountDiv>
             </CommentInfo>

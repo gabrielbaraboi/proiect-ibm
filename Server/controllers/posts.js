@@ -65,9 +65,9 @@ export const postDetails = async (req, res) => {
             { $project : { "createdBy_id": 0, "creator.password": 0, "creator.email": 0, "creator._id": 0 }}
             ]).next();
             
-        
+        const commentCount = await Comment.countDocuments({postID:req.params.id});
         res.header("Content-Type",'application/json');
-        res.status(200).json( {post} )
+        res.status(200).json( {post,commentCount} )
 
     } catch(error) {
         res.status(404).json( {message: error.message });
