@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 import Post from '../models/PostModel.js';
 import Comment from '../models/CommentModel.js';
-import PostModel from "../models/PostModel.js";
-import CommentModel from "../models/CommentModel.js";
+
 const postsPageSize=8;
 const commentsPageSize=10;
 
@@ -114,7 +113,7 @@ export const createPost = async(req,res)=>{
     };
     post['createdBy']=req.user.id;
     post['type']=req.user.role==='student'?'request':'offer';
-    const newPost = new PostModel(post);
+    const newPost = new Post(post);
     try {
         await newPost.save();
         res.status(201).json(newPost);
@@ -129,11 +128,26 @@ export const createComment = async(req,res)=>{
     };
     comment['postID']=req.params.id;
     comment['createdBy']=req.user.id;
-    const newComment = new CommentModel(comment);
+    const newComment = new Comment(comment);
     try {
         await newComment.save();
         res.status(201).json(newComment);
     } catch (error) {
         res.status(404).json( {message: error.message });
+    }
+}
+
+export const deletePost = async(req,res)=>{
+    const postID = req.params.id;
+    try{
+    const post = await Post.findById(postID).exec();
+    if(post.createdBy!=req.user.id)
+        return res.status(403).json({message:"Post doesn't belong to user!"});
+    await Post.findByIdAndDelete(postID).exec();
+    await Comment.deleteMany({postID:postID});
+    res.status(200).json({message:`Successfully deleted post with id ${postID} and associated comments.`});
+    }
+    catch(error){
+        res.status(404).json({message:error.message});
     }
 }

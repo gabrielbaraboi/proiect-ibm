@@ -4,7 +4,7 @@ import axios from "axios";
 import NavBar from "./NavBar.component";
 import PostCard from "./PostCard.component"
 import App from "../App";
-
+import { getNextPostsPage } from "../services/PostsServices";
 
 class ShowPosts extends Component {
 
@@ -18,58 +18,55 @@ class ShowPosts extends Component {
       createdBy: new URLSearchParams(this.props.location.search).getAll('createdBy'),
       workPlace: new URLSearchParams(this.props.location.search).getAll('workPlace'),
       type: new URLSearchParams(this.props.location.search).getAll('type'),
-      lastPostDate:'none',
-      hasMore:false,
-      pageNumber:0
+      lastPostDate: 'none',
+      hasMore: false,
+      pageNumber: 0
     };
-    this.onScroll=this.onScroll.bind(this);
+    this.onScroll = this.onScroll.bind(this);
     //console.log(this.props.connectedUser);
   }
-  onScroll()
-  {
+  onScroll() {
     const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
-    if (bottom&&this.state.hasMore) {
-      this.setState((prevState)=>({
+    if (bottom && this.state.hasMore) {
+      this.setState((prevState) => ({
         ...prevState,
-        pageNumber:this.state.pageNumber+1
+        pageNumber: this.state.pageNumber + 1
       }))
     }
   }
 
   componentDidMount() {
-    this.setState(prevState=>({
+    this.setState(prevState => ({
       ...prevState,
-      pageNumber:1
+      pageNumber: 1
     }));
     document.addEventListener('scroll', this.onScroll);
   };
 
-  componentDidUpdate(prevProps,prevState){
-    if(this.state.sorting!==prevState.sorting)
-      this.setState(prevState=>({
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.sorting !== prevState.sorting)
+      this.setState(prevState => ({
         ...prevState,
-        pageNumber:1,
-        posts:[],
-        lastPostDate:'none'
+        pageNumber: 1,
+        posts: [],
+        lastPostDate: 'none'
       }));
-      
-    else if(this.state.pageNumber!==prevState.pageNumber)
-      axios
-        .get('http://localhost:9000/posts/',{
-        params:{sorting: this.state.sorting, date: this.state.lastPostDate, programmingLanguage: this.state.programmingLanguage, workHours: this.state.workHours, workPlace: this.state.workPlace, type: this.state.type, createdBy: this.state.createdBy}
-        })
+
+    else if (this.state.pageNumber !== prevState.pageNumber)
+      getNextPostsPage(this.state.sorting, this.state.lastPostDate, this.state.programmingLanguage,
+        this.state.workHours, this.state.workPlace, this.state.type, this.state.createdBy)
         .then(res => {
-          this.setState(prevState=>({
+          console.log(`Res is ${res}`);
+          this.setState(prevState => ({
             ...prevState,
-            posts: [...this.state.posts,...res.data.posts],
-            lastPostDate: res.data.posts.length>0?res.data.lastPostDate:this.state.lastPostDate,
-            hasMore: res.data.posts.length>0
+            posts: [...this.state.posts, ...res.data.posts],
+            lastPostDate: res.data.posts.length > 0 ? res.data.lastPostDate : this.state.lastPostDate,
+            hasMore: res.data.posts.length > 0
           }));
-        })
-      .catch(err => {console.log(err);});
-      
+        }).catch(err => console.log(err.message));
+
   }
-  render() {   
+  render() {
     const posts = this.state.posts;
     let postList;
 

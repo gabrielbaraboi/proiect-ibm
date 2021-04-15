@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { clearUser } from "../services/localStorageManagment";
+import { logout } from "../services/UserServices";
+import {isUserData} from "../services/localStorageManagment";
 
 const NavBar = () => {
+
   return (
     <Nav>
       <Container>
@@ -10,11 +13,18 @@ const NavBar = () => {
         <NavBarItem href="#">Companies</NavBarItem>
         <NavBarItem href="#">About</NavBarItem>
         <NavBarItem href="/profile">Profile</NavBarItem>
-        <NavBarButton href="/login">Log In</NavBarButton>
-        <NavBarButton href="#">Sign Up</NavBarButton>
-        <NavBarButton href="/" onClick={(e) => {
-          clearUser();
-        }}>Sign Out</NavBarButton>
+        {!isUserData() && <NavBarButton href="/login">Log In</NavBarButton>}
+        {!isUserData() && <NavBarButton href="#">Sign Up</NavBarButton>}
+        {isUserData() &&<NavBarButton href="/" onClick={(e) => {
+          e.preventDefault();
+          try {
+            logout().then(res=>console.log(res)).catch(err=>console.log(err.message));
+            clearUser();
+            window.location.reload();
+          } catch (error) {
+            console.log(error.message);
+          }
+        }}>Log Out</NavBarButton>}
       </Container>
     </Nav>
   )
