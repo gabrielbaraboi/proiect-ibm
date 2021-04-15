@@ -3,7 +3,8 @@ import Post from '../models/PostModel.js';
 import Comment from '../models/CommentModel.js';
 import PostModel from "../models/PostModel.js";
 import CommentModel from "../models/CommentModel.js";
-const pageSize=8;
+const postsPageSize=8;
+const commentsPageSize=10;
 
 export const getPosts = async (req, res) => {
 
@@ -25,7 +26,7 @@ export const getPosts = async (req, res) => {
                 { $match : filter },
                 { "$addFields": {"createdBy_id" :  { "$toObjectId": "$createdBy" }}},
                 {$sort : {dateCreated : sorting_r}},
-                {$limit : pageSize},
+                {$limit : postsPageSize},
                 { $lookup:
                     {
                         from: 'Users',
@@ -64,25 +65,39 @@ export const postDetails = async (req, res) => {
             { $project : { "createdBy_id": 0, "creator.password": 0, "creator.email": 0, "creator._id": 0 }}
             ]).next();
             
-        const comments = await Comment.collection.aggregate([ 
-            { $match : { postID: req.params.id }},
-            { "$addFields": {"createdBy_id" :  { "$toObjectId": "$createdBy" }}},
-            { $lookup:
-                {
-                    from: 'Users',
-                    localField: 'createdBy_id',
-                    foreignField: '_id',
-                    as: 'comentator'
-                }
-            },
-            {$unwind : '$comentator'},
-            { $project : { "comentator.createdBy_id": 0, "comentator.password": 0, "comentator.email": 0, "comentator._id": 0 }}
-        ]).toArray();
         
         res.header("Content-Type",'application/json');
-        res.status(200).json( {post, comments} )
+        res.status(200).json( {post} )
 
     } catch(error) {
+        res.status(404).json( {message: error.message });
+    }
+}
+export const postComments = async(req,res)=>{
+    try {
+    const {lastCommentDate} = req.query;
+    const date = new Date(lastCommentDate);
+    const filter=!isNaN(date)?{datePosted: {$lt: date}}:{};
+    filter['postID']=req.params.id;
+    const comments = await Comment.collection.aggregate([ 
+        { $match : filter},
+        { "$addFields": {"createdBy_id" :  { "$toObjectId": "$createdBy" }}},
+        {$sort : {datePosted : -1}},
+        {$limit : commentsPageSize},
+        { $lookup:
+            {
+                from: 'Users',
+                localField: 'createdBy_id',
+                foreignField: '_id',
+                as: 'comentator'
+            }
+        },
+        {$unwind : '$comentator'},
+        { $project : { "comentator.createdBy_id": 0, "comentator.password": 0, "comentator.email": 0, "comentator._id": 0 }}
+    ]).toArray();
+    const hasComments=comments.length>0;   
+    res.status(200).json({comments,lastCommentDate:hasComments?comments[comments.length-1].datePosted:'same'});
+    }catch(error) {
         res.status(404).json( {message: error.message });
     }
 }

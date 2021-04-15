@@ -9,14 +9,15 @@ export const ShowPost = ( {connectedUser }) => {
     const { id } = useParams();
 
     const [postData, setPostData] = useState({})
+    const [commentPage,setCommentPage] = useState(0);
     
     useEffect(() => 
-      axios.get(`http://localhost:9000/posts/${id}`)
+      axios.get(`http://localhost:9000/posts/postDetails/${id}`)
         .then( res => {
-          setPostData(res.data);})
+          setPostData(res.data);
+        })
         .catch(err => console.log(err))
       ,[])
-    console.log(postData)
     return(
       <div>
     <ShowPostContainer className="App">
@@ -57,7 +58,7 @@ export const ShowPost = ( {connectedUser }) => {
         </PostDataRow>
       </PostData>
     </ShowPostContainer>
-    <CommentSection comments={postData?.comments} connectedUser={connectedUser}></CommentSection>
+    <CommentSection postID={id} connectedUser={connectedUser}></CommentSection>
     </div>
     
     )
