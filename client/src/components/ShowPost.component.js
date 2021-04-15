@@ -5,6 +5,7 @@ import styled from "styled-components";
 import NavBar from "./NavBar.component"
 import { CommentSection } from "./CommentSection.component";
 import { Link } from "react-router-dom";
+import {getPostDetails} from "../services/PostsServices"
 
 export const ShowPost = ( {connectedUser }) => {
     const { id } = useParams();
@@ -12,9 +13,11 @@ export const ShowPost = ( {connectedUser }) => {
     const [postData, setPostData] = useState({});
     
     useEffect(() => 
-      axios.get(`http://localhost:9000/posts/postDetails/${id}`)
+      getPostDetails(id)
         .then( res => {
           setPostData(res.data);
+          console.log(`Post data`);
+          console.log(res.data);
         })
         .catch(err => console.log(err))
       ,[])

@@ -4,7 +4,7 @@ import axios from "axios";
 import NavBar from "./NavBar.component";
 import PostCard from "./PostCard.component"
 import App from "../App";
-
+import { getNextPostsPage } from "../services/PostsServices";
 
 function setParams({ workPlace, sort, workHours, type, createdBy }) {
   const searchParams = new URLSearchParams();
@@ -69,10 +69,8 @@ class ShowPosts extends Component {
       this.updateURL()
     }
     else if (this.state.pageNumber !== prevState.pageNumber)
-      axios
-        .get('http://localhost:9000/posts/', {
-          params: { sorting: this.state.sorting, date: this.state.lastPostDate, programmingLanguage: this.state.programmingLanguage, workHours: this.state.workHours, workPlace: this.state.workPlace, type: this.state.type, createdBy: this.state.createdBy }
-        })
+    getNextPostsPage(this.state.sorting,this.state.lastPostDate,this.state.programmingLanguage,this.state.workHours,
+      this.state.workPlace,this.state.type,this.state.createdBy)
         .then(res => {
           this.setState(prevState => ({
             ...prevState,

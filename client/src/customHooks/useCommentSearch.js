@@ -1,5 +1,6 @@
 import {useEffect,useState} from 'react';
 import axios from 'axios';
+import {getNextCommentPage} from "../services/CommentsServices";
 
 export default function useCommentSearch(pageNumber,postID){
 
@@ -10,10 +11,7 @@ export default function useCommentSearch(pageNumber,postID){
     useEffect(()=>{
        console.log(`PostID : ${postID} PageNumber : ${pageNumber} LastCommentDate ${lastCommentDate}`)
         
-        axios
-        .get(`http://localhost:9000/posts/postComments/${postID}`,{
-        params:{lastCommentDate}
-        })
+        getNextCommentPage(postID,lastCommentDate)
         .then(res => {
             setComments(prevComments=> {return [...prevComments,...res.data.comments]});
             setHasMore(res.data.comments.length>0);

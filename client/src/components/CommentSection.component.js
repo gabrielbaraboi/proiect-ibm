@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { useState } from 'react';
 import useCommentSearch from '../customHooks/useCommentSearch';
+import {postComment} from '../services/CommentsServices'
 
 
 export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
@@ -34,8 +35,7 @@ export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
         const comment = commentAdded;
         if(commentAdded !== "")
             {
-                axios
-                .post(`http://localhost:9000/posts/${id}`,{comment},{withCredentials:true})
+                postComment(id,{comment})
                 .then(res => {
                     window.location.reload();
                 })
