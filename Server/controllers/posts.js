@@ -7,7 +7,7 @@ const pageSize=8;
 
 export const getPosts = async (req, res) => {
 
-    const {sorting, date, programmingLanguage, workHours, workPlace, type} = req.query;
+    const {sorting, date, programmingLanguage, workHours, workPlace, type, createdBy} = req.query;
     
     try {
         
@@ -19,7 +19,8 @@ export const getPosts = async (req, res) => {
         if(workHours) filter['workHours'] = { $in : workHours };
         if(workPlace) filter['workPlace'] = { $in : workPlace };
         if(type) filter['type'] = {$in : type};
-        // const filter =  { workPlace: {$in : ["Timisoara", "Bucharest"] } }
+        if(createdBy) filter['createdBy'] = { $in : createdBy };
+       
         const posts = await Post.collection.aggregate([   
             
                 { $match : filter },
@@ -61,7 +62,7 @@ export const postDetails = async (req, res) => {
                 }
             },
             {$unwind : '$creator'},
-            { $project : { "createdBy_id": 0, "creator.password": 0, "creator.email": 0, "creator._id": 0 }}
+            { $project : {"creator.password": 0, "creator.email": 0, "creator._id": 0 }}
             ]).next();
             
         const comments = await Comment.collection.aggregate([ 
