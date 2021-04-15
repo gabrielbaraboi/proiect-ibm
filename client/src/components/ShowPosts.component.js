@@ -6,7 +6,7 @@ import PostCard from "./PostCard.component"
 import App from "../App";
 
 
-function setParams({ workPlace, sort, workHours, type }) {
+function setParams({ workPlace, sort, workHours, type, createdBy }) {
   const searchParams = new URLSearchParams();
   if (workPlace > '')
     searchParams.set("workPlace", workPlace);
@@ -16,12 +16,13 @@ function setParams({ workPlace, sort, workHours, type }) {
     searchParams.set("workHours", workHours);
   if (type > '')
     searchParams.set("type", type);
+  if (createdBy > '')
+    searchParams.set("createdBy", createdBy)
   return searchParams.toString();
 }
 
 
 class ShowPosts extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -58,13 +59,15 @@ class ShowPosts extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.sorting !== prevState.sorting)
+    if (this.state.sorting !== prevState.sorting) {
       this.setState(prevState => ({
         ...prevState,
         pageNumber: 1,
         posts: [],
         lastPostDate: 'none'
       }));
+      this.updateURL()
+    }
     else if (this.state.pageNumber !== prevState.pageNumber)
       axios
         .get('http://localhost:9000/posts/', {
@@ -79,6 +82,9 @@ class ShowPosts extends Component {
           }));
         })
         .catch(err => { console.log(err); });
+    if (this.state.workPlace !== prevState.workPlace || this.state.type !== prevState.type || this.state.workHours !== prevState.workHours)
+      this.updateURL()
+    
   }
 
   updateWorkPlace = e => this.setState({ workPlace: e.target.value });
@@ -86,13 +92,12 @@ class ShowPosts extends Component {
   updateWorkHours = e => this.setState({ workHours: e.target.value });
   updateType = e => this.setState({ type: e.target.value });
   updateURL = () => {
-    const url = setParams({ workPlace: this.state.workPlace, sort: this.state.sorting, workHours: this.state.workHours, type: this.state.type });
+    const url = setParams({ workPlace: this.state.workPlace, sort: this.state.sorting, workHours: this.state.workHours, type: this.state.type, createdBy: this.state.createdBy });
     this.props.history.push(`?${url}`);
     window.location.reload(false);
   };
 
   render() {
-
     const posts = this.state.posts;
     let postList;
 
@@ -110,7 +115,7 @@ class ShowPosts extends Component {
         <Container>
           <PageTitle>Last posts</PageTitle>
           <div id="search">
-            <select value={this.state.sorting} onChange={this.updateSort} disabled>
+            <select value={this.state.sorting} onChange={this.updateSort}>
               <option value=''>Choose Sort Type</option>
               <option value='asc'>Asc</option>
               <option value='desc'>Desc</option>
@@ -130,7 +135,6 @@ class ShowPosts extends Component {
               <option value='Timisoara'>Timisoara</option>
               <option value='Bucharest'>Bucharest</option>
             </select>
-            <input type="button" value="Search" onClick={this.updateURL} />
           </div>
           <Row>
             {postList}
