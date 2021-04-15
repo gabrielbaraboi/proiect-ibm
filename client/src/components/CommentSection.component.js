@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import useCommentSearch from '../customHooks/useCommentSearch';
 
+
 export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
     console.log(postID, connectedUser);
     const { id } = useParams();
@@ -52,7 +53,7 @@ export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
             </CommentInfo>
             <AddComment>
                 <ImageDiv>
-                    <UserInitial>{connectedUser? connectedUser.user.firstName.charAt(0) : `U`}</UserInitial>
+                    <UserInitial>{connectedUser? connectedUser.firstName.charAt(0) : `U`}</UserInitial>
                 </ImageDiv>
                 <CommentInputContainer>
                     <CommentInputTextArea 
@@ -65,9 +66,12 @@ export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
                 </CommentInputContainer>
             </AddComment>
             {
-                comments?.map( comment => (
-                    <Comment key={comment.id} comment={comment}></Comment>
-                ))
+                
+                    comments?.map( (comment, idx) => (
+                        <Comment key={idx} comment={comment}></Comment>
+                    ))
+                
+                         
             }
         </Container>
     )

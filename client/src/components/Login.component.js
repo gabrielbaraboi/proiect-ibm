@@ -42,9 +42,9 @@ export default ({ parentCallback }) =>
     axios
     .post('http://localhost:9000/users/login',data,{withCredentials: true})
     .then(res => {
-        console.log(res.data);
+        //console.log(res.data);
         // history.push("/");
-        parentCallback(res.data);
+        parentCallback(res.data.user);
         history.push("/");
     })
   .catch(err => {console.log(err);});

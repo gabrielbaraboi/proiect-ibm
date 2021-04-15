@@ -6,9 +6,8 @@ import { ShowProfile } from "./components/ShowProfile.component"
 import ShowPosts from "./components/ShowPosts.component"
 import Login from "./components/Login.component"
 import GlobalStyle from "./GlobalStyle"
-import axios from "axios";
+import { saveUserData, getUserData, isUserData } from "./services/localStorageManagment";
 
-import { useHistory } from 'react-router';
 
 
 const App = () => {
@@ -16,16 +15,24 @@ const App = () => {
 
   const [connectedUser, setConnectedUser] = useState(null);
   
-  const getUserData = (data) => {
+  const setData = (data) => {
+    saveUserData(data); //Salveaza datele utilizatorului in local storage
     setConnectedUser(data);
-    
-    
   }
 
   useEffect(() => {
-    console.log(connectedUser);
-    
-  }, [connectedUser])
+    console.log(`app use effect`)
+    if (isUserData())
+    {
+      const userData = getUserData();
+      setConnectedUser(userData);
+      console.log(`avem user ${userData.firstName}`);
+    }
+    else{
+      console.log(`Neconectat`);
+    } 
+  }, [])
+
   return (
     <Router>
       <GlobalStyle></GlobalStyle>
@@ -51,7 +58,7 @@ const App = () => {
         <Route 
           path='/login' 
           render={(props) => (
-            <Login {...props} parentCallback={getUserData} />
+            <Login {...props} parentCallback={setData} />
           )}
         />
         {/*
