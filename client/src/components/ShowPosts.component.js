@@ -115,22 +115,22 @@ class ShowPosts extends Component {
         <Container>
           <PageTitle>Last posts</PageTitle>
           <div id="search">
-            <select value={this.state.sorting} onChange={this.updateSort}>
+            <select value={this.state.sorting == null? '' : this.state.sorting.toString()} onChange={this.updateSort}>
               <option value=''>Choose Sort Type</option>
               <option value='asc'>Asc</option>
               <option value='desc'>Desc</option>
             </select>
-            <select value={this.state.type} onChange={this.updateType}>
+            <select value={this.state.type == null? '' : this.state.type.toString()} onChange={this.updateType}>
               <option value=''>Choose Post Type</option>
               <option value='offer'>Offer</option>
               <option value='request'>Request</option>
             </select>
-            <select value={this.state.workHours} onChange={this.updateWorkHours}>
+            <select value={this.state.workHours == null? '' : this.state.workHours.toString()} onChange={this.updateWorkHours}>
               <option value=''>Choose Work Hours</option>
               <option value='full-time'>Full time</option>
               <option value='part-time'>Part time</option>
             </select>
-            <select value={this.state.workPlace} onChange={this.updateWorkPlace}>
+            <select value={this.state.workPlace == null? '' : this.state.workPlace.toString()} onChange={this.updateWorkPlace}>
               <option value=''>Choose Work Place</option>
               <option value='Timisoara'>Timisoara</option>
               <option value='Bucharest'>Bucharest</option>
