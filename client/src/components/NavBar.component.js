@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { clearUser } from "../services/localStorageManagment";
 
 const NavBar = () => {
   return (
@@ -10,6 +11,9 @@ const NavBar = () => {
         <NavBarItem href="#">About</NavBarItem>
         <NavBarButton href="/login">Log In</NavBarButton>
         <NavBarButton href="#">Sign Up</NavBarButton>
+        <NavBarButton href="/" onClick={(e) => {
+          clearUser();
+        }}>Sign Out</NavBarButton>
       </Container>
     </Nav>
   )

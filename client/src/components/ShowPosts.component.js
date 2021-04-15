@@ -22,7 +22,7 @@ class ShowPosts extends Component {
       pageNumber:0
     };
     this.onScroll=this.onScroll.bind(this);
-    console.log(this.props.connectedUser);
+    //console.log(this.props.connectedUser);
   }
   onScroll()
   {
@@ -69,7 +69,6 @@ class ShowPosts extends Component {
       
   }
   render() {   
-    console.log(this.state.workPlace)
     const posts = this.state.posts;
     let postList;
 

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export const CommentSection = ( { comments, connectedUser }) => {
-    console.log(comments, connectedUser);
+    //console.log(comments, connectedUser);
     const { id } = useParams();
     const [commentAdded, setComentAdded] = useState("");
     const submitComment = e =>{
@@ -36,7 +36,7 @@ export const CommentSection = ( { comments, connectedUser }) => {
             </CommentInfo>
             <AddComment>
                 <ImageDiv>
-                    <UserInitial>{connectedUser? connectedUser.user.firstName.charAt(0) : `U`}</UserInitial>
+                    <UserInitial>{connectedUser? connectedUser.firstName.charAt(0) : `U`}</UserInitial>
                 </ImageDiv>
                 <CommentInputContainer>
                     <CommentInputTextArea 
@@ -49,9 +49,12 @@ export const CommentSection = ( { comments, connectedUser }) => {
                 </CommentInputContainer>
             </AddComment>
             {
-                comments?.map( comment => (
-                    <Comment key={comment.id} comment={comment}></Comment>
-                ))
+                
+                    comments?.map( (comment, idx) => (
+                        <Comment key={idx} comment={comment}></Comment>
+                    ))
+                
+                         
             }
         </Container>
     )
