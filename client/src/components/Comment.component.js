@@ -4,10 +4,11 @@ export const Comment = ( { comment }) => {
     return (
         <Container>
             <ImageDiv>
-                <UserInitial>{`${comment?.comentator?.firstName?.charAt(0)}`}</UserInitial>
+                <UserInitial>{`${comment?.comentator?.firstName?.charAt(0) ? comment?.comentator?.firstName?.charAt(0) : comment?.comentator?.companyName?.charAt(0)}`}</UserInitial>
             </ImageDiv>
             <CommentDiv>
-                <CommentUserName>{`${comment?.comentator?.firstName} ${comment?.comentator?.lastName}`}</CommentUserName>
+                <CommentUserName>{`${comment?.comentator?.firstName ? comment?.comentator?.firstName : comment?.comentator?.companyName} 
+                                    ${comment?.comentator?.lastName ? comment?.comentator?.lastName : " "}`}</CommentUserName>
                 <CommentText>{`${comment?.comment}`}</CommentText>
             </CommentDiv>
         </Container>

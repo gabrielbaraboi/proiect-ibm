@@ -53,7 +53,8 @@ export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
             </CommentInfo>
             <AddComment>
                 <ImageDiv>
-                    <UserInitial>{connectedUser? connectedUser.firstName.charAt(0) : `U`}</UserInitial>
+                    <UserInitial>{connectedUser? connectedUser.firstName?.charAt(0) : `U`}</UserInitial>
+                    <UserInitial>{connectedUser? connectedUser.companyName?.charAt(0) : `U`}</UserInitial>
                 </ImageDiv>
                 <CommentInputContainer>
                     <CommentInputTextArea 
