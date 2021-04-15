@@ -3,21 +3,21 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import NavBar from "./NavBar.component"
-import { CommentSection } from "./CommentSection.component";
 import { Link } from "react-router-dom";
 
-export const ShowPost = ( {connectedUser }) => {
+export const ShowProfile = ( {connectedUser }) => {
     const { id } = useParams();
 
-    const [postData, setPostData] = useState({});
+    const [postData, setPostData] = useState({})
     
     useEffect(() => 
-      axios.get(`http://localhost:9000/posts/postDetails/${id}`)
+      axios.get(`http://localhost:9000/profile/${id}`)
         .then( res => {
-          setPostData(res.data);
-        })
+          setPostData(res.data);})
         .catch(err => console.log(err))
       ,[])
+    
+    console.log(postData)
     return(
       <div>
     <ShowPostContainer className="App">
@@ -25,44 +25,18 @@ export const ShowPost = ( {connectedUser }) => {
       <TopSection>
         <Line></Line>
         <ImagePlace></ImagePlace>
-        <Data>Postat: {postData?.post?.dateCreated?.slice(0,10)}</Data>
+
       </TopSection>
-      <Title>{postData?.post?.title}</Title>
+      <Title>{postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}</Title>
+      <Company>{postData?.detalii?.email}</Company>
+
       <Company>
-        <Link to={`/profile/${postData?.post?.createdBy_id}`}>
-          {postData?.post?.creator?.companyName}
+        <Link to={`/?createdBy=${postData?.detalii?._id}`}>
+          View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
         </Link>
       </Company>
-      <Place>{postData?.post?.workPlace}</Place>
-      <PostData>
-        <PostDataRow>
-          <LabelPost htmlFor="about">Despre job:</LabelPost>
-          <About id="about">
-            {postData?.post?.description}
-          </About>
-        </PostDataRow>
-        <PostDataRow>
-          <LabelPost htmlFor="requirements">Cerinte:</LabelPost>
-          <About id="requirements">
-            <CustomUL>
-              {postData?.post?.requirements.map((req, idx) => (
-                <CustomLi key={idx}>{req}</CustomLi>
-              ))}
-            </CustomUL>
-          </About>
-        </PostDataRow>
-        <PostDataRow>
-          <LabelPost htmlFor="details">Detalii:</LabelPost>
-          <About id="details">
-            <CustomUL>
-              <CustomLi>Locatie: {postData?.post?.workPlace}</CustomLi>
-              <CustomLi>Program: {postData?.post?.workHours}</CustomLi>
-            </CustomUL>
-          </About>
-        </PostDataRow>
-      </PostData>
     </ShowPostContainer>
-    <CommentSection postID={id} connectedUser={connectedUser} commentCount={postData?.commentCount}></CommentSection>
+   
     </div>
     
     )

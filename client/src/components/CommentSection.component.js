@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from "styled-components"
 import { LabelPost } from "./ShowPost.component";
 import { Comment } from "./Comment.component";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { useState } from 'react';
+import useCommentSearch from '../customHooks/useCommentSearch';
 
-export const CommentSection = ( { comments, connectedUser }) => {
-    //console.log(comments, connectedUser);
+
+export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
+    console.log(postID, connectedUser);
     const { id } = useParams();
     const [commentAdded, setComentAdded] = useState("");
+
+    const [pageNumber,setPageNumber]=useState(1);
+    const {comments,hasMore}=useCommentSearch(pageNumber,id);
+
+    const onScroll = ()=>
+    {
+      const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
+      if (bottom&&hasMore) {
+          console.log("BOTTOM");
+        setPageNumber(prevPN=>{return prevPN+1});
+      }
+    }
+    useEffect(() => {
+        document.addEventListener('scroll', onScroll);
+        return () => document.removeEventListener("scroll", onScroll);
+      },[hasMore]);
+
     const submitComment = e =>{
         e.preventDefault();
         const comment = commentAdded;
@@ -18,8 +37,6 @@ export const CommentSection = ( { comments, connectedUser }) => {
                 axios
                 .post(`http://localhost:9000/posts/${id}`,{comment},{withCredentials:true})
                 .then(res => {
-                    console.log("Am adaugat comentariul!");
-                    console.log(res.data);
                     window.location.reload();
                 })
               .catch(err => {console.log(err);});
@@ -30,7 +47,7 @@ export const CommentSection = ( { comments, connectedUser }) => {
             <CommentInfo>
                 <LabelPost>Comentarii</LabelPost>
                 <CommentsCountDiv>
-                    <CommentsCount>{comments?.length}</CommentsCount>
+                    <CommentsCount>{commentCount}</CommentsCount>
                     <CommentsCountText>Comentarii</CommentsCountText>
                 </CommentsCountDiv>
             </CommentInfo>

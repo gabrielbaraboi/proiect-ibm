@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { ShowPost } from "./components/ShowPost.component"
+import { ShowProfile } from "./components/ShowProfile.component"
 import ShowPosts from "./components/ShowPosts.component"
 import Login from "./components/Login.component"
 import GlobalStyle from "./GlobalStyle"
@@ -46,6 +47,12 @@ const App = () => {
           path='/post/:id' 
           render={(props) => (
             <ShowPost {...props} connectedUser = {connectedUser} />
+          )}
+        />
+        <Route 
+          path='/profile/:id' 
+          render={(props) => (
+            <ShowProfile {...props} connectedUser = {connectedUser} />
           )}
         />
         <Route 
