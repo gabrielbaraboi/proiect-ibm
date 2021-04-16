@@ -3,10 +3,9 @@ import styled from "styled-components"
 import { LabelPost } from "./ShowPost.component";
 import { Comment } from "./Comment.component";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
 import { useState } from 'react';
 import useCommentSearch from '../customHooks/useCommentSearch';
-import {postComment} from '../services/CommentsServices'
+import {postComment} from '../services/CommentsServices';
 
 
 export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
@@ -36,10 +35,11 @@ export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
         if(commentAdded !== "")
             {
                 postComment(id,{comment})
-                .then(res => {
+                .then(res => { 
                     window.location.reload();
                 })
-              .catch(err => {console.log(err);});
+              .catch(err => {
+                console.log(err);});
             }
     }
     return (

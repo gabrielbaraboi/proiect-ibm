@@ -1,5 +1,4 @@
 import {useEffect,useState} from 'react';
-import axios from 'axios';
 import {getNextCommentPage} from "../services/CommentsServices";
 
 export default function useCommentSearch(pageNumber,postID){

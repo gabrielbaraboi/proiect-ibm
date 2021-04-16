@@ -1,4 +1,6 @@
 import axios from "axios";
+import { logout } from "./UserServices";
+import { clearUser } from "./localStorageManagment";
 
 export const postComment = async (id, comment) => {
     try {
@@ -6,7 +8,9 @@ export const postComment = async (id, comment) => {
             .post(`http://localhost:9000/posts/${id}`, comment, { withCredentials: true });
         return res;
     } catch (err) {
-        throw err;
+        console.log(`Token-ul a expirat!`);
+        logout().then(res=>console.log(res)).catch(err=>console.log(err.message));
+        clearUser();
     }
 };
 

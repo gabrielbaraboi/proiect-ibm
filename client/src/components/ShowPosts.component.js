@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-import axios from "axios";
 import NavBar from "./NavBar.component";
 import PostCard from "./PostCard.component"
 import App from "../App";

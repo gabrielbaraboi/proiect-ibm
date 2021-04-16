@@ -1,6 +1,4 @@
 import React from 'react';
-import axios from 'axios';
-
 import { useHistory } from 'react-router';
 import { login } from "../services/UserServices"
 
