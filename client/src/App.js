@@ -5,6 +5,7 @@ import { ShowPost } from "./components/ShowPost.component"
 import { ShowProfile } from "./components/ShowProfile.component"
 import ShowPosts from "./components/ShowPosts.component"
 import Login from "./components/Login.component"
+import Register from "./components/Register.component"
 import GlobalStyle from "./GlobalStyle"
 import { saveUserData, getUserData, isUserData } from "./services/localStorageManagment";
 
@@ -58,13 +59,13 @@ const App = () => {
         <Route 
           path='/login' 
           render={(props) => (
-            <Login {...props} parentCallback={setData} />
+            <Login {...props} parentCallback = {setData} />
           )}
         />
-        {/*
-        <Route path='/register' component={Register} />
-        //<Route path='/add' component={AddPost}></Route> 
-        */}
+        <Route 
+        path='/register' 
+        component={Register} />
+        {/* <Route path='/add' component={AddPost}></Route>  */}
       </div>
     </Router>
   );
