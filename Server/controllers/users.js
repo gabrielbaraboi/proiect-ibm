@@ -25,6 +25,7 @@ export const createUser = async (req, res) => {
                     res.status(400).json({ message: 'Invalid user role!' });
                     break;
             }
+            if (!newUser.password) return res.status(400).json({ message: 'Password is required!' });
             bcrypt.hash(newUser.password, 10, (err, hash) => {
                 if (err) throw err;
 
