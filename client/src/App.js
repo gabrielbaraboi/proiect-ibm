@@ -8,6 +8,7 @@ import Login from "./components/Login.component"
 import Register from "./components/Register.component"
 import GlobalStyle from "./GlobalStyle"
 import { saveUserData, getUserData, isUserData } from "./services/localStorageManagment";
+import axios from 'axios';
 
 
 
@@ -17,12 +18,17 @@ const App = () => {
   const [connectedUser, setConnectedUser] = useState(null);
   
   const setData = (data) => {
+
     saveUserData(data); //Salveaza datele utilizatorului in local storage
     setConnectedUser(data);
-  }
-
+  };
+  const getCSRFToken = async ()=>{
+    const {data} = await axios.get('/users/csrfToken');
+    axios.defaults.headers.post['csrf-token']=data.csrfToken;
+  };
   useEffect(() => {
-    console.log(`app use effect`)
+    console.log(`app use effect`);
+    getCSRFToken();
     if (isUserData())
     {
       const userData = getUserData();
@@ -59,7 +65,7 @@ const App = () => {
         <Route 
           path='/login' 
           render={(props) => (
-            <Login {...props} parentCallback = {setData} />
+            <Login {...props} parentCallback = {setData} getCSRF = {getCSRFToken}/>
           )}
         />
         <Route 

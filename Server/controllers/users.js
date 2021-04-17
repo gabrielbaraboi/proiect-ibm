@@ -6,6 +6,10 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 
+export const getCSRF = async (req,res)=>{
+    res.status(200).json({csrfToken:req.csrfToken()});
+};
+
 export const createUser = async (req, res) => {
     const { email, role } = req.body;
 

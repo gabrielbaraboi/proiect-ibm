@@ -34,7 +34,7 @@ const Form = ({ onSubmit }) => {
 };
 
 
-export default ({ parentCallback }) => {
+export default ({ parentCallback , getCSRF}) => {
   const handleSubmit = data => {
     login(data)
       .then(res => {
@@ -42,6 +42,7 @@ export default ({ parentCallback }) => {
         history.push("/");
       })
       .catch(err => { console.log(err); });
+      
   };
 
   const history = useHistory();

@@ -6,7 +6,7 @@ const PostSchema = mongoose.Schema({
     description: { type: String, required: true },
     title: { type: String, required: true },
     programmingLanguage: { type: String, required: true },
-    workHours: { type: String, required: true },
+    workHours: { type: String, required: true,enum: ['full-time','part-time'] },
     workPlace: { type: String, required: true },
     requirements: { type: [String], required: true }
 },{ timestamps: { createdAt: 'dateCreated' }});
