@@ -34,7 +34,7 @@ const Form = ({ onSubmit }) => {
 };
 
 
-export default ({ parentCallback , getCSRF}) => {
+export default ({ parentCallback}) => {
   const handleSubmit = data => {
     login(data)
       .then(res => {
@@ -51,4 +51,4 @@ export default ({ parentCallback , getCSRF}) => {
       <Form onSubmit={handleSubmit} />
     </div>
   )
-}
+};

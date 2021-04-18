@@ -25,6 +25,7 @@ const App = () => {
   const getCSRFToken = async ()=>{
     const {data} = await axios.get('/users/csrfToken');
     axios.defaults.headers.post['csrf-token']=data.csrfToken;
+    axios.defaults.headers.delete['csrf-token']=data.csrfToken;
   };
   useEffect(() => {
     console.log(`app use effect`);

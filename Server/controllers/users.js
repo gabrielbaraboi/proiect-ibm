@@ -6,8 +6,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 
-export const getCSRF = async (req,res)=>{
-    res.status(200).json({csrfToken:req.csrfToken()});
+export const getCSRF = async (req, res) => {
+    res.status(200).json({ csrfToken: req.csrfToken() });
 };
 
 export const createUser = async (req, res) => {
@@ -25,6 +25,12 @@ export const createUser = async (req, res) => {
                 case 'company':
                     newUser = new CompanyModel(req.body);
                     break;
+                case 'admin':
+                    if(req.body?.secret===config.get('adminSecret'))
+                        newUser = new UserModel(req.body);
+                    else
+                        return res.status(403).json({message : 'Unauthorized to create admin account!'});
+                    break;        
                 default:
                     res.status(400).json({ message: 'Invalid user role!' });
                     break;
@@ -45,7 +51,7 @@ export const createUser = async (req, res) => {
                             companyName: usr.companyName,
                             description: usr.description
                         }
-                    else {
+                    else if (role === 'student') {
                         responseUser = {
                             id: usr._id,
                             email: usr.email,
@@ -55,27 +61,33 @@ export const createUser = async (req, res) => {
                             description: usr.description
                         }
                     }
-                    jwt.sign(
-                        {
-                            id: usr.id,
-                            role
-                        },
-                        config.get('jwtSecret'),
-                        { expiresIn: 5400 },
-                        (err, token) => {
-                            if (err) throw err;
-                            res.cookie('token', token, { httpOnly: true });
-                            res.status(200).json({
-                                token,
-                                user: responseUser
-                            });
+                    else{
+                        responseUser = {
+                            id:usr._id,
+                            email:usr.email
                         }
-                    );
+                    }
+                    jwt.sign(
+                            {
+                                id: usr.id,
+                                role
+                            },
+                            config.get('jwtSecret'),
+                            { expiresIn: 5400 },
+                            (err, token) => {
+                                if (err) throw err;
+                                res.cookie('token', token, { httpOnly: true });
+                                res.status(200).json({
+                                    token,
+                                    user: responseUser
+                                });
+                            }
+                        );
 
-                }).catch((err) => res.status(400).json({ message: err.message }));
-            });
+            }).catch((err) => res.status(400).json({ message: err.message }));
+        });
 
-        }).catch(err => res.status(400).json({ message: err.message }));
+}).catch (err => res.status(400).json({ message: err.message }));
 
 }
 
@@ -103,10 +115,15 @@ export const login = async (req, res) => {
                         (err, token) => {
 
                             if (err) throw err;
+                            const responseUser={
+                                _id:user._id,
+                                email:user.email,
+                                role:user.role
+                            };
                             res.cookie('token', token, { httpOnly: true });
                             res.status(200).json({
                                 token,
-                                user: user
+                                user:responseUser
                             });
                         }
                     );

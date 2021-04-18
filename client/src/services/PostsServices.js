@@ -18,3 +18,12 @@ export const getPostDetails = async (id) => {
         throw err;
     }
 };
+
+export const deletePost = async (postID)=>{
+    try {
+        const res = await axios.delete(`http://localhost:9000/posts/${postID}`,{ withCredentials: true });
+        return res;   
+    } catch (error) {
+        throw error;
+    }
+};

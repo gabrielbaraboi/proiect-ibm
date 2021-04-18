@@ -4,70 +4,84 @@ import styled from "styled-components";
 import NavBar from "./NavBar.component"
 import { CommentSection } from "./CommentSection.component";
 import { Link } from "react-router-dom";
-import {getPostDetails} from "../services/PostsServices"
+import { getPostDetails, deletePost } from "../services/PostsServices"
+import { useHistory } from 'react-router';
 
-export const ShowPost = ( {connectedUser }) => {
-    const { id } = useParams();
+export const ShowPost = ({ connectedUser }) => {
+  const { id } = useParams();
 
-    const [postData, setPostData] = useState({});
-    
-    useEffect(() => 
-      getPostDetails(id)
-        .then( res => {
-          setPostData(res.data);
-          console.log(`Post data`);
-          console.log(res.data);
-        })
-        .catch(err => console.log(err))
-      ,[])
-    return(
-      <div>
-    <ShowPostContainer className="App">
-      <NavBar></NavBar>
-      <TopSection>
-        <Line></Line>
-        <ImagePlace></ImagePlace>
-        <Data>Postat: {postData?.post?.dateCreated?.slice(0,10)}</Data>
-      </TopSection>
-      <Title>{postData?.post?.title}</Title>
-      <Company>
-        <Link to={`/profile/${postData?.post?.createdBy_id}`}>
-          {postData?.post?.creator?.companyName}
-        </Link>
-      </Company>
-      <Place>{postData?.post?.workPlace}</Place>
-      <PostData>
-        <PostDataRow>
-          <LabelPost htmlFor="about">Despre job:</LabelPost>
-          <About id="about">
-            {postData?.post?.description}
-          </About>
-        </PostDataRow>
-        <PostDataRow>
-          <LabelPost htmlFor="requirements">Cerinte:</LabelPost>
-          <About id="requirements">
-            <CustomUL>
-              {postData?.post?.requirements.map((req, idx) => (
-                <CustomLi key={idx}>{req}</CustomLi>
-              ))}
-            </CustomUL>
-          </About>
-        </PostDataRow>
-        <PostDataRow>
-          <LabelPost htmlFor="details">Detalii:</LabelPost>
-          <About id="details">
-            <CustomUL>
-              <CustomLi>Locatie: {postData?.post?.workPlace}</CustomLi>
-              <CustomLi>Program: {postData?.post?.workHours}</CustomLi>
-            </CustomUL>
-          </About>
-        </PostDataRow>
-      </PostData>
-    </ShowPostContainer>
-    <CommentSection postID={id} connectedUser={connectedUser} commentCount={postData?.commentCount}></CommentSection>
+  const [postData, setPostData] = useState({});
+
+  const userPost = (user, post) => {
+    return (post?.post?.createdBy === user?._id) || (user?.role === 'admin');
+  };
+  useEffect(() =>
+    getPostDetails(id)
+      .then(res => {
+        setPostData(res.data);
+      })
+      .catch(err => console.log(err))
+    , []);
+  const history = useHistory();
+  const deleteThisPost = () => {
+    deletePost(id).then(res => {
+      console.log('Successfully delete post!');
+      history.push('/');
+    })
+      .catch(err => console.log(err));
+  };
+  return (
+    <div>
+      <ShowPostContainer className="App">
+        <NavBar></NavBar>
+        <TopSection>
+          <Line></Line>
+          <ImagePlace></ImagePlace>
+          <Data>Postat: {postData?.post?.dateCreated?.slice(0, 10)}</Data>
+        </TopSection>
+        <Title>{postData?.post?.title}</Title>
+        <Company>
+          <Link to={`/profile/${postData?.post?.createdBy_id}`}>
+            {postData?.post?.creator?.companyName}
+          </Link>
+        </Company>
+        <Place>{postData?.post?.workPlace}</Place>
+        <PostData>
+          <PostDataRow>
+            <LabelPost htmlFor="about">Despre job:</LabelPost>
+            <About id="about">
+              {postData?.post?.description}
+            </About>
+          </PostDataRow>
+          <PostDataRow>
+            <LabelPost htmlFor="requirements">Cerinte:</LabelPost>
+            <About id="requirements">
+              <CustomUL>
+                {postData?.post?.requirements.map((req, idx) => (
+                  <CustomLi key={idx}>{req}</CustomLi>
+                ))}
+              </CustomUL>
+            </About>
+          </PostDataRow>
+          <PostDataRow>
+            <LabelPost htmlFor="details">Detalii:</LabelPost>
+            <About id="details">
+              <CustomUL>
+                <CustomLi>Locatie: {postData?.post?.workPlace}</CustomLi>
+                <CustomLi>Program: {postData?.post?.workHours}</CustomLi>
+              </CustomUL>
+            </About>
+          </PostDataRow>
+        </PostData>
+        {userPost(connectedUser, postData) &&
+          <div>
+            <button onClick={deleteThisPost}>Delete Post</button>
+          </div>}
+      </ShowPostContainer>
+      <CommentSection postID={id} connectedUser={connectedUser} commentCount={postData?.commentCount}></CommentSection>
     </div>
-    
-    )
+
+  )
 }
 
 const ShowPostContainer = styled.div`

@@ -51,6 +51,7 @@ export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
                     <CommentsCountText>Comentarii</CommentsCountText>
                 </CommentsCountDiv>
             </CommentInfo>
+            {connectedUser&&
             <AddComment>
                 <ImageDiv>
                     <UserInitial>{connectedUser? connectedUser.firstName?.charAt(0) : `U`}</UserInitial>
@@ -65,7 +66,7 @@ export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
                     </CommentInputTextArea>
                     <PostCommentButton onClick={submitComment}>Posteaza</PostCommentButton>
                 </CommentInputContainer>
-            </AddComment>
+            </AddComment>}
             {
                 
                     comments?.map( (comment, idx) => (

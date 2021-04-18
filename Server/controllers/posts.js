@@ -141,7 +141,7 @@ export const deletePost = async(req,res)=>{
     const postID = req.params.id;
     try{
     const post = await Post.findById(postID).exec();
-    if(post.createdBy!=req.user.id)
+    if(post.createdBy!==req.user.id&&req.user.role!=='admin')
         return res.status(403).json({message:"Post doesn't belong to user!"});
     await Post.findByIdAndDelete(postID).exec();
     await Comment.deleteMany({postID:postID});
