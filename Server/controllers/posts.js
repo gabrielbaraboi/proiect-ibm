@@ -93,7 +93,7 @@ export const postComments = async(req,res)=>{
             }
         },
         {$unwind : '$comentator'},
-        { $project : { "comentator.createdBy_id": 0, "comentator.password": 0, "comentator.email": 0, "comentator._id": 0 }}
+        { $project : { "comentator.password": 0, "comentator.email": 0, "comentator._id": 0 }}
     ]).toArray();
     const hasComments=comments.length>0;   
     res.status(200).json({comments,lastCommentDate:hasComments?comments[comments.length-1].datePosted:'same'});
@@ -151,3 +151,15 @@ export const deletePost = async(req,res)=>{
         res.status(404).json({message:error.message});
     }
 }
+export const deleteComment = async(req,res)=>{
+    const commentID=req.params.id;
+    try{
+    const comment = await Comment.findById(commentID);
+    if(comment.createdBy!==req.user.id&&req.user.role!=='admin')
+        return res.status(403).json({message:"Comment doesn't belong to user!"});
+    await Comment.findByIdAndDelete(commentID);
+    res.status(200).json({message:`Successfully deleted comment with commentID = ${commentID}`});
+    }catch(err){
+        res.status(404).json({message:error.message});
+    }
+};

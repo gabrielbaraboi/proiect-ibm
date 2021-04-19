@@ -9,7 +9,7 @@ export const postComment = async (id, comment) => {
         return res;
     } catch (err) {
         console.log(`Token-ul a expirat!`);
-        logout().then(res=>console.log(res)).catch(err=>console.log(err.message));
+        logout().then(res => console.log(res)).catch(err => console.log(err.message));
         clearUser();
     }
 };
@@ -23,5 +23,14 @@ export const getNextCommentPage = async (postID, lastCommentDate) => {
         return res;
     } catch (err) {
         throw err;
+    }
+};
+
+export const deleteComment = async (commentID) => {
+    try {
+        const res = await axios.delete(`http://localhost:9000/posts/comment/${commentID}`,{ withCredentials: true });
+        return res;
+    } catch (error) {
+        throw error;
     }
 };

@@ -13,7 +13,7 @@ export const ShowPost = ({ connectedUser }) => {
   const [postData, setPostData] = useState({});
 
   const userPost = (user, post) => {
-    return (post?.post?.createdBy === user?._id) || (user?.role === 'admin');
+    return (post?.post?.createdBy === user?.id) || (user?.role === 'admin');
   };
   useEffect(() =>
     getPostDetails(id)

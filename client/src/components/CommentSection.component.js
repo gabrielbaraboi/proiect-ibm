@@ -5,42 +5,41 @@ import { Comment } from "./Comment.component";
 import { useParams } from "react-router-dom";
 import { useState } from 'react';
 import useCommentSearch from '../customHooks/useCommentSearch';
-import {postComment} from '../services/CommentsServices';
+import { postComment } from '../services/CommentsServices';
 
 
-export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
+export const CommentSection = ({ postID, connectedUser, commentCount }) => {
     console.log(postID, connectedUser);
     const { id } = useParams();
     const [commentAdded, setComentAdded] = useState("");
 
-    const [pageNumber,setPageNumber]=useState(1);
-    const {comments,hasMore}=useCommentSearch(pageNumber,id);
+    const [pageNumber, setPageNumber] = useState(1);
+    const { comments, hasMore } = useCommentSearch(pageNumber, id);
 
-    const onScroll = ()=>
-    {
-      const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
-      if (bottom&&hasMore) {
-          console.log("BOTTOM");
-        setPageNumber(prevPN=>{return prevPN+1});
-      }
+    const onScroll = () => {
+        const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
+        if (bottom && hasMore) {
+            console.log("BOTTOM");
+            setPageNumber(prevPN => { return prevPN + 1 });
+        }
     }
     useEffect(() => {
         document.addEventListener('scroll', onScroll);
         return () => document.removeEventListener("scroll", onScroll);
-      },[hasMore]);
+    }, [hasMore]);
 
-    const submitComment = e =>{
+    const submitComment = e => {
         e.preventDefault();
         const comment = commentAdded;
-        if(commentAdded !== "")
-            {
-                postComment(id,{comment})
-                .then(res => { 
+        if (commentAdded !== "") {
+            postComment(id, { comment })
+                .then(res => {
                     window.location.reload();
                 })
-              .catch(err => {
-                console.log(err);});
-            }
+                .catch(err => {
+                    console.log(err);
+                });
+        }
     }
     return (
         <Container>
@@ -51,29 +50,29 @@ export const CommentSection = ( { postID, connectedUser ,commentCount}) => {
                     <CommentsCountText>Comentarii</CommentsCountText>
                 </CommentsCountDiv>
             </CommentInfo>
-            {connectedUser&&
-            <AddComment>
-                <ImageDiv>
-                    <UserInitial>{connectedUser? connectedUser.firstName?.charAt(0) : `U`}</UserInitial>
-                    <UserInitial>{connectedUser? connectedUser.companyName?.charAt(0) : `U`}</UserInitial>
-                </ImageDiv>
-                <CommentInputContainer>
-                    <CommentInputTextArea 
-                        placeholder="Add a comment..." 
-                        type="text" 
-                        value={commentAdded}
-                        onChange={(e) => setComentAdded(e.target.value)}>
-                    </CommentInputTextArea>
-                    <PostCommentButton onClick={submitComment}>Posteaza</PostCommentButton>
-                </CommentInputContainer>
-            </AddComment>}
+            {connectedUser &&
+                <AddComment>
+                    <ImageDiv>
+                        <UserInitial>{connectedUser ? connectedUser.firstName?.charAt(0) : `U`}</UserInitial>
+                        <UserInitial>{connectedUser ? connectedUser.companyName?.charAt(0) : `U`}</UserInitial>
+                    </ImageDiv>
+                    <CommentInputContainer>
+                        <CommentInputTextArea
+                            placeholder="Add a comment..."
+                            type="text"
+                            value={commentAdded}
+                            onChange={(e) => setComentAdded(e.target.value)}>
+                        </CommentInputTextArea>
+                        <PostCommentButton onClick={submitComment}>Posteaza</PostCommentButton>
+                    </CommentInputContainer>
+                </AddComment>}
             {
-                
-                    comments?.map( (comment, idx) => (
-                        <Comment key={idx} comment={comment}></Comment>
-                    ))
-                
-                         
+
+                comments?.map((comment, idx) => (
+                    <Comment key={idx} comment={comment} connectedUser={connectedUser}></Comment>
+                ))
+
+
             }
         </Container>
     )

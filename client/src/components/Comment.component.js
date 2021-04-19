@@ -1,6 +1,18 @@
-import styled from "styled-components"
+import { useState } from "react";
+import styled from "styled-components";
+import { deleteComment } from "../services/CommentsServices";
 
-export const Comment = ( { comment }) => {
+export const Comment = ({ comment, connectedUser }) => {
+
+    const [isDeleted, setIsDeleted] = useState(false);
+    const deleteThisComment = () => {
+        deleteComment(comment._id)
+            .then(res => {
+                console.log(res);
+                setIsDeleted(true);
+            })
+            .catch(err => console.log(err));
+    };
     return (
         <Container>
             <ImageDiv>
@@ -9,8 +21,19 @@ export const Comment = ( { comment }) => {
             <CommentDiv>
                 <CommentUserName>{`${comment?.comentator?.firstName ? comment?.comentator?.firstName : comment?.comentator?.companyName} 
                                     ${comment?.comentator?.lastName ? comment?.comentator?.lastName : " "}`}</CommentUserName>
-                <CommentText>{`${comment?.comment}`}</CommentText>
+                {isDeleted?
+                <div>
+                    <strong>
+                        Comment deleted!
+                    </strong>
+                </div>
+                :
+                <CommentText>{`${comment?.comment}`}</CommentText>}
             </CommentDiv>
+            {(connectedUser?.id === comment?.createdBy || connectedUser?.role === 'admin') && !isDeleted &&
+                <div>
+                    <button onClick={deleteThisComment}>Delete Comment</button>
+                </div>}
         </Container>
     )
 }
