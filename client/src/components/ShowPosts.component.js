@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-// import NavBar from "./NavBar.component";
 import NavBar from "./NavBar/NavBar.component";
 import PostCard from "./PostCard.component"
 import App from "../App";
@@ -107,9 +106,11 @@ class ShowPosts extends Component {
       );
     }
     return (
+      <>
+        <header>
+          <NavBar />
+        </header>
       <main>
-        <NavBar></NavBar>
-        <h1>{App.userRole}</h1>
         <Container>
           <PageTitle>Last posts</PageTitle>
           <div id="search">
@@ -139,6 +140,7 @@ class ShowPosts extends Component {
           </Row>
         </Container>
       </main>
+      </>
     );
   }
 }
@@ -168,7 +170,6 @@ const PageTitle = styled.p`
   border-radius: 5px;
   display: inline-block;
   background: #DCDCDC;
-  // text-transform: uppercase;
 `
 const Row = styled.div`
   display: flex;

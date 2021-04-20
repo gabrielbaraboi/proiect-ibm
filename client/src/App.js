@@ -6,7 +6,6 @@ import { ShowProfile } from "./components/ShowProfile.component"
 import ShowPosts from "./components/ShowPosts.component"
 import Login from "./components/Login.component"
 import Register from "./components/Register.component"
-import GlobalStyle from "./GlobalStyle"
 import { saveUserData, getUserData, isUserData } from "./services/localStorageManagment";
 import axios from 'axios';
 
@@ -43,7 +42,6 @@ const App = () => {
 
   return (
     <Router>
-      <GlobalStyle></GlobalStyle>
       <div>
         <Route 
           exact path='/' 

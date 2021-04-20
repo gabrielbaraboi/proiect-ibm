@@ -1,19 +1,37 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Nav = styled.div`
     background-color: #89CCF6;
+`
+
+export const Container = styled.div`
+    width: 100%;
+    margin: 0 auto;
     text-align: center;
+    
+    @media (min-width: 576px) {
+      max-width: 540px;
+    }
+    @media (min-width: 768px) {
+      max-width: 720px;
+    }
+    @media (min-width: 992px) {
+      max-width: 960px;
+    }
+    @media (min-width: 1200px) {
+      max-width: 1140px;
+    }
 `;
 
 export const VerticalNav = styled.div`
-  height: 70px;
-  display: flex;
-  align-items: center;
-  padding: 0 1rem;
-  justify-content: space-between;
-  @media (max-width: 1000px) {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
     justify-content: space-between;
-  }
+    @media (max-width: 1000px) {
+        justify-content: space-between;
+    }
 `;
 
 export const Title = styled.div`
@@ -27,16 +45,15 @@ export const Title = styled.div`
 
 
 export const Other = styled.div`
-  display: flex;
-  font-size: 1rem;
-  margin: 1rem;
-  @media (max-width: 1000px) {
-    display: none;
-  }
+    display: flex;
+    font-size: 1rem;
+    margin: 1rem;
+    @media (max-width: 1000px) {
+        display: none;
+    }
 `;
 
 export const NavBarButton = styled.button`
-    
     background-color: ${props => props.backgroundColor || `#89CCF6`};
     padding: .5rem;
     border: none;
@@ -72,9 +89,13 @@ export const OtherColumn = styled.div`
     display: flex;
     flex-direction: column;
     padding: 0 1rem 1rem 1rem;
+    a {
+        margin-top: 5px;
+    }
 `;
 
 export const TitleDiv = styled.div`
+    margin-right: auto;
     @media (max-width: 1000px) {
         width: 100%;
         text-align: center;
@@ -98,7 +119,7 @@ export const Vertical = styled.div`
 `;
 
 export const UserProfileMinimizedNavBar = styled.div`
-    display:none;
+    display: none;
     @media (max-width: 1000px) {
         display: inline-block;
     }  
