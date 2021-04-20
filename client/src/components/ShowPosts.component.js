@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-import NavBar from "./NavBar.component";
+// import NavBar from "./NavBar.component";
+import NavBar from "./NavBar/NavBar.component";
 import PostCard from "./PostCard.component"
 import App from "../App";
 import { getNextPostsPage } from "../services/PostsServices";

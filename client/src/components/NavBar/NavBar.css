@@ -1,0 +1,18 @@
+.show {
+    display: inline-block;
+  }
+  
+  .hide {
+    display: none;
+  }
+  
+  @media only screen and (min-width: 1000px) {
+    .show {
+      display: none;
+    }
+  }
+
+  .flex-elem{
+    display:flex;
+  }
+  

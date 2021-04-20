@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { login } from "../services/UserServices"
+import { login } from "../services/UserServices";
+import NavBar from "./NavBar/NavBar.component";
 
 const Field = React.forwardRef(({ label, type }, ref) => {
   return (
@@ -23,6 +24,8 @@ const Form = ({ onSubmit }) => {
     onSubmit(data);
   };
   return (
+    <div>
+      <NavBar></NavBar>
     <form onSubmit={handleSubmit} >
       <Field ref={emailRef} label="Email:" type="text" />
       <Field ref={passwordRef} label="Password:" type="password" />
@@ -30,6 +33,7 @@ const Form = ({ onSubmit }) => {
         <button type="submit">Submit</button>
       </div>
     </form>
+    </div>
   );
 };
 

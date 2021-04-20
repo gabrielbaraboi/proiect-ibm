@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import NavBar from "./NavBar.component"
+import NavBar from "./NavBar/NavBar.component";
+//import NavBar from "./NavBar.component";
 import { CommentSection } from "./CommentSection.component";
 import { Link } from "react-router-dom";
 import { getPostDetails, deletePost } from "../services/PostsServices"

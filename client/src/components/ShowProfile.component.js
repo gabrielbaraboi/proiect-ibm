@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import NavBar from "./NavBar.component"
+// import NavBar from "./NavBar.component";
+import NavBar from "./NavBar/NavBar.component";
 import { Link } from "react-router-dom";
 
 export const ShowProfile = ( {connectedUser }) => {
