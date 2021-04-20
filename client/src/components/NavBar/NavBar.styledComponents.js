@@ -60,7 +60,8 @@ export const NavBarMenuButton = styled.button`
         cursor: pointer;
     }
     @media (max-width: 1000px) {
-    display: inline-block;
+        display: inline-block;
+        position: absolute;
   }
 `;
 

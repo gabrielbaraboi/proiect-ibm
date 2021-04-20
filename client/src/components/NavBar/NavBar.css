@@ -1,18 +1,24 @@
 .show {
-    display: inline-block;
-  }
+  visibility: visible;
+  opacity: 1;
+  max-height: 500px;
+  transition: all .3s ease-in-out;
+}
   
-  .hide {
+.hide {
+  visibility: hidden;
+  opacity: 0;
+  max-height: 0;
+  transition: all .3s ease-in-out;
+}
+
+@media only screen and (min-width: 1000px) {
+  .show {
     display: none;
   }
-  
-  @media only screen and (min-width: 1000px) {
-    .show {
-      display: none;
-    }
-  }
+}
 
-  .flex-elem{
-    display:flex;
-  }
+.flex-elem {
+  display:flex;
+}
   

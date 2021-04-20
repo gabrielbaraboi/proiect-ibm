@@ -5,7 +5,7 @@ import "./NavBar.css";
 import Icon from '@mdi/react'
 import { mdiMenu, mdiPlusBoxMultiple  } from '@mdi/js';
 import { useState, useEffect } from 'react';
-import {Container, VerticalNav, NavBarMenuButton, TitleDiv, Title, UserProfileMinimizedNavBar, ProfileCard, Other, Vertical, Column, NavBarButton, ColumnNav, OtherColumn} from "./NavBar.styledCoponents";
+import {Container, VerticalNav, NavBarMenuButton, TitleDiv, Title, UserProfileMinimizedNavBar, ProfileCard, Other, Vertical, Column, NavBarButton, ColumnNav, OtherColumn} from "./NavBar.styledComponents";
 
 const NavBar = ({ connectedUser }) => {
     const [showColumnNav, setShowColumnNav] = useState(false);

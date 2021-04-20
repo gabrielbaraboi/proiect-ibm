@@ -55,9 +55,9 @@ const Form = ({ onSubmit }) => {
         <form onSubmit={handleSubmit} >
           <label>Choose role:</label>
           <input type="radio" ref={roleRef} value="student" name="role" id="student" onChange={e => setRole(e.target.value)} checked={role === "student"} />
-          <label for="student">Student</label>
+          <label htmlFor="student">Student</label>
           <input type="radio" ref={roleRef} value="company" name="role" id="company" onChange={e => setRole(e.target.value)} checked={role === "company"} />
-          <label for="company">Company</label>
+          <label htmlFor="company">Company</label>
           {role === "student" &&
             <React.Fragment>
               <Field ref={emailRef} label="Email:" type="text" />
