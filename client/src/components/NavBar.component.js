@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { clearUser } from "../services/localStorageManagment";
 import { logout } from "../services/UserServices";
 import {isUserData, getUserData} from "../services/localStorageManagment";
-
 const NavBar = () => {
 
   return (
