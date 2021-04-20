@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { clearUser } from "../services/localStorageManagment";
 import { logout } from "../services/UserServices";
 import {isUserData, getUserData} from "../services/localStorageManagment";
-
 const NavBar = () => {
 
   return (
@@ -12,7 +11,7 @@ const NavBar = () => {
         <NavBarItem href="/">Posts</NavBarItem>
         <NavBarItem href="#">Companies</NavBarItem>
         <NavBarItem href="#">About</NavBarItem>
-        {isUserData() && <NavBarItem href={'/profile/' + getUserData()._id}>Profile</NavBarItem>}
+        {isUserData() && <NavBarItem href={'/profile/' + getUserData().id}>Profile</NavBarItem>}
         {!isUserData() && <NavBarButton href="/login">Log In</NavBarButton>}
         {!isUserData() && <NavBarButton href="/register">Sign Up</NavBarButton>}
         {isUserData() &&<NavBarButton href="/" onClick={(e) => {
