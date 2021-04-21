@@ -1,0 +1,92 @@
+.button, .input {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: none;
+  display: inline-flex;
+  font-size: 1rem;
+  height: 2.5em;
+  justify-content: flex-start;
+  line-height: 1.5;
+  padding-bottom: calc(0.5em - 1px);
+  padding-left: calc(0.75em - 1px);
+  padding-right: calc(0.75em - 1px);
+  padding-top: calc(0.5em - 1px);
+  position: relative;
+  vertical-align: top;
+}
+
+.button {
+  display: block !important;
+  margin-top: 8px;
+}
+
+.button.is-info {
+  background-color: #3298dc;
+  border-color: transparent;
+  color: #fff;
+}
+
+.button.is-info:hover {
+  background-color: #2793da;
+  border-color: transparent;
+  color: #fff;
+}
+
+.button.is-info:focus{
+  border-color: transparent;
+  color: #fff;
+}
+
+.button.is-info:focus:not(:active){
+  box-shadow: 0 0 0 0.125em rgba(50, 152, 220, 0.25);
+}
+
+.button.is-info:active {
+  background-color: #238cd1;
+  border-color: transparent;
+  color: #fff;
+}
+
+.input {
+  background-color: white;
+  border-color: #dbdbdb;
+  border-radius: 4px;
+  color: #363636;
+  box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.05);
+}
+
+.input:-moz-placeholder, .input:-ms-input-placeholder, .input::-webkit-input-placeholder {
+  color: rgba(54, 54, 54, 0.3);
+}
+
+.input:hover {
+  border-color: #b5b5b5;
+}
+
+.input:focus:not(.is-danger), .input:active:not(.is-danger) {
+  border-color: #3273dc;
+  box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+}
+
+.button:focus, .button:active, .input:focus, .input:active{
+  outline: none;
+}
+
+.is-danger{
+  border-color: #f14668;
+}
+
+.is-danger.input:focus, .is-danger.input:active {
+  box-shadow: 0 0 0 0.125em rgba(241, 70, 104, 0.25) !important;
+}
+
+.help {
+  display: block;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.help.is-danger {
+  color: #f14668;
+}

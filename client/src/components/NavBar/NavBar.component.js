@@ -3,7 +3,7 @@ import { logout } from "../../services/UserServices";
 import { isUserData, getUserData } from "../../services/localStorageManagment";
 import "./NavBar.css";
 import Icon from '@mdi/react'
-import { mdiMenu, mdiPlusBoxMultiple } from '@mdi/js';
+import { mdiPlusBoxMultiple } from '@mdi/js';
 import { useState, useEffect } from 'react';
 import { Nav, Container, VerticalNav, TitleDiv, Title, UserProfileMinimizedNavBar, ProfileCard, Other, Vertical, Column, NavBarButton, ColumnNav, OtherColumn } from "./NavBar.styledComponents";
 
@@ -19,11 +19,11 @@ const NavBar = ({ connectedUser }) => {
         <Nav>
             <Container>
                 <VerticalNav>
-                    <button class={showColumnNav ? `hamburger hamburger--slider is-active` : `hamburger hamburger--slider`} type="button" onClick={(e) => {
+                    <button className={showColumnNav ? `hamburger hamburger--slider is-active` : `hamburger hamburger--slider`} type="button" onClick={(e) => {
                         setShowColumnNav(!showColumnNav);
                     }}>
-                        <span class="hamburger-box">
-                            <span class="hamburger-inner"></span>
+                        <span className="hamburger-box">
+                            <span className="hamburger-inner"></span>
                         </span>
                     </button>
                     <TitleDiv>

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 import { useHistory } from 'react-router';
-import { register } from "../services/UserServices"
-import NavBar from "./NavBar/NavBar.component";
+import { register } from "../../services/UserServices"
+import NavBar from "../NavBar/NavBar.component";
 import styled from "styled-components";
-import { isUserData, getUserData } from "../services/localStorageManagment";
+import { isUserData, getUserData } from "../../services/localStorageManagment";
 
 const Field = React.forwardRef(({ label, type }, ref) => {
   return (
