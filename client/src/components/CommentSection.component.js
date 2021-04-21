@@ -12,9 +12,8 @@ export const CommentSection = ({ postID, connectedUser, commentCount }) => {
     console.log(postID, connectedUser);
     const { id } = useParams();
     const [commentAdded, setComentAdded] = useState("");
-
     const [pageNumber, setPageNumber] = useState(1);
-    const { comments, hasMore } = useCommentSearch(pageNumber, id);
+    const { comments, hasMore, loading } = useCommentSearch(pageNumber, id);
 
     const onScroll = () => {
         const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
@@ -66,14 +65,17 @@ export const CommentSection = ({ postID, connectedUser, commentCount }) => {
                         <PostCommentButton onClick={submitComment}>Posteaza</PostCommentButton>
                     </CommentInputContainer>
                 </AddComment>}
-            {
-
-                comments?.map((comment, idx) => (
+            {comments.length === 0
+                ?
+                !loading
+                    ?
+                    <center>No comments yet!</center>
+                    : null
+                : comments?.map((comment, idx) => (
                     <Comment key={idx} comment={comment} connectedUser={connectedUser}></Comment>
                 ))
-
-
             }
+            {loading && <center><strong>Loading</strong></center>}
         </Container>
     )
 }

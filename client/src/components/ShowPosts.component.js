@@ -34,7 +34,8 @@ class ShowPosts extends Component {
       type: new URLSearchParams(this.props.location.search).getAll('type'),
       lastPostDate: 'none',
       hasMore: false,
-      pageNumber: 0
+      pageNumber: 0,
+      loading: true
     };
     this.onScroll = this.onScroll.bind(this);
     //console.log(this.props.connectedUser);
@@ -67,21 +68,28 @@ class ShowPosts extends Component {
       }));
       this.updateURL()
     }
-    else if (this.state.pageNumber !== prevState.pageNumber)
-    getNextPostsPage(this.state.sorting,this.state.lastPostDate,this.state.programmingLanguage,this.state.workHours,
-      this.state.workPlace,this.state.type,this.state.createdBy)
+    else if (this.state.pageNumber !== prevState.pageNumber) {
+      this.setState(prevState => ({
+        ...prevState,
+        loading: true
+      }));
+      getNextPostsPage(this.state.sorting, this.state.lastPostDate, this.state.programmingLanguage, this.state.workHours,
+        this.state.workPlace, this.state.type, this.state.createdBy)
         .then(res => {
           this.setState(prevState => ({
             ...prevState,
             posts: [...this.state.posts, ...res.data.posts],
             lastPostDate: res.data.posts.length > 0 ? res.data.lastPostDate : this.state.lastPostDate,
-            hasMore: res.data.posts.length > 0
+            hasMore: res.data.posts.length > 0,
+            loading: false,
+            emptyList: [...this.state.posts, ...res.data.posts].length>0
           }));
         })
         .catch(err => { console.log(err); });
+    }
     if (this.state.workPlace !== prevState.workPlace || this.state.type !== prevState.type || this.state.workHours !== prevState.workHours)
       this.updateURL()
-    
+
   }
 
   updateWorkPlace = e => this.setState({ workPlace: e.target.value });
@@ -98,48 +106,47 @@ class ShowPosts extends Component {
     const posts = this.state.posts;
     let postList;
 
-    if (posts.length === 0) {
-      postList = "there is no post record!";
-    } else {
-      postList = posts.map((post, k) =>
-        <PostCard post={post} key={k} />
-      );
-    }
+    console.log(this.state.emptyList);
+    postList = posts.map((post, k) =>
+      <PostCard post={post} key={k} />
+    );
+
     return (
       <>
         <header>
           <NavBar />
         </header>
-      <main>
-        <Container>
-          <PageTitle>Last posts</PageTitle>
-          <div id="search">
-            <select value={this.state.sorting == null? '' : this.state.sorting.toString()} onChange={this.updateSort}>
-              <option value=''>Choose Sort Type</option>
-              <option value='asc'>Asc</option>
-              <option value='desc'>Desc</option>
-            </select>
-            <select value={this.state.type == null? '' : this.state.type.toString()} onChange={this.updateType}>
-              <option value=''>Choose Post Type</option>
-              <option value='offer'>Offer</option>
-              <option value='request'>Request</option>
-            </select>
-            <select value={this.state.workHours == null? '' : this.state.workHours.toString()} onChange={this.updateWorkHours}>
-              <option value=''>Choose Work Hours</option>
-              <option value='full-time'>Full time</option>
-              <option value='part-time'>Part time</option>
-            </select>
-            <select value={this.state.workPlace == null? '' : this.state.workPlace.toString()} onChange={this.updateWorkPlace}>
-              <option value=''>Choose Work Place</option>
-              <option value='Timisoara'>Timisoara</option>
-              <option value='Bucharest'>Bucharest</option>
-            </select>
-          </div>
-          <Row>
-            {postList}
-          </Row>
-        </Container>
-      </main>
+        <main>
+          <Container>
+            <PageTitle>Last posts</PageTitle>
+            <div id="search">
+              <select value={this.state.sorting == null ? '' : this.state.sorting.toString()} onChange={this.updateSort}>
+                <option value=''>Choose Sort Type</option>
+                <option value='asc'>Asc</option>
+                <option value='desc'>Desc</option>
+              </select>
+              <select value={this.state.type == null ? '' : this.state.type.toString()} onChange={this.updateType}>
+                <option value=''>Choose Post Type</option>
+                <option value='offer'>Offer</option>
+                <option value='request'>Request</option>
+              </select>
+              <select value={this.state.workHours == null ? '' : this.state.workHours.toString()} onChange={this.updateWorkHours}>
+                <option value=''>Choose Work Hours</option>
+                <option value='full-time'>Full time</option>
+                <option value='part-time'>Part time</option>
+              </select>
+              <select value={this.state.workPlace == null ? '' : this.state.workPlace.toString()} onChange={this.updateWorkPlace}>
+                <option value=''>Choose Work Place</option>
+                <option value='Timisoara'>Timisoara</option>
+                <option value='Bucharest'>Bucharest</option>
+              </select>
+            </div>
+            <Row>
+              {!this.state.loading&&postList.length===0?<p>No posts to show</p>:postList}
+              {this.state.loading && <strong>Loading</strong>}
+            </Row>
+          </Container>
+        </main>
       </>
     );
   }

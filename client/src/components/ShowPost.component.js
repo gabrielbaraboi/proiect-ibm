@@ -11,16 +11,20 @@ export const ShowPost = ({ connectedUser }) => {
   const { id } = useParams();
 
   const [postData, setPostData] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const userPost = (user, post) => {
     return (post?.post?.createdBy === user?.id) || (user?.role === 'admin');
   };
-  useEffect(() =>
+  useEffect(() => {
+    setLoading(true);
     getPostDetails(id)
       .then(res => {
         setPostData(res.data);
+        setLoading(false);
       })
       .catch(err => console.log(err))
+  }
     , []);
   const history = useHistory();
   const deleteThisPost = () => {
@@ -39,7 +43,7 @@ export const ShowPost = ({ connectedUser }) => {
           <ImagePlace></ImagePlace>
           <Data>Postat: {postData?.post?.dateCreated?.slice(0, 10)}</Data>
         </TopSection>
-        <Title>{postData?.post?.title}</Title>
+        <Title>{loading?"Loading post right now!":postData?.post?.title}</Title>
         <Company>
           <Link to={`/profile/${postData?.post?.createdBy_id}`}>
             {postData?.post?.creator?.companyName}
@@ -73,7 +77,7 @@ export const ShowPost = ({ connectedUser }) => {
             </About>
           </PostDataRow>
         </PostData>
-        {userPost(connectedUser, postData) &&
+        {!loading&& userPost(connectedUser, postData) &&
           <div>
             <button onClick={deleteThisPost}>Delete Post</button>
           </div>}

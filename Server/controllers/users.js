@@ -104,7 +104,6 @@ export const login = async (req, res) => {
                     if (!isMatch) {
                         return res.status(400).json({ msg: 'The credentials are invalid!' });
                     }
-
                     jwt.sign(
                         {
                             id: user.id,

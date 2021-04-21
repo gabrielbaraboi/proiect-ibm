@@ -21,19 +21,21 @@ export const Comment = ({ comment, connectedUser }) => {
             <CommentDiv>
                 <CommentUserName>{`${comment?.comentator?.firstName ? comment?.comentator?.firstName : comment?.comentator?.companyName} 
                                     ${comment?.comentator?.lastName ? comment?.comentator?.lastName : " "}`}</CommentUserName>
-                {isDeleted?
-                <div>
-                    <strong>
-                        Comment deleted!
+                {isDeleted ?
+                    <div>
+                        <strong>
+                            Comment deleted!
                     </strong>
-                </div>
-                :
-                <CommentText>{`${comment?.comment}`}</CommentText>}
+                    </div>
+                    :
+                    <CommentText>{`${comment?.comment}`}</CommentText>}
             </CommentDiv>
-            {(connectedUser?.id === comment?.createdBy || connectedUser?.role === 'admin') && !isDeleted &&
+            {
+                (connectedUser?.id === comment?.createdBy || connectedUser?.role === 'admin') && !isDeleted &&
                 <div>
                     <button onClick={deleteThisComment}>Delete Comment</button>
-                </div>}
+                </div>
+            }
         </Container>
     )
 }
