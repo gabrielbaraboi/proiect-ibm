@@ -5,7 +5,7 @@ import "./NavBar.css";
 import Icon from '@mdi/react'
 import { mdiMenu, mdiPlusBoxMultiple } from '@mdi/js';
 import { useState, useEffect } from 'react';
-import { Nav, Container, VerticalNav, NavBarMenuButton, TitleDiv, Title, UserProfileMinimizedNavBar, ProfileCard, Other, Vertical, Column, NavBarButton, ColumnNav, OtherColumn } from "./NavBar.styledComponents";
+import { Nav, Container, VerticalNav, TitleDiv, Title, UserProfileMinimizedNavBar, ProfileCard, Other, Vertical, Column, NavBarButton, ColumnNav, OtherColumn } from "./NavBar.styledComponents";
 
 const NavBar = ({ connectedUser }) => {
     const [showColumnNav, setShowColumnNav] = useState(false);
@@ -19,11 +19,13 @@ const NavBar = ({ connectedUser }) => {
         <Nav>
             <Container>
                 <VerticalNav>
-                    <NavBarMenuButton onClick={(e) => {
+                    <button class={showColumnNav ? `hamburger hamburger--slider is-active` : `hamburger hamburger--slider`} type="button" onClick={(e) => {
                         setShowColumnNav(!showColumnNav);
                     }}>
-                        <Icon path={mdiMenu} size={1}></Icon>
-                    </NavBarMenuButton>
+                        <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                        </span>
+                    </button>
                     <TitleDiv>
                         <a href={`/`}>
                             <Title>Proiect IBM</Title>
@@ -45,17 +47,18 @@ const NavBar = ({ connectedUser }) => {
                                 <a href={`/profile/${user?.id}`}>
                                     <ProfileCard></ProfileCard>
                                 </a>
-                                <NavBarButton backgroundColor={`#FF7272`} color={`white`} backgroundColorHover={`#FF3838`} onClick={(e) => {
-                                    e.preventDefault();
-                                    try {
-                                        logout().then(res => console.log(res)).catch(err => console.log(err.message));
-                                        clearUser();
-                                        window.location.reload();
-                                    } catch (error) {
-                                        console.log(error.message);
-                                    }
-                                }}>Deconectare</NavBarButton>
-
+                                <a href={`/`}>
+                                    <NavBarButton backgroundColor={`#FF7272`} color={`white`} backgroundColorHover={`#FF3838`} onClick={(e) => {
+                                        e.preventDefault();
+                                        try {
+                                            logout().then(res => console.log(res)).catch(err => console.log(err.message));
+                                            clearUser();
+                                            window.location.reload();
+                                        } catch (error) {
+                                            console.log(error.message);
+                                        }
+                                    }}>Deconectare</NavBarButton>
+                                </a>
                             </Vertical>
                             :
                             <div>
@@ -64,7 +67,8 @@ const NavBar = ({ connectedUser }) => {
                                 </a>
                                 <a href={`/register`}>
                                     <NavBarButton backgroundColor={`#BAF19C`} backgroundColorHover={`#8DFF4F`}>Inregistrare</NavBarButton>
-                                </a> </div>
+                                </a>
+                            </div>
                         }
 
                     </Other>

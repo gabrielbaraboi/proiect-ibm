@@ -29,17 +29,18 @@ export const VerticalNav = styled.div`
     align-items: center;
     padding: 0 1rem;
     justify-content: space-between;
-    @media (max-width: 1000px) {
+    @media (max-width: 780px) {
         justify-content: space-between;
+        position: relative;
     }
 `;
 
 export const Title = styled.div`
-    font-size:1.5rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: black;
-    @media (max-width: 1000px) {
-        margin: 0 2rem;
+    @media (max-width: 780px) {
+        margin: 0 4rem;
     }
 `;
 
@@ -48,7 +49,8 @@ export const Other = styled.div`
     display: flex;
     font-size: 1rem;
     margin: 1rem;
-    @media (max-width: 1000px) {
+    align-items: center;
+    @media (max-width: 780px) {
         display: none;
     }
 `;
@@ -68,20 +70,6 @@ export const NavBarButton = styled.button`
     }
 `;
 
-export const NavBarMenuButton = styled.button`
-    display: none;
-    background: transparent;
-    border: none;
-    margin: .5rem;
-    :hover{
-        cursor: pointer;
-    }
-    @media (max-width: 1000px) {
-        display: inline-block;
-        position: absolute;
-  }
-`;
-
 export const ColumnNav = styled.div`
 `;
 
@@ -96,7 +84,7 @@ export const OtherColumn = styled.div`
 
 export const TitleDiv = styled.div`
     margin-right: auto;
-    @media (max-width: 1000px) {
+    @media (max-width: 780px) {
         width: 100%;
         text-align: center;
     }  
@@ -116,11 +104,14 @@ export const ProfileCard = styled.div`
 
 export const Vertical = styled.div`
     display: flex;
+    align-items: center;
 `;
 
 export const UserProfileMinimizedNavBar = styled.div`
     display: none;
-    @media (max-width: 1000px) {
+    @media (max-width: 780px) {
         display: inline-block;
+        position: absolute;
+        right: 0;
     }  
 `;
