@@ -8,8 +8,7 @@ import { Container, PageTitle } from "../Global.styledComponents"
 import { Box, Label, Control, Field } from "./Auth.styledComponents"
 import "./Auth.css";
 
-const Form = ({ onSubmit }) => {
-
+const Form = ({ onSubmit, authError }) => {
   const {
     values,
     errors,
@@ -109,6 +108,7 @@ const Form = ({ onSubmit }) => {
                     </Control>
                   </Field>
                   <button type="submit" className="button is-info">Register</button>
+                  <p className="help is-danger">{authError}</p>
                 </>
               }
               {values.role === "company" &&
@@ -150,6 +150,7 @@ const Form = ({ onSubmit }) => {
                     </Control>
                   </Field>
                   <button type="submit" className="button is-info">Register</button>
+                  <p className="help is-danger">{authError}</p>
                 </>
               }
             </form>
@@ -162,15 +163,18 @@ const Form = ({ onSubmit }) => {
 
 
 export default () => {
+  const [authError, setAuthError] = useState(false);
+  const history = useHistory();
+
   const handleSubmit = data => {
     register(data)
       .then(() => {
         history.push("/login");
       })
-      .catch(err => { console.log(err); });
+      .catch(err => {
+        setAuthError(err.response.data.message)
+      });
   };
 
-  const history = useHistory();
-
-  return <Form onSubmit={handleSubmit} />
+  return <Form onSubmit={handleSubmit} authError={authError} />
 }

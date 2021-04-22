@@ -102,7 +102,7 @@ export const login = async (req, res) => {
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
                     if (!isMatch) {
-                        return res.status(400).json({ msg: 'The credentials are invalid!' });
+                        return res.status(400).json({ message: 'The credentials are invalid!' });
                     }
                     jwt.sign(
                         {
