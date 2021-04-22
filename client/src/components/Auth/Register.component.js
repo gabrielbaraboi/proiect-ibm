@@ -9,7 +9,6 @@ import { Box, Label, Control, Field } from "./Auth.styledComponents"
 import "./Auth.css";
 
 const Form = ({ onSubmit }) => {
-  const [role, setRole] = useState('student');
 
   const {
     values,
@@ -18,17 +17,20 @@ const Form = ({ onSubmit }) => {
     handleSubmit,
   } = useForm(sendData, RegisterValidationRules);
 
+  if (values.role === undefined)
+    values.role = 'student'
+
   function sendData() {
     const data = {
       email: values.email,
       password: values.password,
-      role: role,
+      role: values.role,
     };
 
-    if (role === 'company') {
+    if (values.role === 'company') {
       data.companyName = values.companyName
     }
-    if (role === 'student') {
+    if (values.role === 'student') {
       data.firstName = values.firstName
       data.lastName = values.lastName
       data.DoB = values.DoB
@@ -46,11 +48,11 @@ const Form = ({ onSubmit }) => {
           <PageTitle>Register</PageTitle>
           <Box>
             <form onSubmit={handleSubmit}>
-              <input type="radio" className={`input-radio`} value={values.role || 'student'} name="role" id="student" onChange={e => setRole(e.target.value)} checked={role === "student"} />
+              <input type="radio" className={`input-radio`} value={'student'} name="role" id="student" onChange={handleChange} checked={values.role === "student"} />
               <label htmlFor="student">Student</label>
-              <input type="radio" className={`input-radio`} value={values.role || 'company'} name="role" id="company" onChange={e => setRole(e.target.value)} checked={role === "company"} />
+              <input type="radio" className={`input-radio`} value={'company'} name="role" id="company" onChange={handleChange} checked={values.role === "company"} />
               <label htmlFor="company">Company</label>
-              {role === "student" &&
+              {values.role === "student" &&
                 <>
                   <Field>
                     <Label>Email Address</Label>
@@ -109,7 +111,7 @@ const Form = ({ onSubmit }) => {
                   <button type="submit" className="button is-info">Register</button>
                 </>
               }
-              {role === "company" &&
+              {values.role === "company" &&
                 <>
                   <Field>
                     <Label>Email Address</Label>
