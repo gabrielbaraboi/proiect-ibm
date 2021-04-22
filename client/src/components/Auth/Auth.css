@@ -53,6 +53,7 @@
   border-color: #dbdbdb;
   border-radius: 4px;
   color: #363636;
+  width: 250px;
   box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.05);
 }
 
@@ -89,4 +90,12 @@
 
 .help.is-danger {
   color: #f14668;
+}
+
+.input-radio {
+  margin-right: 5px;
+}
+
+#company {
+  margin-left: 15px;
 }

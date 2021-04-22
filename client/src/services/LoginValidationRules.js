@@ -1,4 +1,4 @@
-export default function ValidationRules(values) {
+export default function LoginValidationRules(values) {
   let errors = {};
 
   if (!values.email) {

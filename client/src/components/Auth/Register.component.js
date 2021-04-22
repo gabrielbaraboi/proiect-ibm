@@ -1,87 +1,160 @@
 import React, { useState } from 'react';
-
+import useForm from "../../customHooks/useForm";
+import RegisterValidationRules from "../../services/RegisterValidationRules";
 import { useHistory } from 'react-router';
 import { register } from "../../services/UserServices"
 import NavBar from "../NavBar/NavBar.component";
-import styled from "styled-components";
-import { isUserData, getUserData } from "../../services/localStorageManagment";
-
-const Field = React.forwardRef(({ label, type }, ref) => {
-  return (
-    <div>
-      <label>{label}</label>
-      <input ref={ref} type={type} />
-    </div>
-  );
-});
+import { Container, PageTitle } from "../Global.styledComponents"
+import { Box, Label, Control, Field } from "./Auth.styledComponents"
+import "./Auth.css";
 
 const Form = ({ onSubmit }) => {
-
   const [role, setRole] = useState('student');
 
-  const emailRef = React.useRef();
-  const firstnameRef = React.useRef();
-  const lastnameRef = React.useRef();
-  const companynameRef = React.useRef();
-  const passwordRef = React.useRef();
-  const roleRef = React.useRef();
-  const dobRef = React.useRef();
+  const {
+    values,
+    errors,
+    handleChange,
+    handleSubmit,
+  } = useForm(sendData, RegisterValidationRules);
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  function sendData() {
     const data = {
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-      role: roleRef.current.value,
+      email: values.email,
+      password: values.password,
+      role: role,
     };
-    if (roleRef.current.value === 'company') {
-      data.companyName = companynameRef.current.value
+
+    if (role === 'company') {
+      data.companyName = values.companyName
     }
-    else if (roleRef.current.value === 'student') {
-      data.firstName = firstnameRef.current.value
-      data.lastName = lastnameRef.current.value
-      data.DoB = dobRef.current.value
+    if (role === 'student') {
+      data.firstName = values.firstName
+      data.lastName = values.lastName
+      data.DoB = values.DoB
     }
-    console.log(data)
     onSubmit(data);
   };
 
-
   return (
-    <main>
-      <NavBar></NavBar>
-      <Container>
-        <form onSubmit={handleSubmit} >
-          <label>Choose role:</label>
-          <input type="radio" ref={roleRef} value="student" name="role" id="student" onChange={e => setRole(e.target.value)} checked={role === "student"} />
-          <label htmlFor="student">Student</label>
-          <input type="radio" ref={roleRef} value="company" name="role" id="company" onChange={e => setRole(e.target.value)} checked={role === "company"} />
-          <label htmlFor="company">Company</label>
-          {role === "student" &&
-            <React.Fragment>
-              <Field ref={emailRef} label="Email:" type="text" />
-              <Field ref={firstnameRef} label="First name:" type="text" />
-              <Field ref={lastnameRef} label="Last name:" type="text" />
-              <Field ref={dobRef} label="Date of birth:" type="date" />
-              <Field ref={passwordRef} label="Password:" type="password" />
-              <div>
-                <button type="submit">Submit</button>
-              </div>
-            </React.Fragment>
-          }
-          {role === "company" &&
-            <React.Fragment>
-              <Field ref={emailRef} label="Email:" type="text" />
-              <Field ref={companynameRef} label="Company name:" type="text" />
-              <Field ref={passwordRef} label="Password:" type="password" />
-              <div>
-                <button type="submit">Submit</button>
-              </div>
-            </React.Fragment>
-          }
-        </form>
-      </Container>
-    </main>
+    <>
+      <header>
+        <NavBar />
+      </header>
+      <main>
+        <Container>
+          <PageTitle>Register</PageTitle>
+          <Box>
+            <form onSubmit={handleSubmit}>
+              <input type="radio" className={`input-radio`} value={values.role || 'student'} name="role" id="student" onChange={e => setRole(e.target.value)} checked={role === "student"} />
+              <label htmlFor="student">Student</label>
+              <input type="radio" className={`input-radio`} value={values.role || 'company'} name="role" id="company" onChange={e => setRole(e.target.value)} checked={role === "company"} />
+              <label htmlFor="company">Company</label>
+              {role === "student" &&
+                <>
+                  <Field>
+                    <Label>Email Address</Label>
+                    <Control>
+                      <input autoComplete="off" className={`input ${errors.email && 'is-danger'}`} type="email" name="email" onChange={handleChange} value={values.email || ''} />
+                      {errors.email && (
+                        <p className="help is-danger">{errors.email}</p>
+                      )}
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label>First Name</Label>
+                    <Control>
+                      <input autoComplete="off" className={`input ${errors.firstName && 'is-danger'}`} type="text" name="firstName" onChange={handleChange} value={values.firstName || ''} />
+                      {errors.firstName && (
+                        <p className="help is-danger">{errors.firstName}</p>
+                      )}
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label>Last Name</Label>
+                    <Control>
+                      <input autoComplete="off" className={`input ${errors.lastName && 'is-danger'}`} type="text" name="lastName" onChange={handleChange} value={values.lastName || ''} />
+                      {errors.lastName && (
+                        <p className="help is-danger">{errors.lastName}</p>
+                      )}
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label>Date Of Birth</Label>
+                    <Control>
+                      <input autoComplete="off" className={`input ${errors.DoB && 'is-danger'}`} type="date" name="DoB" onChange={handleChange} value={values.DoB || ''} />
+                      {errors.DoB && (
+                        <p className="help is-danger">{errors.DoB}</p>
+                      )}
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label>Password</Label>
+                    <Control>
+                      <input autoComplete="off" className={`input ${errors.password && 'is-danger'}`} type="password" name="password" onChange={handleChange} value={values.password || ''} />
+                      {errors.password && (
+                        <p className="help is-danger">{errors.password}</p>
+                      )}
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label>Confirm Password</Label>
+                    <Control>
+                      <input autoComplete="off" className={`input ${errors.confirmPassword && 'is-danger'}`} type="password" name="confirmPassword" onChange={handleChange} value={values.confirmPassword || ''} />
+                      {errors.confirmPassword && (
+                        <p className="help is-danger">{errors.confirmPassword}</p>
+                      )}
+                    </Control>
+                  </Field>
+                  <button type="submit" className="button is-info">Register</button>
+                </>
+              }
+              {role === "company" &&
+                <>
+                  <Field>
+                    <Label>Email Address</Label>
+                    <Control>
+                      <input autoComplete="off" className={`input ${errors.email && 'is-danger'}`} type="email" name="email" onChange={handleChange} value={values.email || ''} />
+                      {errors.email && (
+                        <p className="help is-danger">{errors.email}</p>
+                      )}
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label>Company Name</Label>
+                    <Control>
+                      <input autoComplete="off" className={`input ${errors.companyName && 'is-danger'}`} type="text" name="companyName" onChange={handleChange} value={values.companyName || ''} />
+                      {errors.companyName && (
+                        <p className="help is-danger">{errors.companyName}</p>
+                      )}
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label>Password</Label>
+                    <Control>
+                      <input autoComplete="off" className={`input ${errors.password && 'is-danger'}`} type="password" name="password" onChange={handleChange} value={values.password || ''} />
+                      {errors.password && (
+                        <p className="help is-danger">{errors.password}</p>
+                      )}
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label>Confirm Password</Label>
+                    <Control>
+                      <input autoComplete="off" className={`input ${errors.confirmPassword && 'is-danger'}`} type="password" name="confirmPassword" onChange={handleChange} value={values.confirmPassword || ''} />
+                      {errors.confirmPassword && (
+                        <p className="help is-danger">{errors.confirmPassword}</p>
+                      )}
+                    </Control>
+                  </Field>
+                  <button type="submit" className="button is-info">Register</button>
+                </>
+              }
+            </form>
+          </Box>
+        </Container>
+      </main>
+    </>
   );
 };
 
@@ -96,26 +169,6 @@ export default () => {
   };
 
   const history = useHistory();
-  return (
-    <div>
-      <Form onSubmit={handleSubmit} />
-    </div>
-  )
-}
 
-const Container = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  @media (min-width: 576px) {
-    max-width: 540px;
-  }
-  @media (min-width: 768px) {
-    max-width: 720px;
-  }
-  @media (min-width: 992px) {
-    max-width: 960px;
-  }
-  @media (min-width: 1200px) {
-    max-width: 1140px;
-  }
-`;
+  return <Form onSubmit={handleSubmit} />
+}

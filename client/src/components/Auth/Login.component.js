@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import useForm from "../../customHooks/useForm";
-import validate from "../../services/ValidationRules";
+import LoginValidationRules from "../../services/LoginValidationRules";
 import { login } from "../../services/UserServices";
 import NavBar from "../NavBar/NavBar.component"
 import { Container, PageTitle } from "../Global.styledComponents"
@@ -14,7 +14,7 @@ const Form = ({ onSubmit }) => {
     errors,
     handleChange,
     handleSubmit,
-  } = useForm(sendData, validate);
+  } = useForm(sendData, LoginValidationRules);
 
   function sendData() {
     const data = {
@@ -52,7 +52,7 @@ const Form = ({ onSubmit }) => {
                   )}
                 </Control>
               </Field>
-              <button type="submit" className="button is-info is-fullwidth">Login</button>
+              <button type="submit" className="button is-info">Login</button>
             </form>
           </Box>
         </Container>
