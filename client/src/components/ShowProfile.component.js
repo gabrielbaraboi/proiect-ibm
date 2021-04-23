@@ -4,9 +4,25 @@ import axios from "axios";
 import styled from "styled-components";
 import NavBar from "./NavBar/NavBar.component";
 import { Link } from "react-router-dom";
+import EditProfile from "./EditProfile.component";
 
-export const ShowProfile = ( {connectedUser }) => {
+
+
+export const ShowProfile = ( { connectedUser }) => {
+    const [EditMode, setEditMode] = useState(false);
+
+    const toggleEdit = () => {
+      setEditMode(false);
+    }
+
     const { id } = useParams();
+   
+    var logat = false;
+    if(connectedUser) {
+      if(connectedUser.id === id) {
+        logat = true;
+      }
+    }
 
     const [postData, setPostData] = useState({})
     
@@ -17,29 +33,63 @@ export const ShowProfile = ( {connectedUser }) => {
         .catch(err => console.log(err))
       ,[])
     
-    console.log(postData)
-    return(
-      <div>
-    <ShowPostContainer className="App">
-      <NavBar></NavBar>
-      <TopSection>
-        <Line></Line>
-        <ImagePlace></ImagePlace>
+    console.log(connectedUser)
+    if(!logat)
+      return(
+        <div>
+      <ShowPostContainer className="App">
+        <NavBar></NavBar>
+        <TopSection>
+          <Line></Line>
+          <ImagePlace></ImagePlace>
 
-      </TopSection>
-      <Title>{postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}</Title>
-      <Company>{postData?.detalii?.email}</Company>
+        </TopSection>
+        <Title>{postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}</Title>
+        <Company>{postData?.detalii?.email}</Company>
 
-      <Company>
-        <Link to={`/?createdBy=${postData?.detalii?._id}`}>
-          View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
-        </Link>
-      </Company>
-    </ShowPostContainer>
-   
-    </div>
+        <Company>
+          <Link to={`/?createdBy=${postData?.detalii?._id}`}>
+            View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
+          </Link>
+        </Company>
+      </ShowPostContainer>
     
-    )
+      </div>
+      
+      )
+    else {
+      return(
+        <div>
+          {EditMode ? ( 
+              <div> 
+                <EditProfile toggleEdit={toggleEdit} connectedUser = {connectedUser}></EditProfile>
+              </div>
+            ) : (
+              <div>
+                  <ShowPostContainer className="App">
+                    <NavBar></NavBar>
+                    <TopSection>
+                      <Line></Line>
+                      <ImagePlace></ImagePlace>
+
+                    </TopSection>
+                    <Title>{postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}</Title>
+                    <Company>{postData?.detalii?.email}</Company>
+
+                    <Company>
+                      <Link to={`/?createdBy=${postData?.detalii?._id}`}>
+                        View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
+                      </Link>
+                    </Company>
+
+                    <button onClick={()=>setEditMode(true)}>Edit</button>
+                  </ShowPostContainer>
+              </div>
+            )
+          }
+        </div>
+      )
+    }
 }
 
 const ShowPostContainer = styled.div`
