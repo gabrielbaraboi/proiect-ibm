@@ -30,3 +30,15 @@ export const logout = async () => {
         throw err;
     }
 };
+
+
+export const updateProfile = async (userData, id) => {
+    try {
+        const res = await axios
+            .put(`http://localhost:9000/profile/updateProfile/${id}`, userData, { withCredentials: true });
+        return res;
+    } catch (err) {
+        throw err;
+    }
+};
+
