@@ -5,6 +5,6 @@ import csrfProtection from '../middleware/csrfProtection.js'
 const router = express.Router();
 
 router.get("/:id", getDetails);
-router.put("/updateProfile/:id", auth, csrfProtection, updateProfile);
+router.put("/updateProfile/:id", auth, updateProfile);
 
 export default router;
