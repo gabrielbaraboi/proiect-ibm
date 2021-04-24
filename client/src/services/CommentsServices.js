@@ -34,3 +34,12 @@ export const deleteComment = async (commentID) => {
         throw error;
     }
 };
+
+export const updateComment = async (commentID,updatedComment) =>{
+    try {
+        const res = await axios.put(`http://localhost:9000/posts/comment/${commentID}`, {comment : updatedComment},{ withCredentials: true });
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};

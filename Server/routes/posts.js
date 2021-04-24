@@ -1,5 +1,5 @@
 import express from 'express';
-import { getPosts, postDetails, postComments, createPost, createComment, deletePost, deleteComment } from '../controllers/posts.js';
+import { getPosts, postDetails, postComments, createPost, createComment, deletePost, deleteComment,updateComment } from '../controllers/posts.js';
 import { auth } from '../middleware/auth.js';
 import csrfProtection from '../middleware/csrfProtection.js';
 const router = express.Router();
@@ -11,5 +11,6 @@ router.post('/createPost', auth, csrfProtection, createPost);
 router.post('/:id', auth, csrfProtection, createComment)
 router.delete('/:id', auth, csrfProtection, deletePost);
 router.delete('/comment/:id', auth, csrfProtection, deleteComment);
+router.put('/comment/:id', auth,csrfProtection, updateComment);
 
 export default router;

@@ -80,8 +80,7 @@ class ShowPosts extends Component {
             posts: [...this.state.posts, ...res.data.posts],
             lastPostDate: res.data.posts.length > 0 ? res.data.lastPostDate : this.state.lastPostDate,
             hasMore: res.data.posts.length > 0,
-            loading: false,
-            emptyList: [...this.state.posts, ...res.data.posts].length>0
+            loading: false
           }));
         })
         .catch(err => { console.log(err); });
@@ -105,7 +104,6 @@ class ShowPosts extends Component {
     const posts = this.state.posts;
     let postList;
 
-    console.log(this.state.emptyList);
     postList = posts.map((post, k) =>
       <PostCard post={post} key={k} />
     );
