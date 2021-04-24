@@ -97,7 +97,7 @@ class ShowPosts extends Component {
   updateURL = () => {
     const url = setParams({ workPlace: this.state.workPlace, sort: this.state.sorting, workHours: this.state.workHours, type: this.state.type, createdBy: this.state.createdBy });
     this.props.history.push(`?${url}`);
-    window.location.reload(false);
+    window.location.reload();
   };
 
   render() {

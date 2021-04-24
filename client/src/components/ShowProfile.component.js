@@ -5,12 +5,13 @@ import styled from "styled-components";
 import NavBar from "./NavBar/NavBar.component";
 import { Link } from "react-router-dom";
 import EditProfile from "./EditProfile.component";
-import { deleteUser } from "../services/UserServices";
-
+import { deleteUser, logout } from "../services/UserServices";
+import { clearUser } from "../services/localStorageManagment";
 
 
 export const ShowProfile = ({ connectedUser }) => {
   const [EditMode, setEditMode] = useState(false);
+  const [UserExists, setUserExists] = useState(true);
 
   const toggleEdit = () => {
     setEditMode(false);
@@ -24,9 +25,12 @@ export const ShowProfile = ({ connectedUser }) => {
       logat = true;
     }
   }
+
   const history = useHistory();
   const deleteThisUser = () => {
     deleteUser(id).then(res => console.log(res)).catch(err => console.log(err));
+    logout().then(res => console.log(res)).catch(err => console.log(err.message));
+    clearUser();
     history.push('/');
   };
 
@@ -37,10 +41,14 @@ export const ShowProfile = ({ connectedUser }) => {
       .then(res => {
         setPostData(res.data);
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err.message);
+        setUserExists(false)
+      })
     , [])
 
-  console.log(connectedUser)
+    console.log(UserExists);
+
   if (!logat)
     return (
       <div>
