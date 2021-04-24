@@ -36,15 +36,15 @@ export const getPosts = async (req, res) => {
                     as: 'creator'
                 }
             },
-            { $unwind: '$creator' },
+            { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
             { $project: { "createdBy_id": 0, "creator.password": 0, "creator.email": 0, "creator._id": 0 } }
         ]).toArray();
         //Last loaded post date console.log(posts[pageSize-1].dateCreated); 
         const hasPosts = posts.length > 0;
-        res.status(200).json({ posts, lastPostDate: hasPosts ? posts[posts.length - 1].dateCreated : 'same' });
+        return res.status(200).json({ posts, lastPostDate: hasPosts ? posts[posts.length - 1].dateCreated : 'same' });
 
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        return res.status(404).json({ message: error.message });
     }
 }
 
@@ -63,16 +63,16 @@ export const postDetails = async (req, res) => {
                     as: 'creator'
                 }
             },
-            { $unwind: '$creator' },
+            { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
             { $project: { "creator.password": 0, "creator.email": 0, "creator._id": 0 } }
         ]).next();
 
         const commentCount = await Comment.countDocuments({ postID: req.params.id });
         res.header("Content-Type", 'application/json');
-        res.status(200).json({ post, commentCount })
+        return res.status(200).json({ post, commentCount })
 
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        return res.status(404).json({ message: error.message });
     }
 }
 export const postComments = async (req, res) => {
@@ -95,35 +95,35 @@ export const postComments = async (req, res) => {
                     as: 'comentator'
                 }
             },
-            { $unwind: '$comentator' },
+            { $unwind: { path: "$comentator", preserveNullAndEmptyArrays: true } },
             { $project: { "comentator.password": 0, "comentator.email": 0, "comentator._id": 0 } }
         ]).toArray();
         const hasComments = comments.length > 0;
-        res.status(200).json({ comments, lastCommentDate: hasComments ? comments[comments.length - 1].datePosted : 'same' });
+        return res.status(200).json({ comments, lastCommentDate: hasComments ? comments[comments.length - 1].datePosted : 'same' });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        return res.status(404).json({ message: error.message });
     }
 }
 export const createPost = async (req, res) => {
 
     const post = {
-        description: req.body.description,
-        title: req.body.title,
-        programmingLanguage: req.body.programmingLanguage,
-        workHours: req.body.workHours,
-        workPlace: req.body.workPlace,
-        requirements: req.body.requirements
+        description: req.body?.description,
+        title: req.body?.title,
+        programmingLanguage: req.body?.programmingLanguage,
+        workHours: req.body?.workHours,
+        workPlace: req.body?.workPlace,
+        requirements: req.body?.requirements
     };
     post['createdBy'] = req.user.id;
     post['type'] = req.user.role === 'student' ? 'request' : 'offer';
     const newPost = new Post(post);
-    try {
-        await newPost.save();
-        res.status(201).json(newPost);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
-    }
-
+    await newPost.save()
+        .then(() => {
+            return res.status(201).json(newPost);
+        })
+        .catch((error) => {
+            return res.status(404).json({ message: error.message });
+        });
 }
 export const createComment = async (req, res) => {
     const comment = {
@@ -132,59 +132,43 @@ export const createComment = async (req, res) => {
     comment['postID'] = req.params.id;
     comment['createdBy'] = req.user.id;
     const newComment = new Comment(comment);
-    try {
-        await newComment.save();
-        res.status(201).json(newComment);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
-    }
+    await newComment.save()
+        .then(() => {
+            return res.status(201).json(newComment);
+        })
+        .catch((error) => {
+            return res.status(404).json({ message: error.message });
+        });
 }
-
 export const deletePost = async (req, res) => {
-    const postID = req.params.id;
-    try {
-        const post = await Post.findById(postID).exec();
-        if (post.createdBy !== req.user.id && req.user.role !== 'admin')
-            return res.status(403).json({ message: "Post doesn't belong to user!" });
-        await Post.findByIdAndDelete(postID).exec();
-        await Comment.deleteMany({ postID: postID });
-        res.status(200).json({ message: `Successfully deleted post with id ${postID} and associated comments.` });
-    }
-    catch (error) {
-        res.status(404).json({ message: error.message });
-    }
+    const post = req.post;
+    await post.deleteOne()
+        .catch(err => { return res.status(404).json({ message: err.message }); });
+    await Comment.deleteMany({ postID: post._id })
+        .catch(err => { return res.status(404).json({ message: err.message }); });
+    return res.status(200).json({ message: `Successfully deleted post with id ${post._id} and associated comments.` });
 }
 export const deleteComment = async (req, res) => {
-    const commentID = req.params.id;
-    try {
-        const comment = await Comment.findById(commentID);
-        if (comment.createdBy !== req.user.id && req.user.role !== 'admin')
-            return res.status(403).json({ message: "Comment doesn't belong to user!" });
-        await Comment.findByIdAndDelete(commentID);
-        res.status(200).json({ message: `Successfully deleted comment with commentID = ${commentID}` });
-    } catch (err) {
-        res.status(404).json({ message: error.message });
-    }
+    await req.comment.deleteOne()
+        .then(() => {
+            return res.status(200).json({ message: `Successfully deleted comment with id ${req.comment._id}` })
+        })
+        .catch(err => {
+            return res.status(404).json({ message: err.message });
+        });
 };
 export const updateComment = async (req, res) => {
-    const commentID = req.params.id;
-    const updatedComment  = req.body?.comment;
-    if(!updatedComment)
-    res.status(404).json({ message: "We didn't recieve a comment!"});
-    await Comment.findById(commentID)
-        .then(async (comment) => {
-            if (comment.createdBy !== req.user.id && req.user.role !== 'admin')
-                return res.status(403).json({ message: "Comment doesn't belong to user!" });
-            if(!updatedComment)
-                return res.status(404).json({message : "Can't update comment to be empty!"});
-            comment.comment=updatedComment;
-            await comment.save()
-                    .then(()=>{
-                        return res.status(200).json({message:`Successfully updated comment with id ${comment.id}`});
-                    })
-                    .catch(err=>{throw err;})
+    const comment = req.comment;
+    const updatedComment = req.body?.comment;
+    if (!updatedComment)
+        return res.status(404).json({ message: "We didn't recieve a comment!" });
+    if (updateComment === req.comment.comment)
+        return res.status(404).json({ message: "We didn't recieve a modified comment!" });
+    comment.comment = updatedComment;
+    await comment.save()
+        .then(() => {
+            return res.status(200).json({ message: `Successfully updated comment with id ${comment.id}` });
         })
-        .catch(error => {
-            res.status(404).json({ message: error.message });
-        });
+        .catch(err => { return res.status(404).json({ message: err.message }); });
+
 };

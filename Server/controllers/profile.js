@@ -5,18 +5,15 @@ import UserModel from "../models/UserModel.js";
 
 export const getDetails = async (req, res) => {
   UserModel.find({ _id: req.params.id }, (err, detalii) => {
-    if (err) res.status(404).json({ message: error.message });
-
+    if (err) return res.status(404).json({ message: error.message });
     res.header("Content-Type", 'application/json');
-    res.status(200).json({ detalii: detalii[0] })
+    return res.status(200).json({ detalii: detalii[0] })
   });
-}
+};
 
 
 export const updateProfile = async (req, res) => {
   const { firstName, lastName, companyName } = req.body;
-  if (req.params.id !== req.user.id && req.user.role !== 'admin')
-    return res.status(403).json({ message: "This is not your profile!" });
   UserModel.findOne({ _id: req.params.id }, (err, doc) => {
     if (err) {
       console.log(err);
@@ -26,10 +23,18 @@ export const updateProfile = async (req, res) => {
     if (companyName) doc.companyName = companyName;
     doc.save((err, doc) => {
       if (err) {
-        res.status(404).json({ message: error.message });
+        return res.status(404).json({ message: error.message });
       }
       // console.log(doc);
-      res.status(200).json(doc);
+      return res.status(200).json(doc);
     });
   });
-}
+};
+
+export const deleteUser = async (req, res) => {
+  UserModel.findByIdAndDelete(req.params.id)
+    .then(() => {
+      return res.status(200).json({ message: `Successfully deleted account with id : ${req.params.id}` });
+    })
+    .catch((err) => { return res.status(404).json({ message: err.message }) });
+};

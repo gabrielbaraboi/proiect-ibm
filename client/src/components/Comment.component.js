@@ -20,9 +20,9 @@ export const Comment = ({ comment, connectedUser }) => {
         setEditing(true);
     }
     const saveEdit = () => {
-        if(!updatedCommentValue)
+        if (!updatedCommentValue)
             return console.log('Nu putem avea coment gol!');
-        if(updatedCommentValue===comment?.comment)
+        if (updatedCommentValue === comment?.comment)
             return console.log('Nu s-a facut nici o schimbare');
         updateComment(comment._id, updatedCommentValue)
             .then(res => {
@@ -39,12 +39,15 @@ export const Comment = ({ comment, connectedUser }) => {
     return (
         <Container>
             <ImageDiv>
-                <UserInitial>{`${comment?.comentator?.firstName?.charAt(0) ? comment?.comentator?.firstName?.charAt(0) : comment?.comentator?.companyName?.charAt(0)}`}</UserInitial>
+                <UserInitial>{comment.commentator ? 
+                `${comment?.comentator?.firstName?.charAt(0) ? comment?.comentator?.firstName?.charAt(0) : comment?.comentator?.companyName?.charAt(0)}`
+                :null}
+                </UserInitial>
             </ImageDiv>
             <CommentDiv>
-                <CommentUserName>{`${comment?.comentator?.firstName ? comment?.comentator?.firstName : comment?.comentator?.companyName} 
-                                    ${comment?.comentator?.lastName ? comment?.comentator?.lastName : " "}`}</CommentUserName>
-                {comment?.datePosted<comment?.updatedAt&&<i>Edited comment</i>}
+                <CommentUserName>{comment.commentator ? `${comment?.comentator?.firstName ? comment?.comentator?.firstName : comment?.comentator?.companyName} 
+                                    ${comment?.comentator?.lastName ? comment?.comentator?.lastName : " "}` : <strong>Deleted User</strong>}</CommentUserName>
+                {comment?.datePosted < comment?.updatedAt && <i>Edited comment</i>}
                 {editing ?
                     <textarea
                         type="text"
