@@ -4,10 +4,12 @@ import UserModel from "../models/UserModel.js";
 
 
 export const getDetails = async (req, res) => {
-  UserModel.find({ _id: req.params.id }, (err, detalii) => {
-    if (err) return res.status(404).json({ message: err.message });
+  UserModel.findById(req.params.id).then(detalii => {
+    if (!detalii) return res.status(404).json({ message: 'User not found!' });
     res.header("Content-Type", 'application/json');
-    return res.status(200).json({ detalii: detalii[0] })
+    return res.status(200).json({ detalii })
+  }).catch(err => {
+    return res.status(404).json({ message: err.message });
   });
 };
 

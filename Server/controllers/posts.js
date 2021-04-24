@@ -66,7 +66,8 @@ export const postDetails = async (req, res) => {
             { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
             { $project: { "creator.password": 0, "creator.email": 0, "creator._id": 0 } }
         ]).next();
-
+        if(!post)
+        return res.status(404).json({message:'Post not found!'});
         const commentCount = await Comment.countDocuments({ postID: req.params.id });
         res.header("Content-Type", 'application/json');
         return res.status(200).json({ post, commentCount })
