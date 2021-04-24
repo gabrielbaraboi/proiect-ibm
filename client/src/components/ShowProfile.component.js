@@ -13,13 +13,24 @@ export const ShowProfile = ({ connectedUser }) => {
   const [EditMode, setEditMode] = useState(false);
   const [UserExists, setUserExists] = useState(true);
 
+  useEffect(() =>
+  axios.get(`http://localhost:9000/profile/${id}`)
+    .then(res => {
+      setPostData(res.data);
+    })
+    .catch(err => {
+      console.log(err.message);
+      setUserExists(false)
+    })
+  , [])
+
   const toggleEdit = () => {
     setEditMode(false);
   }
 
   const { id } = useParams();
 
-  var logat = false;
+  let logat = false;
   if (connectedUser) {
     if (connectedUser.id === id || connectedUser.role === 'admin') {
       logat = true;
@@ -36,76 +47,66 @@ export const ShowProfile = ({ connectedUser }) => {
 
   const [postData, setPostData] = useState({})
 
-  useEffect(() =>
-    axios.get(`http://localhost:9000/profile/${id}`)
-      .then(res => {
-        setPostData(res.data);
-      })
-      .catch(err => {
-        console.log(err.message);
-        setUserExists(false)
-      })
-    , [])
+  console.log(UserExists);
+  // if (!UserExists)
+  //   history.push("/")
 
-    console.log(UserExists);
+  return (
+    <>
+      {!logat ? (
+        <div>
+          <ShowPostContainer className="App">
+            <NavBar></NavBar>
+            <TopSection>
+              <Line></Line>
+              <ImagePlace></ImagePlace>
 
-  if (!logat)
-    return (
-      <div>
-        <ShowPostContainer className="App">
-          <NavBar></NavBar>
-          <TopSection>
-            <Line></Line>
-            <ImagePlace></ImagePlace>
+            </TopSection>
+            <Title>{postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}</Title>
+            <Company>{postData?.detalii?.email}</Company>
 
-          </TopSection>
-          <Title>{postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}</Title>
-          <Company>{postData?.detalii?.email}</Company>
+            <Company>
+              <Link to={`/?createdBy=${postData?.detalii?._id}`}>
+                View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
+              </Link>
+            </Company>
+          </ShowPostContainer>
+        </div>
+      ) : (
+        <div>
+          {EditMode ? (
+            <div>
+              <EditProfile toggleEdit={toggleEdit} connectedUser={connectedUser}></EditProfile>
+            </div>
+          ) : (
+            <div>
+              <ShowPostContainer className="App">
+                <NavBar></NavBar>
+                <TopSection>
+                  <Line></Line>
+                  <ImagePlace></ImagePlace>
 
-          <Company>
-            <Link to={`/?createdBy=${postData?.detalii?._id}`}>
-              View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
-            </Link>
-          </Company>
-        </ShowPostContainer>
+                </TopSection>
+                <Title>{postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}</Title>
+                <Company>{postData?.detalii?.email}</Company>
 
-      </div>
+                <Company>
+                  <Link to={`/?createdBy=${postData?.detalii?._id}`}>
+                    View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
+                  </Link>
+                </Company>
 
-    )
-  else {
-    return (
-      <div>
-        {EditMode ? (
-          <div>
-            <EditProfile toggleEdit={toggleEdit} connectedUser={connectedUser}></EditProfile>
-          </div>
-        ) : (
-          <div>
-            <ShowPostContainer className="App">
-              <NavBar></NavBar>
-              <TopSection>
-                <Line></Line>
-                <ImagePlace></ImagePlace>
-
-              </TopSection>
-              <Title>{postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}</Title>
-              <Company>{postData?.detalii?.email}</Company>
-
-              <Company>
-                <Link to={`/?createdBy=${postData?.detalii?._id}`}>
-                  View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
-                </Link>
-              </Company>
-
-              <button onClick={() => setEditMode(true)}>Edit</button>
-              <button onClick={() => deleteThisUser()}>Delete User</button>
-            </ShowPostContainer>
-          </div>
-        )
-        }
-      </div>
-    )
-  }
+                <button onClick={() => setEditMode(true)}>Edit</button>
+                <button onClick={() => deleteThisUser()}>Delete User</button>
+              </ShowPostContainer>
+            </div>
+          )
+          }
+        </div>
+      )
+      }
+    </>
+  )
 }
 
 const ShowPostContainer = styled.div`
