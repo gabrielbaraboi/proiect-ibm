@@ -1,10 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { deleteComment } from "../services/CommentsServices";
+import { deleteComment, updateComment } from "../services/CommentsServices";
 
 export const Comment = ({ comment, connectedUser }) => {
 
     const [isDeleted, setIsDeleted] = useState(false);
+    const [editing, setEditing] = useState(false);
+    const [updatedCommentValue, setUpdatedCommentValue] = useState(comment?.comment);
     const deleteThisComment = () => {
         deleteComment(comment._id)
             .then(res => {
@@ -13,28 +15,68 @@ export const Comment = ({ comment, connectedUser }) => {
             })
             .catch(err => console.log(err));
     };
+    const startEditing = () => {
+        setUpdatedCommentValue(comment?.comment);
+        setEditing(true);
+    }
+    const saveEdit = () => {
+        if (!updatedCommentValue)
+            return console.log('Nu putem avea coment gol!');
+        if (updatedCommentValue === comment?.comment)
+            return console.log('Nu s-a facut nici o schimbare');
+        updateComment(comment._id, updatedCommentValue)
+            .then(res => {
+                console.log(res);
+
+            })
+            .catch(err => console.log(err));
+
+        comment.comment = updatedCommentValue;
+        setEditing(false);
+
+    }
+
     return (
         <Container>
             <ImageDiv>
-                <UserInitial>{`${comment?.comentator?.firstName?.charAt(0) ? comment?.comentator?.firstName?.charAt(0) : comment?.comentator?.companyName?.charAt(0)}`}</UserInitial>
+                <UserInitial>{comment.commentator ? 
+                `${comment?.comentator?.firstName?.charAt(0) ? comment?.comentator?.firstName?.charAt(0) : comment?.comentator?.companyName?.charAt(0)}`
+                :null}
+                </UserInitial>
             </ImageDiv>
             <CommentDiv>
-                <CommentUserName>{`${comment?.comentator?.firstName ? comment?.comentator?.firstName : comment?.comentator?.companyName} 
-                                    ${comment?.comentator?.lastName ? comment?.comentator?.lastName : " "}`}</CommentUserName>
-                {isDeleted ?
-                    <div>
-                        <strong>
-                            Comment deleted!
-                    </strong>
-                    </div>
+                <CommentUserName>{comment.commentator ? `${comment?.comentator?.firstName ? comment?.comentator?.firstName : comment?.comentator?.companyName} 
+                                    ${comment?.comentator?.lastName ? comment?.comentator?.lastName : " "}` : <strong>Deleted User</strong>}</CommentUserName>
+                {comment?.datePosted < comment?.updatedAt && <i>Edited comment</i>}
+                {editing ?
+                    <textarea
+                        type="text"
+                        value={updatedCommentValue}
+                        onChange={(e) => setUpdatedCommentValue(e.target.value)}>
+                    </textarea>
                     :
-                    <CommentText>{`${comment?.comment}`}</CommentText>}
+                    isDeleted ?
+                        <div>
+                            <strong>
+                                Comment deleted!
+                    </strong>
+                        </div>
+                        :
+                        <CommentText>{`${comment?.comment}`}</CommentText>}
             </CommentDiv>
             {
                 (connectedUser?.id === comment?.createdBy || connectedUser?.role === 'admin') && !isDeleted &&
-                <div>
-                    <button onClick={deleteThisComment}>Delete Comment</button>
-                </div>
+                (editing ?
+                    <div>
+                        <button onClick={() => setEditing(false)}>Cancel</button>
+                        <button onClick={() => saveEdit()}>Save edit</button>
+                    </div>
+                    :
+                    <div>
+                        <button onClick={deleteThisComment}>Delete Comment</button>
+                        <button onClick={() => startEditing()}>Edit Comment</button>
+                    </div>
+                )
             }
         </Container>
     )

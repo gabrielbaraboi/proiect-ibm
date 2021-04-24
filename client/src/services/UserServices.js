@@ -42,3 +42,13 @@ export const updateProfile = async (userData, id) => {
     }
 };
 
+export const deleteUser = async (id) => {
+    try {
+        const res = await axios
+            .delete(`http://localhost:9000/profile/${id}`, { withCredentials: true });
+        return res;
+    } catch (err) {
+        throw err;
+    }
+};
+
