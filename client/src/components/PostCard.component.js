@@ -19,9 +19,11 @@ const PostCard = ({ theRef, post }) => {
           </Link>
         </PostTitle>
         <PostCreator>
-          <Link to={`/profile/${post.createdBy}`}>
-            by {!post.creator?'Deleted User':post.creator.companyName ? post.creator.companyName : post.creator.firstName + ' ' + post.creator.lastName}
-          </Link>
+          { !post.creator ? 'by Deleted User' :
+            <Link to={`/profile/${post.createdBy}`}>
+              by {post.creator.companyName ? post.creator.companyName : post.creator.firstName + ' ' + post.creator.lastName}
+            </Link>
+          }
           <br></br>
           {post.dateCreated.slice(0, 10) + ' ' + hour + ':' + min}
         </PostCreator>
