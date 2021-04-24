@@ -47,9 +47,8 @@ export const ShowProfile = ({ connectedUser }) => {
 
   const [postData, setPostData] = useState({})
 
-  console.log(UserExists);
-  // if (!UserExists)
-  //   history.push("/")
+  if (!UserExists)
+    history.push("/")
 
   return (
     <>
