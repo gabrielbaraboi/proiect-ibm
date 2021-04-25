@@ -29,14 +29,15 @@ export const ImagePlace = styled.div`
 `;
 export const AboutMe = styled.div`
   float: left;
+  overflow: hidden;
   position: relative;
   width: 700px;
   height: 250px;
   border-radius: 25px;
   margin-left: 25px;
   margin-top: 25px;
-  padding: 70px 0.1;
-  text-align: left;
+  padding: 10px;
+  text-align: justify;
   @media (max-width: 1400px){
     width: 570px;
   }
@@ -63,7 +64,7 @@ export const AboutMeSmall  = styled.div`
   border-width:0.5px;
   border-style: solid;
   border-color:#d7d9d7;
-  text-align: left;
+  text-align: justify;
   display: none;
   @media (max-width: 1400px){
     width: 940px;
@@ -103,23 +104,30 @@ export const InformatiiGenerale  = styled.div`
 `;
 
 export const Continut = styled.div`
-display: inline-block;
-text-align: left;
-font-size: 27px;
-margin-left: 25px;
-width: 1100px;
+  display: inline-block;
+  text-align: left;
+  font-size: 27px;
+  margin-left: 25px;
+  width: 1100px;
 
-@media (max-width: 1400px){
-  width: 940px;
-}
-@media (max-width: 1000px){
-  width: 700px;
-}
-@media (max-width: 750px){
-  width: 250px;
-  text-align: center;
-  margin-left: 0px;
+  @media (max-width: 1400px){
+    width: 940px;
   }
-  
-`;
+  @media (max-width: 1000px){
+    width: 700px;
+  }
+  @media (max-width: 750px){
+    width: 250px;
+    text-align: center;
+    margin-left: 0px;
+    }
+    
+  `;
 
+export const DescriptionField = styled.textarea`
+  display: block;
+  font-size: 17px;
+  height: 85%;
+  resize: none;
+  width: 100%;
+`

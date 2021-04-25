@@ -7,7 +7,6 @@ import ShowProfileToGuest from "./Views/GuestView";
 import ShowProfileToOwner from "./Views/OwnerView";
 
 
-
 export const ShowProfile = ({ connectedUser }) => {
   const [UserExists, setUserExists] = useState(true);
 
@@ -51,7 +50,8 @@ export const ShowProfile = ({ connectedUser }) => {
 
   return (!logat ? ( !admin ? (<><ShowProfileToGuest postData = {postData}></ShowProfileToGuest></>) 
                             : (<><ShowProfileToGuest admin = {admin} postData = {postData} deleteThisUser = {deleteThisUser}></ShowProfileToGuest></>)) 
-                 : (<><ShowProfileToOwner postData = {postData} deleteThisUser = {deleteThisUser} ></ShowProfileToOwner></>))
+                 : (<><ShowProfileToOwner postData = {postData} deleteThisUser = {deleteThisUser} ></ShowProfileToOwner></>)
+                 )
  
 }
 
