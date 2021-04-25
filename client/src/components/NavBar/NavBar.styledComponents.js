@@ -100,6 +100,7 @@ export const ProfileCard = styled.div`
     height: 50px;
     border-radius: 100%;
     background-color: grey;
+    margin: 0 1rem;
 `;
 
 export const Vertical = styled.div`

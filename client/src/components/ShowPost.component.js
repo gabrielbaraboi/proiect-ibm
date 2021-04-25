@@ -103,7 +103,7 @@ const Line = styled.div`
   top: 50%;
   width: 100%;
   background-color: black;
-  height: 0.5px;
+  height: 1px;
 `;
 
 const ImagePlace = styled.div`
