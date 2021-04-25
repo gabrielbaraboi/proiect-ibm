@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import EditProfile from "./EditProfile.component";
 import { deleteUser, logout } from "../services/UserServices";
 import { clearUser } from "../services/localStorageManagment";
-
+import Moment from "moment";
 
 export const ShowProfile = ({ connectedUser }) => {
   const [EditMode, setEditMode] = useState(false);
@@ -31,9 +31,13 @@ export const ShowProfile = ({ connectedUser }) => {
   const { id } = useParams();
 
   let logat = false;
+  let admin = false;
   if (connectedUser) {
-    if (connectedUser.id === id || connectedUser.role === 'admin') {
+    if (connectedUser.id === id) {
       logat = true;
+    }
+    if(connectedUser.role === 'admin') {
+      admin = true;
     }
   }
 
@@ -51,172 +55,227 @@ export const ShowProfile = ({ connectedUser }) => {
   // if (!UserExists)
   //   history.push("/")
 
-  return (
-    <>
-      {!logat ? (
-        <div>
-          <ShowPostContainer className="App">
-            <NavBar></NavBar>
-            <TopSection>
-              <Line></Line>
-              <ImagePlace></ImagePlace>
+return(
+  <>
+  {!logat ? (<>
+    <ShowPostContainer className="App">
+    <NavBar></NavBar>
 
-            </TopSection>
-            <Title>{postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}</Title>
-            <Company>{postData?.detalii?.email}</Company>
+      <InformatiiGenerale>
+        <ImagePlace> </ImagePlace>
+        <AboutMe> 
+        
+          {postData?.detalii?.description}
 
-            <Company>
-              <Link to={`/?createdBy=${postData?.detalii?._id}`}>
-                View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
-              </Link>
-            </Company>
-          </ShowPostContainer>
-        </div>
-      ) : (
-        <div>
-          {EditMode ? (
-            <div>
-              <EditProfile toggleEdit={toggleEdit} connectedUser={connectedUser}></EditProfile>
-            </div>
-          ) : (
-            <div>
-              <ShowPostContainer className="App">
-                <NavBar></NavBar>
-                <TopSection>
-                  <Line></Line>
-                  <ImagePlace></ImagePlace>
+        </AboutMe>
+              <div>
+                <Continut>
+                  {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName} <br></br>
+                  {admin ? (<><button onClick={() => deleteThisUser()}>Delete User</button></>) : (<></>) }
+               
+               </Continut>
+                
+              </div>
+          
+        
+       
+      </InformatiiGenerale>
+      
+      <InformatiiGenerale>
+           {postData?.detalii?.email} 
+      </InformatiiGenerale>
 
-                </TopSection>
-                <Title>{postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}</Title>
-                <Company>{postData?.detalii?.email}</Company>
-
-                <Company>
-                  <Link to={`/?createdBy=${postData?.detalii?._id}`}>
-                    View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
-                  </Link>
-                </Company>
-
-                <button onClick={() => setEditMode(true)}>Edit</button>
-                <button onClick={() => deleteThisUser()}>Delete User</button>
-              </ShowPostContainer>
-            </div>
-          )
+      <AboutMeSmall>
+      {postData?.detalii?.description ? ("About me: " +  postData?.detalii?.description) : 
+                  "Add an about me section."
           }
-        </div>
-      )
-      }
+      </AboutMeSmall>
+      
+      <InformatiiGenerale>
+           <Link to={`/?createdBy=${postData?.detalii?._id}`}>
+                View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
+            </Link>
+      </InformatiiGenerale>
+    </ShowPostContainer>)
+  
+  </>) : (
+  
+  <ShowPostContainer className="App">
+    <NavBar></NavBar>
+
+      <InformatiiGenerale>
+        <ImagePlace> </ImagePlace>
+        <AboutMe> 
+        
+          {postData?.detalii?.description ? ("About me: " +  postData?.detalii?.description) : 
+                  <div>
+                      Add an about me section.<br/>  
+                  </div>
+          }
+
+        </AboutMe>
+
+        {EditMode ? ( 
+              <EditProfile toggleEdit={toggleEdit} connectedUser = {postData}></EditProfile>
+          ) : (
+              <div>
+                <Continut>
+                  {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName} <br></br>
+                  <button onClick={() => setEditMode(true)}>Edit</button>
+                  <button onClick={() => deleteThisUser()}>Delete your account</button>
+               </Continut>
+                
+              </div>
+          )
+        }
+       
+      </InformatiiGenerale>
+      
+      <InformatiiGenerale>
+           {postData?.detalii?.email} <br/>
+           {postData?.detalii?.DoB ? Moment(postData?.detalii?.DoB).format('DD-MM-YYYY') : (<></>)} 
+      </InformatiiGenerale>
+
+      <AboutMeSmall>
+      {postData?.detalii?.description ? ("About me: " +  postData?.detalii?.description) : 
+                  "Add an about me section."
+          }
+      </AboutMeSmall>
+      
+      <InformatiiGenerale>
+           <Link to={`/?createdBy=${postData?.detalii?._id}`}>
+                View your posts
+            </Link>
+      </InformatiiGenerale>
+    </ShowPostContainer>)
+}
     </>
   )
 }
 
 const ShowPostContainer = styled.div`
-text-align: center
+  text-align: center
 `;
 
-const TopSection = styled.div`
-  height: 200px;
-  position: relative;
-  left: 0px;
-`;
-
-const Line = styled.div`
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  background-color: black;
-  height: 0.5px;
-`;
 
 const ImagePlace = styled.div`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 130px;
-  height: 130px;
-  transform: translate(-50%, -50%);
-  background-color: #c4c4c4;
+  float: left;
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border-radius: 25px;
+  margin-left: 25px;
+  margin-top: 25px;
+  background-color: gray;
   @media (max-width: 1000px){
-    width: 100px;
-    height: 100px;
+      width: 270px;
+      height: 270px;
+  }
+  @media (max-width: 750px){
+    margin: 0 auto;
+    float: none;
+    margin-top: 20px;
+  }
+  
+`;
+const AboutMe = styled.div`
+  float: left;
+  position: relative;
+  width: 700px;
+  height: 250px;
+  border-radius: 25px;
+  margin-left: 25px;
+  margin-top: 25px;
+  padding: 70px 0.1;
+  text-align: left;
+  @media (max-width: 1400px){
+    width: 570px;
+  }
+  @media (max-width: 1000px){
+      width: 300px;
+      height: 270px;
+  }
+  @media (max-width: 750px){
+    margin: 0 auto;
+    margin-top: 20px;
+    display: none;
   }
   
 `;
 
-const Title = styled.div`
-  font-size: 2rem;
-  margin-top: -1.5rem;
-  @media (max-width: 1000px){
-    font-size: 1.5rem;
-  }
-`;
-
-const Company = styled.div`
-  font-size: 1.2rem;
-  padding-bottom: .2rem;
-  @media (max-width: 1000px){
-    font-size: 1rem;
-  }
-`;
-
-const Place = styled.div`
-  color: #7c7c7c;
-  font-size: 1rem;
-  padding-bottom: 1rem;
-  @media (max-width: 1000px){
-    font-size: .8rem;
-  }
-`;
-
-const PostData = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const LabelPost = styled.label`
-  width: 100px;
-  font-size: 1rem;
-  font-weight: bold;
-  flex-shrink: 0;
-  margin: 0 2rem 0 0;
+const AboutMeSmall  = styled.div`
+  padding: 25px;
+  margin: 0 auto;
+  margin-top: 15px;
+  background-color: white;
+  width: 1100px;
+  height: auto;
+  border-radius: 25px;
+  border-width:0.5px;
+  border-style: solid;
+  border-color:#d7d9d7;
   text-align: left;
+  display: none;
+  @media (max-width: 1400px){
+    width: 940px;
+  }
   @media (max-width: 1000px){
-    padding-bottom: 1rem;
+    width: 700px;
+  }
+  @media (max-width: 750px){
+    width: 500px;
+    display: block;
+    }
+  }
+`;
+const InformatiiGenerale  = styled.div`
+  display: block;
+  padding: 25px;
+  margin: 0 auto;
+  margin-top: 15px;
+  background-color: white;
+  width: 1100px;
+  height: auto;
+  border-radius: 25px;
+  border-width:0.5px;
+  border-style: solid;
+  border-color:#d7d9d7;
+  
+  @media (max-width: 1400px){
+    width: 940px;
+  }
+  @media (max-width: 1000px){
+    width: 700px;
+  }
+  @media (max-width: 750px){
+    width: 500px;
+    }
+  }
+`;
+
+const Continut = styled.div`
+  display: inline-block;
+  text-align: left;
+  font-size: 27px;
+  margin-left: 25px;
+  width: 1100px;
+
+  @media (max-width: 1400px){
+    width: 940px;
+  }
+  @media (max-width: 1000px){
+    width: 700px;
+  }
+  @media (max-width: 750px){
+    width: 250px;
+    text-align: center;
+    margin-left: 0px;
+    }
   }
   
 `;
 
-const PostDataRow = styled.div`
-  display: flex;
-  @media (max-width: 1000px){
-    flex-direction: column;
-    padding: 1rem 1rem;
-  }
-  padding: 1rem 5rem;
-`;
 
-const About = styled.div`
-  text-align: left;
-`;
 
-const Data = styled.div`
-  position: absolute;
-  right: 0;
-  top: 50%;
-  color: #7c7c7c;
-  padding: 0 2rem;
-  @media (max-width: 1000px){
-    top: 10%;
-    padding: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-  }
-`;
+document.body.style = 'background: #f2f3f5;';
 
-const CustomUL = styled.ul`
-    margin: 0;
-    list-style-type: none;
-`;
-
-const CustomLi = styled.li`
-  padding: 0 0 .2rem 0;
-`;

@@ -15,7 +15,7 @@ export const getDetails = async (req, res) => {
 
 
 export const updateProfile = async (req, res) => {
-  const { firstName, lastName, companyName } = req.body;
+  const { firstName, lastName, companyName, DoB, description } = req.body;
   UserModel.findOne({ _id: req.params.id }, (err, doc) => {
     if (err) {
       console.log(err);
@@ -23,6 +23,8 @@ export const updateProfile = async (req, res) => {
     if (firstName) doc.firstName = firstName;
     if (lastName) doc.lastName = lastName;
     if (companyName) doc.companyName = companyName;
+    if (DoB) doc.DoB = DoB;
+    if (description) doc.description = description;
     doc.save((err, doc) => {
       if (err) {
         return res.status(404).json({ message: error.message });
