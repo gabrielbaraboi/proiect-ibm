@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import NavBar from "./NavBar/NavBar.component";
-import { updateProfile } from "../services/UserServices";
+import { updateProfile } from "../../services/UserServices";
 import moment from 'moment'
-
+import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut } from './ProfileStyledComponents'
 
 const EditProfile  = ({toggleEdit, connectedUser}) => {
     

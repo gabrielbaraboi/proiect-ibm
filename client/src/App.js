@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { ShowPost } from "./components/ShowPost.component"
-import { ShowProfile } from "./components/ShowProfile.component"
+import { ShowProfile } from "./components/Profile/ShowProfile.component"
 import ShowPosts from "./components/ShowPosts.component"
 import Login from "./components/Auth/Login.component"
 import Register from "./components/Auth/Register.component"
