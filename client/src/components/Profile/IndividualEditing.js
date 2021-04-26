@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { updateProfile } from "../../services/UserServices";
-import moment from 'moment'
 import { AboutMe, DescriptionField} from './ProfileStyledComponents'
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css';
+
 
 export const EditDescription  = ({toggleEditAboutMe, connectedUser, small}) => {
     
@@ -10,19 +12,19 @@ export const EditDescription  = ({toggleEditAboutMe, connectedUser, small}) => {
         description: connectedUser.detalii.description
     });
 
-    console.log(userData);
-        const handleSubmit = e => {
-            e.preventDefault();
-            if (userData) {
-                updateProfile(userData, connectedUser.detalii._id)
-                    .then(res => {
-                        window.location.reload();
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            }
+    const handleSubmit = e => {
+        e.preventDefault();
+        if (userData) {
+            updateProfile(userData, connectedUser.detalii._id)
+                .then(res => {
+                    window.location.reload();
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
+    }
+    console.log(userData);
         return (
             <>
             { !small ?
@@ -59,6 +61,41 @@ export const EditName  = ({toggleEditName, connectedUser}) => {
         lastName: connectedUser.detalii.lastName,
         companyName: connectedUser.detalii.companyName,
     });
+        
+    const handleSubmit = e => {
+        e.preventDefault();
+        console.log(userData)
+        if (userData) {
+            updateProfile(userData, connectedUser.detalii._id)
+                .then(res => {
+                    window.location.reload();
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+    }
+    console.log(connectedUser.detalii.role)
+    return (
+        <>
+            {(connectedUser.detalii.role != "company") ? 
+                (<><input value={userData.firstName} type="text"  placeholder="First Name" onChange={(e) => setPostData({...userData, firstName : e.target.value})}/> <br></br> 
+                    <input value={userData.lastName} type="text"  placeholder="Last Name" onChange={(e) => setPostData({...userData, lastName: e.target.value})}/> <br></br> </>)
+                : (<><input value={userData.companyName} type="text"  placeholder="Company Name" onChange={(e) => setPostData({...userData, companyName : e.target.value})}/> </>)
+            }
+            <input type="button" value='Submit' onClick={handleSubmit}/>
+            <button onClick={() => toggleEditName()}> Go back! </button> <br></br>
+        </>
+    )
+}
+
+
+export const EditDoB  = ({toggleEditDoB, connectedUser}) => {
+    
+    console.log(connectedUser)
+    const [userData, setPostData] = useState({
+        DoB : connectedUser.detalii.DoB
+    });
 
     console.log(userData);
         const handleSubmit = e => {
@@ -73,16 +110,23 @@ export const EditName  = ({toggleEditName, connectedUser}) => {
                     });
             }
         }
-        console.log(connectedUser.detalii.role)
         return (
             <>
-                {(connectedUser.detalii.role != "company") ? 
-                    (<><input value={userData.firstName} type="text"  placeholder="First Name" onChange={(e) => setPostData({...userData, firstName : e.target.value})}/> <br></br> 
-                        <input value={userData.lastName} type="text"  placeholder="Last Name" onChange={(e) => setPostData({...userData, lastName: e.target.value})}/> <br></br> </>)
-                    : (<><input value={userData.companyName} type="text"  placeholder="Company Name" onChange={(e) => setPostData({...userData, companyName : e.target.value})}/> </>)
+                {(connectedUser.detalii.role == "student") ? 
+                    (<>
+                        <center> <Calendar 
+                            defaultValue={new Date(userData.DoB)}
+                            maxDate={new Date()}
+                            minDate={new Date("1/1/1940")}
+                            onClickDay={(e) => setPostData({...userData, DoB : new Date(e)})}
+                        /></center>
+                    </>
+                       
+                    )
+                    : (<></>)
                 }
                 <input type="button" value='Submit' onClick={handleSubmit}/>
-                <button onClick={() => toggleEditName()}> Go back! </button> <br></br>
+                <button onClick={() => toggleEditDoB()}> Go back! </button> <br></br>
             </>
         )
 }
