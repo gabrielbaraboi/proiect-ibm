@@ -73,9 +73,10 @@ export const EditName  = ({toggleEditName, connectedUser}) => {
                     });
             }
         }
+        console.log(connectedUser.detalii.role)
         return (
             <>
-                {(!connectedUser.detalii.role == "company") ? 
+                {(connectedUser.detalii.role != "company") ? 
                     (<><input value={userData.firstName} type="text"  placeholder="First Name" onChange={(e) => setPostData({...userData, firstName : e.target.value})}/> <br></br> 
                         <input value={userData.lastName} type="text"  placeholder="Last Name" onChange={(e) => setPostData({...userData, lastName: e.target.value})}/> <br></br> </>)
                     : (<><input value={userData.companyName} type="text"  placeholder="Company Name" onChange={(e) => setPostData({...userData, companyName : e.target.value})}/> </>)
