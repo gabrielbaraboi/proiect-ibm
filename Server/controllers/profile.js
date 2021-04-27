@@ -15,7 +15,7 @@ export const getDetails = async (req, res) => {
 
 
 export const updateProfile = async (req, res) => {
-  const { firstName, lastName, companyName, DoB, description } = req.body;
+  const { firstName, lastName, companyName, DoB, description, linkedin, github } = req.body;
   await UserModel.findOne({ _id: req.params.id }, (err, doc) => {
     if (err) {
       console.log(err);
@@ -25,6 +25,8 @@ export const updateProfile = async (req, res) => {
     if (companyName) doc.companyName = companyName;
     if (DoB) doc.DoB = DoB;
     if (description) doc.description = description;
+    if (linkedin) doc.linkedin = linkedin;
+    if (github) doc.github = github;
     doc.save((err, doc) => {
       if (err) {
         return res.status(404).json({ message: error.message });

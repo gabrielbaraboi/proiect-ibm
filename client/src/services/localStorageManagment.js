@@ -1,5 +1,5 @@
 export const saveUserData = (data) => {
-    //console.log(`salvez ${data.firstName}`);
+    console.log(data);
     localStorage.setItem("connectedUser", JSON.stringify(data));
 }
 
