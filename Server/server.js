@@ -5,6 +5,8 @@ import postRoutes from './routes/posts.js';
 import profileRoutes from './routes/profile.js';
 import userRoutes from './routes/users.js';
 import cookieParser from 'cookie-parser';
+
+
 const app = express();
 app.set('json spaces', 2);
 

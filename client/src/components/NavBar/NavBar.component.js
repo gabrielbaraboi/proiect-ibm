@@ -15,6 +15,13 @@ const NavBar = ({ connectedUser }) => {
         const userData = getUserData();
         setUser(userData);
     }, [])
+
+    const mystyle = {
+        height: "100%",
+        width: "100%",
+        objectFit: "cover"
+    };
+
     return (
         <Nav>
             <Container>
@@ -33,7 +40,9 @@ const NavBar = ({ connectedUser }) => {
                     </TitleDiv>
                     {isUserData() ? <UserProfileMinimizedNavBar>
                         <a href={`/profile/${user?.id}`}>
-                            <ProfileCard></ProfileCard>
+                            <ProfileCard>
+                                <img src={`/profile/${user?.id}/profilePicture`} style={mystyle}></img>
+                            </ProfileCard>
                         </a>
                     </UserProfileMinimizedNavBar> :
                         ``}
@@ -45,7 +54,9 @@ const NavBar = ({ connectedUser }) => {
                                     <Icon path={mdiPlusBoxMultiple} size={1}></Icon>
                                 </NavBarButton>
                                 <a href={`/profile/${user?.id}`}>
-                                    <ProfileCard></ProfileCard>
+                                    <ProfileCard>
+                                        <img src={`/profile/${user?.id}/profilePicture`} style={mystyle}></img>
+                                    </ProfileCard>
                                 </a>
                                 <a href={`/`}>
                                     <NavBarButton backgroundColor={`#FF7272`} color={`white`} backgroundColorHover={`#FF3838`} onClick={(e) => {
