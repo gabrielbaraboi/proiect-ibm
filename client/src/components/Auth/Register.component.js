@@ -7,6 +7,7 @@ import NavBar from "../NavBar/NavBar.component";
 import { Container, PageTitle } from "../Global.styledComponents"
 import { Box, Label, Control, Field } from "./Auth.styledComponents"
 import "./Auth.css";
+import axios from 'axios';
 
 const Form = ({ onSubmit, authError }) => {
   const {
@@ -16,10 +17,13 @@ const Form = ({ onSubmit, authError }) => {
     handleSubmit,
   } = useForm(sendData, RegisterValidationRules);
 
+  const [file, setFile] = useState(null);
+
   if (values.role === undefined)
     values.role = 'student'
 
   function sendData() {
+    const formData = new FormData();
     const data = {
       email: values.email,
       password: values.password,
@@ -34,7 +38,9 @@ const Form = ({ onSubmit, authError }) => {
       data.lastName = values.lastName
       data.DoB = values.DoB
     }
-    onSubmit(data);
+    formData.append('data', JSON.stringify(data));
+    formData.append('profile-picture', file);
+    onSubmit(formData);
   };
 
   return (
@@ -107,8 +113,6 @@ const Form = ({ onSubmit, authError }) => {
                       )}
                     </Control>
                   </Field>
-                  <button type="submit" className="button is-info">Register</button>
-                  <p className="help is-danger">{authError}</p>
                 </>
               }
               {values.role === "company" &&
@@ -149,10 +153,16 @@ const Form = ({ onSubmit, authError }) => {
                       )}
                     </Control>
                   </Field>
-                  <button type="submit" className="button is-info">Register</button>
-                  <p className="help is-danger">{authError}</p>
                 </>
               }
+              <input
+                filename={file}
+                onChange={e => setFile(e.target.files[0])}
+                type="file"
+                accept="image/*"
+              ></input>
+              <button type="submit" className="button is-info">Register</button>
+              <p className="help is-danger">{authError}</p>
             </form>
           </Box>
         </Container>
@@ -166,7 +176,11 @@ export default () => {
   const [authError, setAuthError] = useState(false);
   const history = useHistory();
 
-  const handleSubmit = data => {
+  const handleSubmit = async (data) => {
+    const result = await axios
+      .post('http://localhost:9000/users/signup', data, { headers: { 'Content-Type': 'multipart/form-data' } }).catch(err => console.log(err.response.data.message));
+    console.log(result);
+    /*
     register(data)
       .then(() => {
         history.push("/login");
@@ -174,6 +188,7 @@ export default () => {
       .catch(err => {
         setAuthError(err.response.data.message)
       });
+      */
   };
 
   return <Form onSubmit={handleSubmit} authError={authError} />

@@ -1,16 +1,28 @@
 import NavBar from "../../NavBar/NavBar.component";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
 import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut } from '../ProfileStyledComponents'
 
 export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
-  return(
+
+  const { id } = useParams();
+
+  const mystyle = {
+    height: "100%",
+    width: "100%",
+    objectFit: "cover"
+  };
+
+
+  return (
     
       <ShowPostContainer className="App">
         <NavBar></NavBar>
 
         <InformatiiGenerale>
-          <ImagePlace> </ImagePlace>
+          <ImagePlace>
+            <img src={`/profile/${id}/profilePicture`} style={mystyle}></img>
+          </ImagePlace>
           <AboutMe> 
           
             {postData?.detalii?.description}
@@ -41,10 +53,10 @@ export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
         
         <InformatiiGenerale>
             <Link to={`/?createdBy=${postData?.detalii?._id}`}>
-                  View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
+        View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
               </Link>
         </InformatiiGenerale>
-      </ShowPostContainer>
+      </ShowPostContainer >
     )
   }
 

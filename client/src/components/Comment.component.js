@@ -7,6 +7,7 @@ export const Comment = ({ comment, connectedUser }) => {
     const [isDeleted, setIsDeleted] = useState(false);
     const [editing, setEditing] = useState(false);
     const [updatedCommentValue, setUpdatedCommentValue] = useState(comment?.comment);
+    const [edited, setEdited] = useState(comment?.datePosted < comment?.updatedAt);
     const deleteThisComment = () => {
         deleteComment(comment._id)
             .then(res => {
@@ -18,6 +19,7 @@ export const Comment = ({ comment, connectedUser }) => {
     const startEditing = () => {
         setUpdatedCommentValue(comment?.comment);
         setEditing(true);
+        console.log(comment);
     }
     const saveEdit = () => {
         if (!updatedCommentValue)
@@ -27,11 +29,10 @@ export const Comment = ({ comment, connectedUser }) => {
         updateComment(comment._id, updatedCommentValue)
             .then(res => {
                 console.log(res);
-
+                comment.comment = updatedCommentValue;
+                setEdited(true);
             })
             .catch(err => console.log(err));
-
-        comment.comment = updatedCommentValue;
         setEditing(false);
 
     }
@@ -39,15 +40,22 @@ export const Comment = ({ comment, connectedUser }) => {
     return (
         <Container>
             <ImageDiv>
-                <UserInitial>{comment.commentator ? 
-                `${comment?.comentator?.firstName?.charAt(0) ? comment?.comentator?.firstName?.charAt(0) : comment?.comentator?.companyName?.charAt(0)}`
-                :null}
+                <UserInitial>{comment.commentator ?
+                    `${comment?.commentator?.firstName?.charAt(0) ? comment?.commentator?.firstName?.charAt(0) : comment?.commentator?.companyName?.charAt(0)}`
+                    : null}
                 </UserInitial>
             </ImageDiv>
             <CommentDiv>
-                <CommentUserName>{comment.commentator ? `${comment?.comentator?.firstName ? comment?.comentator?.firstName : comment?.comentator?.companyName} 
-                                    ${comment?.comentator?.lastName ? comment?.comentator?.lastName : " "}` : <strong>Deleted User</strong>}</CommentUserName>
-                {comment?.datePosted < comment?.updatedAt && <i>Edited comment</i>}
+                <CommentUserName>{!comment.commentator ? 
+                                <strong>Deleted User</strong> 
+                                : comment.commentator.role === 'student' ? 
+                                    comment.commentator.firstName + " " + comment.commentator.lastName 
+                                    : comment.commentator.role==='company' ? 
+                                        comment.commentator.companyName
+                                        :<strong>Admin account</strong>   
+                                }
+                </CommentUserName>
+                {edited && <i>Edited comment</i>}
                 {editing ?
                     <textarea
                         type="text"

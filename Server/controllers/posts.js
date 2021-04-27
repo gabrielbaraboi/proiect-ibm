@@ -93,11 +93,11 @@ export const postComments = async (req, res) => {
                     from: 'Users',
                     localField: 'createdBy_id',
                     foreignField: '_id',
-                    as: 'comentator'
+                    as: 'commentator'
                 }
             },
-            { $unwind: { path: "$comentator", preserveNullAndEmptyArrays: true } },
-            { $project: { "comentator.password": 0, "comentator.email": 0, "comentator._id": 0 } }
+            { $unwind: { path: "$commentator", preserveNullAndEmptyArrays: true } },
+            { $project: { "commentator.password": 0, "commentator.email": 0, "commentator._id": 0 } }
         ]).toArray();
         const hasComments = comments.length > 0;
         return res.status(200).json({ comments, lastCommentDate: hasComments ? comments[comments.length - 1].datePosted : 'same' });

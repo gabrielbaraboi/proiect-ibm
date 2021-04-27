@@ -34,16 +34,25 @@ export const ShowPost = ({ connectedUser }) => {
     })
       .catch(err => console.log(err));
   };
+
+  const mystyle = {
+    height: "100%",
+    width: "100%",
+    objectFit: "cover"
+  };
+
   return (
     <div>
       <ShowPostContainer className="App">
         <NavBar></NavBar>
         <TopSection>
           <Line></Line>
-          <ImagePlace></ImagePlace>
+          <ImagePlace>
+            <img src={`/profile/${postData?.post?.createdBy_id}/profilePicture`} style={mystyle}></img>
+          </ImagePlace>
           <Data>Postat: {postData?.post?.dateCreated?.slice(0, 10)}</Data>
         </TopSection>
-        <Title>{loading?"Loading post right now!":postData?.post?.title}</Title>
+        <Title>{loading ? "Loading post right now!" : postData?.post?.title}</Title>
         <Company>
           <Link to={`/profile/${postData?.post?.createdBy_id}`}>
             {postData?.post?.creator?.companyName}
@@ -77,7 +86,7 @@ export const ShowPost = ({ connectedUser }) => {
             </About>
           </PostDataRow>
         </PostData>
-        {!loading&& userPost(connectedUser, postData) &&
+        {!loading && userPost(connectedUser, postData) &&
           <div>
             <button onClick={deleteThisPost}>Delete Post</button>
           </div>}

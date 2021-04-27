@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import UserModel from "../models/UserModel.js";
-
+import { getFileStream } from "./ibmCloud.js";
 
 
 export const getDetails = async (req, res) => {
-  UserModel.findById(req.params.id).then(detalii => {
+  await UserModel.findById(req.params.id, '-password').then(detalii => {
     if (!detalii) return res.status(404).json({ message: 'User not found!' });
     res.header("Content-Type", 'application/json');
     return res.status(200).json({ detalii })
@@ -16,7 +16,7 @@ export const getDetails = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   const { firstName, lastName, companyName, DoB, description } = req.body;
-  UserModel.findOne({ _id: req.params.id }, (err, doc) => {
+  await UserModel.findOne({ _id: req.params.id }, (err, doc) => {
     if (err) {
       console.log(err);
     }
@@ -36,9 +36,19 @@ export const updateProfile = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  UserModel.findByIdAndDelete(req.params.id)
+  await UserModel.findByIdAndDelete(req.params.id)
     .then(() => {
       return res.status(200).json({ message: `Successfully deleted account with id : ${req.params.id}` });
     })
     .catch((err) => { return res.status(404).json({ message: err.message }) });
+};
+
+export const getProfilePicture = async (req, res) => {
+  await UserModel.findById(req.params.id, '-password').then(async (detalii) => {
+    if (!detalii) return res.status(404).json({ message: 'User not found!' });
+    if(!detalii.profilePicture) return res.status(404).json({ message: 'No profile picture!' });
+    return getFileStream(detalii.profilePicture).pipe(res);
+  }).catch(err => {
+    return res.status(404).json({ message: err.message });
+  });
 };
