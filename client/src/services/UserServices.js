@@ -13,7 +13,7 @@ export const login = async (data) => {
 export const register = async (data) => {
     try {
         const res = await axios
-            .post('http://localhost:9000/users/signup', data, { withCredentials: true });
+            .post('http://localhost:9000/users/signup', data, { headers: { 'Content-Type': 'multipart/form-data' } });
         return res;
     } catch (err) {
         throw err;
@@ -49,6 +49,15 @@ export const deleteUser = async (id) => {
         return res;
     } catch (err) {
         throw err;
+    }
+};
+
+export const getProfile = async (id) => {
+    try {
+        const res = axios.get(`http://localhost:9000/profile/${id}`);
+        return res;
+    } catch (error) {
+        throw error;
     }
 };
 

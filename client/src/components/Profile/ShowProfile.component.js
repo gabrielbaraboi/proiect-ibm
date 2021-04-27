@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-import { deleteUser, logout } from "../../services/UserServices";
+import { deleteUser, logout, getProfile } from "../../services/UserServices";
 import { clearUser } from "../../services/localStorageManagment";
 import ShowProfileToGuest from "./Views/GuestView";
 import ShowProfileToOwner from "./Views/OwnerView";
@@ -11,15 +11,15 @@ export const ShowProfile = ({ connectedUser }) => {
   const [UserExists, setUserExists] = useState(true);
 
   useEffect(() =>
-  axios.get(`http://localhost:9000/profile/${id}`)
-    .then(res => {
-      setPostData(res.data);
-    })
-    .catch(err => {
-      console.log(err.message);
-      setUserExists(false)
-    })
-  , [])
+    getProfile(id)
+      .then(res => {
+        setPostData(res.data);
+      })
+      .catch(err => {
+        console.log(err.message);
+        setUserExists(false)
+      })
+    , [])
 
   const { id } = useParams();
 
@@ -29,7 +29,7 @@ export const ShowProfile = ({ connectedUser }) => {
     if (connectedUser.id === id) {
       logat = true;
     }
-    if(connectedUser.role === 'admin') {
+    if (connectedUser.role === 'admin') {
       admin = true;
     }
   }
@@ -37,7 +37,7 @@ export const ShowProfile = ({ connectedUser }) => {
   const history = useHistory();
   const deleteThisUser = () => {
     deleteUser(id).then(res => console.log(res)).catch(err => console.log(err));
-    if(!admin) {
+    if (!admin) {
       logout().then(res => console.log(res)).catch(err => console.log(err.message));
       clearUser();
     }
@@ -48,10 +48,10 @@ export const ShowProfile = ({ connectedUser }) => {
 
   console.log(UserExists);
 
-  return (!logat ? ( !admin ? (<><ShowProfileToGuest postData = {postData}></ShowProfileToGuest></>) 
-                            : (<><ShowProfileToGuest admin = {admin} postData = {postData} deleteThisUser = {deleteThisUser}></ShowProfileToGuest></>)) 
-                 : (<><ShowProfileToOwner postData = {postData} deleteThisUser = {deleteThisUser} ></ShowProfileToOwner></>)
-                 )
- 
+  return (!logat ? (!admin ? (<><ShowProfileToGuest postData={postData}></ShowProfileToGuest></>)
+    : (<><ShowProfileToGuest admin={admin} postData={postData} deleteThisUser={deleteThisUser}></ShowProfileToGuest></>))
+    : (<><ShowProfileToOwner postData={postData} deleteThisUser={deleteThisUser} ></ShowProfileToOwner></>)
+  )
+
 }
 
