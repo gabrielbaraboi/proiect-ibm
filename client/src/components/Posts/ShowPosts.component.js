@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-import NavBar from "./NavBar/NavBar.component";
+import NavBar from "../NavBar/NavBar.component";
 import PostCard from "./PostCard.component"
-import { getNextPostsPage } from "../services/PostsServices";
-import { Container, PageTitle } from "../components/Global.styledComponents"
+import { getNextPostsPage } from "../../services/PostsServices";
+import { Container, PageTitle } from "../Global.styledComponents"
 
 function setParams({ workPlace, sort, workHours, type, createdBy }) {
   const searchParams = new URLSearchParams();
