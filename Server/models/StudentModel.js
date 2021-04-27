@@ -6,7 +6,9 @@ const StudentSchema = mongoose.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     DoB : {type: Date,required:true},
-    description : {type: String, required: false}
+    description : {type: String, required: false},
+    linkedin : {type: String, required: false},
+    github : {type: String, required: false}
 },
 {
     discriminatorKey: 'role',

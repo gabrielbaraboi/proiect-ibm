@@ -177,10 +177,7 @@ export default () => {
   const history = useHistory();
 
   const handleSubmit = async (data) => {
-    const result = await axios
-      .post('http://localhost:9000/users/signup', data, { headers: { 'Content-Type': 'multipart/form-data' } }).catch(err => console.log(err.response.data.message));
-    console.log(result);
-    /*
+
     register(data)
       .then(() => {
         history.push("/login");
@@ -188,7 +185,7 @@ export default () => {
       .catch(err => {
         setAuthError(err.response.data.message)
       });
-      */
+      
   };
 
   return <Form onSubmit={handleSubmit} authError={authError} />

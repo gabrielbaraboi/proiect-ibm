@@ -2,9 +2,8 @@ import { useState } from "react";
 import NavBar from "../../NavBar/NavBar.component";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
-import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut } from '../ProfileStyledComponents'
-
-import { EditDescription, EditName, EditDoB } from "../IndividualEditing";
+import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut } from '../ProfileStyledComponents';
+import { EditDescription, EditName, EditDoB, EditNetworks } from "../IndividualEditing";
 
 
 export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
@@ -21,12 +20,18 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
     const toggleEditDoB = () => {
         setEditDoB(false);
     }
+    const [EditTheNetworks, setEditNetworks] = useState(false);
+    const toggleEditNetworks = () => {
+        setEditNetworks(false);
+    }
+
     const { id } = useParams();
     const mystyle = {
         height: "100%",
         width: "100%",
         objectFit: "cover"
     };
+    
     return (
         <ShowPostContainer className="App">
             <NavBar></NavBar>
@@ -63,6 +68,31 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
                 </Continut>
 
             </InformatiiGenerale>
+            
+        
+                {(postData?.detalii?.role == "student") ?
+                    <InformatiiGenerale>
+
+                        {(!EditTheNetworks ?
+                            (<>
+                                <a href = {postData?.detalii?.linkedin}>
+                                    LinkedIn
+                                </a> <br></br>
+                                <a href ={postData?.detalii?.github}>
+                                    GitHub
+                                </a><br></br>
+
+                                <button onClick={() => setEditNetworks(true)}>Edit</button>
+                                
+                            </>)
+                                : (<EditNetworks toggleEditNetworks={toggleEditNetworks} connectedUser = {postData} ></EditNetworks>)
+                        ) }
+                        </InformatiiGenerale>
+                        : 
+                                    (<> </>) 
+                        
+                }
+
 
             <InformatiiGenerale>
                 {postData?.detalii?.email} <br />

@@ -48,7 +48,7 @@ export const createUser = async (req, res) => {
                 if (err) throw err;
 
                 newUser['password'] = hash;
-                newUser.save().then( async (usr) => {
+                newUser.save().then(async (usr) => {
 
 
                     let responseUser = null;
@@ -137,6 +137,12 @@ export const login = async (req, res) => {
                                 email: user.email,
                                 role: user.role
                             };
+                            if (responseUser.role === 'student') {
+                                responseUser["firstName"] = user.firstName;
+                                responseUser["lastName"] = user.lastName;
+                            }
+                            else
+                                responseUser["companyName"] = user.companyName;
                             res.cookie('token', token, { httpOnly: true });
                             res.status(200).json({
                                 token,
