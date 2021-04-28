@@ -35,7 +35,10 @@ export const logout = async () => {
 export const updateProfile = async (userData, id) => {
     try {
         const res = await axios
-            .put(`http://localhost:9000/profile/updateProfile/${id}`, userData, { withCredentials: true });
+            .put(`http://localhost:9000/profile/updateProfile/${id}`, userData, {
+                withCredentials: true
+                , headers: { 'Content-Type': 'multipart/form-data' }
+            });
         return res;
     } catch (err) {
         throw err;

@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import UserModel from "../models/UserModel.js";
 import { getFileStream, deleteFile } from "./ibmCloud.js";
-
+import fs from 'fs';
+import { unlink } from 'fs/promises';
+import { uploadFile } from "./ibmCloud.js";
 
 export const getDetails = async (req, res) => {
   await UserModel.findById(req.params.id, '-password').then(detalii => {
@@ -15,8 +17,14 @@ export const getDetails = async (req, res) => {
 
 
 export const updateProfile = async (req, res) => {
-  const { firstName, lastName, companyName, DoB, description, linkedin, github } = req.body;
-  await UserModel.findOne({ _id: req.params.id }, (err, doc) => {
+  const fileData = req.file;
+  let data = {};
+  if (req.body.data)
+    data = JSON.parse(req.body.data);
+  if (fileData)
+    data["profilePicture"] = fileData.filename;
+  const { firstName, lastName, companyName, DoB, description, linkedin, github } = data;
+  await UserModel.findOne({ _id: req.params.id }, async (err, doc) => {
     if (err) {
       console.log(err);
     }
@@ -27,6 +35,19 @@ export const updateProfile = async (req, res) => {
     if (description) doc.description = description;
     if (linkedin) doc.linkedin = linkedin;
     if (github) doc.github = github;
+    if (data.profilePicture) {
+      const fileStream = fs.createReadStream(fileData.path);
+      if (doc.profilePicture)
+        deleteFile(doc.profilePicture).catch(err => { return res.status(404).json({ message: err.message }) });
+      await uploadFile(fileData.filename, fileStream)
+        .then(async () => {
+          await unlink(fileData.path).catch(err => { throw err; });
+        }).catch(async (err) => {
+          await unlink(fileData.path).catch(err => { throw err; });
+          return res.status(404).json({ message: err.message });
+        });
+      doc.profilePicture = data.profilePicture;
+    }
     doc.save((err, doc) => {
       if (err) {
         return res.status(404).json({ message: error.message });
@@ -49,11 +70,14 @@ export const deleteUser = async (req, res) => {
 };
 
 export const getProfilePicture = async (req, res) => {
+  if (!req.params.id) return res.status(404).json({ message: "Invalid profile id!" });
   await UserModel.findById(req.params.id, '-password').then(async (detalii) => {
     if (!detalii) return res.status(404).json({ message: 'User not found!' });
     if (!detalii.profilePicture) return res.status(404).json({ message: 'No profile picture!' });
-    return getFileStream(detalii.profilePicture).pipe(res);
-  }).catch(err => {
-    return res.status(404).json({ message: err.message });
-  });
+    getFileStream(detalii.profilePicture)
+      .on('error', (err) => {
+        return res.status(404).json({ message: err.message });
+      })
+      .pipe(res);
+  }).catch(err => { return res.status(404).json({ message: err.message }); });
 };

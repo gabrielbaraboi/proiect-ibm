@@ -11,7 +11,6 @@ export const uploadFile = async (itemName, file) => {
 };
 
 export const getFileStream = (itemName) => {
-
     return cos.getObject({
         Bucket: bucketName,
         Key: itemName

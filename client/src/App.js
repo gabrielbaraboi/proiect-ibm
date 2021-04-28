@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { ShowPost } from "./components/ShowPost.component"
 import { ShowProfile } from "./components/Profile/ShowProfile.component"
-import ShowPosts from "./components/Posts/ShowPosts.component"
+import ShowPosts from "./components/Posts/ShowPosts.component";
 import Login from "./components/Auth/Login.component"
 import Register from "./components/Auth/Register.component"
 import { saveUserData, getUserData, isUserData } from "./services/localStorageManagment";
@@ -20,7 +20,7 @@ const App = () => {
     setConnectedUser(data);
   };
   const getCSRFToken = async ()=>{
-    const {data} = await axios.get('/users/csrfToken');
+    const {data} = await axios.get('/users/csrfToken').catch(err=>console.log(err));
     axios.defaults.headers.post['csrf-token']=data.csrfToken;
     axios.defaults.headers.delete['csrf-token']=data.csrfToken;
     axios.defaults.headers.put['csrf-token']=data.csrfToken;
@@ -57,7 +57,7 @@ const App = () => {
         <Route 
           path='/profile/:id' 
           render={(props) => (
-            <ShowProfile {...props} connectedUser = {connectedUser} />
+            <ShowProfile {...props} connectedUser = {connectedUser} parentCallback = {setData}/>
           )}
         />
         <Route 

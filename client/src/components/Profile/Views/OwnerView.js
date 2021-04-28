@@ -3,11 +3,17 @@ import NavBar from "../../NavBar/NavBar.component";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
 import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut } from '../ProfileStyledComponents';
-import { EditDescription, EditName, EditDoB, EditNetworks } from "../IndividualEditing";
+import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture } from "../IndividualEditing";
 
 
 export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
 
+
+
+    const [EditTheProfilePicture, setEditProfilePicture] = useState(false);
+    const toggleEditProfilePicture = () => {
+        setEditProfilePicture(false);
+    };
     const [EditAboutMe, setEditAboutMe] = useState(false);
     const toggleEditAboutMe = () => {
         setEditAboutMe(false);
@@ -31,7 +37,7 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
         width: "100%",
         objectFit: "cover"
     };
-    
+
     return (
         <ShowPostContainer className="App">
             <NavBar></NavBar>
@@ -64,34 +70,44 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
                         (<EditName toggleEditName={toggleEditName} connectedUser={postData} small={false}></EditName>
                         )
                     }
+                    {!EditTheProfilePicture ?
+                        (<>
+                            <button onClick={() => setEditProfilePicture(true)}>Change profile picture</button><br></br>
+                        </>
+                        )
+                        :
+                        (
+                            <EditProfilePicture toggleEditProfilePicture={toggleEditProfilePicture} connectedUser={postData} small={false}></EditProfilePicture>
+                        )
+                    }
                     <button onClick={() => deleteThisUser()}>Delete your account</button>
                 </Continut>
 
             </InformatiiGenerale>
-            
-        
-                {(postData?.detalii?.role == "student") ?
-                    <InformatiiGenerale>
 
-                        {(!EditTheNetworks ?
-                            (<>
-                                <a href = {postData?.detalii?.linkedin}>
-                                    LinkedIn
+
+            {(postData?.detalii?.role == "student") ?
+                <InformatiiGenerale>
+
+                    {(!EditTheNetworks ?
+                        (<>
+                            <a href={postData?.detalii?.linkedin}>
+                                LinkedIn
                                 </a> <br></br>
-                                <a href ={postData?.detalii?.github}>
-                                    GitHub
+                            <a href={postData?.detalii?.github}>
+                                GitHub
                                 </a><br></br>
 
-                                <button onClick={() => setEditNetworks(true)}>Edit</button>
-                                
-                            </>)
-                                : (<EditNetworks toggleEditNetworks={toggleEditNetworks} connectedUser = {postData} ></EditNetworks>)
-                        ) }
-                        </InformatiiGenerale>
-                        : 
-                                    (<> </>) 
-                        
-                }
+                            <button onClick={() => setEditNetworks(true)}>Edit</button>
+
+                        </>)
+                        : (<EditNetworks toggleEditNetworks={toggleEditNetworks} connectedUser={postData} ></EditNetworks>)
+                    )}
+                </InformatiiGenerale>
+                :
+                (<> </>)
+
+            }
 
 
             <InformatiiGenerale>

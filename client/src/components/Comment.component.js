@@ -52,7 +52,7 @@ export const Comment = ({ comment, connectedUser }) => {
                                     comment.commentator.firstName + " " + comment.commentator.lastName 
                                     : comment.commentator.role==='company' ? 
                                         comment.commentator.companyName
-                                        :<strong>Admin account</strong>   
+                                        :<strong style={{color: 'blue'}}>Admin account</strong>   
                                 }
                 </CommentUserName>
                 {edited && <i>Edited comment</i>}
