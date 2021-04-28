@@ -1,7 +1,7 @@
 import NavBar from "../../NavBar/NavBar.component";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
-import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut, Imagine } from '../ProfileStyledComponents'
+import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, GeneralInformations, Content, ProfileImage } from '../ProfileStyledComponents'
 
 export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
 
@@ -19,9 +19,9 @@ export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
       <ShowPostContainer className="App">
         <NavBar></NavBar>
 
-        <InformatiiGenerale>
+        <GeneralInformations>
           <ImagePlace>
-            <Imagine src={`/profile/${id}/profilePicture`} style={mystyle}></Imagine>
+            <ProfileImage src={`/profile/${id}/profilePicture`} style={mystyle}></ProfileImage>
           </ImagePlace>
           <AboutMe> 
           
@@ -29,29 +29,29 @@ export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
 
           </AboutMe>
                 <div>
-                  <Continut>
+                  <Content>
                     {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName} <br></br>
                     {admin ? (<><button onClick={() => deleteThisUser()}>Delete User</button></>) : (<></>) }
                 
-                </Continut>
+                </Content>
                   
                 </div>
             
           
         
-        </InformatiiGenerale>
+        </GeneralInformations>
         
         {(postData?.detalii?.linkedin || postData?.detalii?.github) ?
-          (<InformatiiGenerale>
+          (<GeneralInformations>
             {postData?.detalii?.linkedin ? (<a href = {postData?.detalii?.linkedin}> LinkedIn </a>) : (<></>)} 
             {postData?.detalii?.github ? (<><br/><a href = {postData?.detalii?.github}> GitHub </a></>) : (<></>)} 
-          </InformatiiGenerale>)
+          </GeneralInformations>)
           : (<></>)
       }
 
-        <InformatiiGenerale>
+        <GeneralInformations>
             {postData?.detalii?.email} 
-        </InformatiiGenerale>
+        </GeneralInformations>
 
         <AboutMeSmall>
         {postData?.detalii?.description ? ("About me: " +  postData?.detalii?.description) : 
@@ -60,11 +60,11 @@ export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
         </AboutMeSmall>
         
 
-        <InformatiiGenerale>
+        <GeneralInformations>
             <Link to={`/?createdBy=${postData?.detalii?._id}`}>
         View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
               </Link>
-        </InformatiiGenerale>
+        </GeneralInformations>
       </ShowPostContainer >
     )
   }

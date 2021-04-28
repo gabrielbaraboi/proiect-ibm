@@ -28,7 +28,7 @@ export const ImagePlace = styled.div`
   
 `;
 
-export const Imagine = styled.img`
+export const ProfileImage = styled.img`
   border-radius: 25px;
 `;
 
@@ -83,7 +83,7 @@ export const AboutMeSmall  = styled.div`
     }
   }
 `;
-export const InformatiiGenerale  = styled.div`
+export const GeneralInformations  = styled.div`
   display: block;
   padding: 25px;
   margin: 0 auto;
@@ -108,7 +108,7 @@ export const InformatiiGenerale  = styled.div`
   }
 `;
 
-export const Continut = styled.div`
+export const Content = styled.div`
   display: inline-block;
   text-align: left;
   font-size: 27px;

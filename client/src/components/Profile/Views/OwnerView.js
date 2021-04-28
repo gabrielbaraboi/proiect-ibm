@@ -2,7 +2,7 @@ import { useState } from "react";
 import NavBar from "../../NavBar/NavBar.component";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
-import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut, Imagine } from '../ProfileStyledComponents';
+import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, GeneralInformations, Content, ProfileImage } from '../ProfileStyledComponents';
 import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture } from "../IndividualEditing";
 
 
@@ -42,9 +42,9 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
         <ShowPostContainer className="App">
             <NavBar></NavBar>
 
-            <InformatiiGenerale>
+            <GeneralInformations>
                 <ImagePlace>
-                    <Imagine src={`/profile/${id}/profilePicture`} style={mystyle}></Imagine>
+                    <ProfileImage src={`/profile/${id}/profilePicture`} style={mystyle}></ProfileImage>
                 </ImagePlace>
                 {!EditAboutMe ?
                     (<AboutMe>
@@ -59,7 +59,7 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
                     (<EditDescription toggleEditAboutMe={toggleEditAboutMe} connectedUser={postData} small={false}></EditDescription>)
                 }
 
-                <Continut>
+                <Content>
                     {!EditTheName ?
                         (<>
                             {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
@@ -81,13 +81,13 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
                         )
                     }
                     <button onClick={() => deleteThisUser()}>Delete your account</button>
-                </Continut>
+                </Content>
 
-            </InformatiiGenerale>
+            </GeneralInformations>
 
 
             {(postData?.detalii?.role == "student") ?
-                <InformatiiGenerale>
+                <GeneralInformations>
 
                     {(!EditTheNetworks ?
                         (<>
@@ -103,14 +103,14 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
                         </>)
                         : (<EditNetworks toggleEditNetworks={toggleEditNetworks} connectedUser={postData} ></EditNetworks>)
                     )}
-                </InformatiiGenerale>
+                </GeneralInformations>
                 :
                 (<> </>)
 
             }
 
 
-            <InformatiiGenerale>
+            <GeneralInformations>
                 {postData?.detalii?.email} <br />
                 {(postData?.detalii?.role == "student") ?
                     (!EditTheDoB ?
@@ -122,7 +122,7 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
                         : (<EditDoB toggleEditDoB={toggleEditDoB} connectedUser={postData}> </EditDoB>)
                     ) : (<></>)
                 }
-            </InformatiiGenerale>
+            </GeneralInformations>
 
             <AboutMeSmall>
                 {!EditAboutMe ?
@@ -139,11 +139,11 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
                 }
             </AboutMeSmall>
 
-            <InformatiiGenerale>
+            <GeneralInformations>
                 <Link to={`/?createdBy=${postData?.detalii?._id}`}>
                     View your posts
                     </Link>
-            </InformatiiGenerale>
+            </GeneralInformations>
         </ShowPostContainer>
     )
 }
