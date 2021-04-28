@@ -1,7 +1,7 @@
 import NavBar from "../../NavBar/NavBar.component";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
-import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut } from '../ProfileStyledComponents'
+import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut, Imagine } from '../ProfileStyledComponents'
 
 export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
 
@@ -21,7 +21,7 @@ export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
 
         <InformatiiGenerale>
           <ImagePlace>
-            <img src={`/profile/${id}/profilePicture`} style={mystyle}></img>
+            <Imagine src={`/profile/${id}/profilePicture`} style={mystyle}></Imagine>
           </ImagePlace>
           <AboutMe> 
           
@@ -41,6 +41,14 @@ export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
         
         </InformatiiGenerale>
         
+        {(postData?.detalii?.linkedin || postData?.detalii?.github) ?
+          (<InformatiiGenerale>
+            {postData?.detalii?.linkedin ? (<a href = {postData?.detalii?.linkedin}> LinkedIn </a>) : (<></>)} 
+            {postData?.detalii?.github ? (<><br/><a href = {postData?.detalii?.github}> GitHub </a></>) : (<></>)} 
+          </InformatiiGenerale>)
+          : (<></>)
+      }
+
         <InformatiiGenerale>
             {postData?.detalii?.email} 
         </InformatiiGenerale>
@@ -51,6 +59,7 @@ export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
             }
         </AboutMeSmall>
         
+
         <InformatiiGenerale>
             <Link to={`/?createdBy=${postData?.detalii?._id}`}>
         View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}

@@ -27,6 +27,11 @@ export const ImagePlace = styled.div`
   }
   
 `;
+
+export const Imagine = styled.img`
+  border-radius: 25px;
+`;
+
 export const AboutMe = styled.div`
   float: left;
   overflow: hidden;

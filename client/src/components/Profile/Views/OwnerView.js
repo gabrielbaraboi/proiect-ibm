@@ -2,7 +2,7 @@ import { useState } from "react";
 import NavBar from "../../NavBar/NavBar.component";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
-import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut } from '../ProfileStyledComponents';
+import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, InformatiiGenerale, Continut, Imagine } from '../ProfileStyledComponents';
 import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture } from "../IndividualEditing";
 
 
@@ -44,7 +44,7 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
 
             <InformatiiGenerale>
                 <ImagePlace>
-                    <img src={`/profile/${id}/profilePicture`} style={mystyle}></img>
+                    <Imagine src={`/profile/${id}/profilePicture`} style={mystyle}></Imagine>
                 </ImagePlace>
                 {!EditAboutMe ?
                     (<AboutMe>
