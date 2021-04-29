@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from "styled-components"
 import { LabelPost } from "./ShowPost.component";
-import { Comment } from "./Comment.component";
+import { Comment } from "./Comment/Comment.component";
 import { useParams } from "react-router-dom";
 import { useState } from 'react';
 import useCommentSearch from '../customHooks/useCommentSearch';
