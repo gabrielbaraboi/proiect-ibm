@@ -35,7 +35,8 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
     const mystyle = {
         height: "100%",
         width: "100%",
-        objectFit: "cover"
+        objectFit: "cover",
+        borderRadius: "20px",
     };
 
     return (

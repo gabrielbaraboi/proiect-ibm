@@ -19,7 +19,8 @@ const NavBar = ({ connectedUser }) => {
     const mystyle = {
         height: "100%",
         width: "100%",
-        objectFit: "cover"
+        objectFit: "cover",
+        borderRadius: "100%"
     };
 
     return (

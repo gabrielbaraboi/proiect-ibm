@@ -1,11 +1,9 @@
 import styled from 'styled-components'
 
-
 export const ShowPostContainer = styled.div`
-  text-align: center
+  text-align: center;
   background-color: #f2f3f5;
-`;
-
+`
 
 export const ImagePlace = styled.div`
   float: left;
@@ -80,9 +78,9 @@ export const AboutMeSmall  = styled.div`
   @media (max-width: 750px){
     width: 500px;
     display: block;
-    }
   }
-`;
+`
+
 export const GeneralInformations  = styled.div`
   display: block;
   padding: 25px;
@@ -104,9 +102,8 @@ export const GeneralInformations  = styled.div`
   }
   @media (max-width: 750px){
     width: 500px;
-    }
   }
-`;
+`
 
 export const Content = styled.div`
   display: inline-block;

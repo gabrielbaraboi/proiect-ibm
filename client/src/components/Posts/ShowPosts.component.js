@@ -3,7 +3,8 @@ import styled from "styled-components";
 import NavBar from "../NavBar/NavBar.component";
 import PostCard from "./PostCard.component"
 import { getNextPostsPage } from "../../services/PostsServices";
-import { Container, PageTitle } from "../Global.styledComponents"
+import { Container, PageTitle, Row } from "../Global.styledComponents"
+import { AllPosts, Filter } from "./Post.styledComponents"
 
 function setParams({ workPlace, sort, workHours, type, createdBy }) {
   const searchParams = new URLSearchParams();
@@ -37,7 +38,6 @@ class ShowPosts extends Component {
       loading: true
     };
     this.onScroll = this.onScroll.bind(this);
-    //console.log(this.props.connectedUser);
   }
   onScroll() {
     const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
@@ -116,31 +116,35 @@ class ShowPosts extends Component {
         <main>
           <Container>
             <PageTitle>Last posts</PageTitle>
-            <div id="search">
-              <select value={this.state.sorting == null ? '' : this.state.sorting.toString()} onChange={this.updateSort}>
-                <option value=''>Choose Sort Type</option>
-                <option value='asc'>Asc</option>
-                <option value='desc'>Desc</option>
-              </select>
-              <select value={this.state.type == null ? '' : this.state.type.toString()} onChange={this.updateType}>
-                <option value=''>Choose Post Type</option>
-                <option value='offer'>Offer</option>
-                <option value='request'>Request</option>
-              </select>
-              <select value={this.state.workHours == null ? '' : this.state.workHours.toString()} onChange={this.updateWorkHours}>
-                <option value=''>Choose Work Hours</option>
-                <option value='full-time'>Full time</option>
-                <option value='part-time'>Part time</option>
-              </select>
-              <select value={this.state.workPlace == null ? '' : this.state.workPlace.toString()} onChange={this.updateWorkPlace}>
-                <option value=''>Choose Work Place</option>
-                <option value='Timisoara'>Timisoara</option>
-                <option value='Bucharest'>Bucharest</option>
-              </select>
-            </div>
             <Row>
-              {!this.state.loading&&postList.length===0?<p>No posts to show</p>:postList}
-              {this.state.loading && <strong>Loading</strong>}
+              <AllPosts>
+                {!this.state.loading && postList.length === 0 ? <p>No posts to show</p> : postList}
+                {this.state.loading && <strong>Loading</strong>}
+              </AllPosts>
+              <Filter>
+                <div id="search">
+                  <select value={this.state.sorting == null ? '' : this.state.sorting.toString()} onChange={this.updateSort}>
+                    <option value=''>Choose Sort Type</option>
+                    <option value='asc'>Asc</option>
+                    <option value='desc'>Desc</option>
+                  </select>
+                  <select value={this.state.type == null ? '' : this.state.type.toString()} onChange={this.updateType}>
+                    <option value=''>Choose Post Type</option>
+                    <option value='offer'>Offer</option>
+                    <option value='request'>Request</option>
+                  </select>
+                  <select value={this.state.workHours == null ? '' : this.state.workHours.toString()} onChange={this.updateWorkHours}>
+                    <option value=''>Choose Work Hours</option>
+                    <option value='full-time'>Full time</option>
+                    <option value='part-time'>Part time</option>
+                  </select>
+                  <select value={this.state.workPlace == null ? '' : this.state.workPlace.toString()} onChange={this.updateWorkPlace}>
+                    <option value=''>Choose Work Place</option>
+                    <option value='Timisoara'>Timisoara</option>
+                    <option value='Bucharest'>Bucharest</option>
+                  </select>
+                </div>
+              </Filter>
             </Row>
           </Container>
         </main>
@@ -148,10 +152,5 @@ class ShowPosts extends Component {
     );
   }
 }
-
-const Row = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
 
 export default ShowPosts;

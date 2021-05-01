@@ -10,7 +10,8 @@ export const ShowProfileToGuest = ({ postData, deleteThisUser, admin }) => {
   const mystyle = {
     height: "100%",
     width: "100%",
-    objectFit: "cover"
+    objectFit: "cover",
+    borderRadius: "20px",
   };
 
 

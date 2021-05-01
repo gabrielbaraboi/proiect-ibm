@@ -98,7 +98,7 @@ export const ShowPost = ({ connectedUser }) => {
 }
 
 const ShowPostContainer = styled.div`
-text-align: center
+  text-align: center;
 `;
 
 const TopSection = styled.div`
