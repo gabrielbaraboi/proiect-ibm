@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import useForm from "../../customHooks/useForm";
-import RegisterValidationRules from "../../services/RegisterValidationRules";
+import RegisterValidationRules from "../../services/Validation/RegisterValidationRules";
 import { useHistory } from 'react-router';
 import { register } from "../../services/UserServices"
 import NavBar from "../NavBar/NavBar.component";
 import { Container, PageTitle } from "../Global.styledComponents"
 import { Box, Label, Control, Field } from "./Auth.styledComponents"
 import "./Auth.css";
-import axios from 'axios';
 
 const Form = ({ onSubmit, authError }) => {
   const {

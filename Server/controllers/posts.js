@@ -66,8 +66,8 @@ export const postDetails = async (req, res) => {
             { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
             { $project: { "creator.password": 0, "creator.email": 0, "creator._id": 0 } }
         ]).next();
-        if(!post)
-        return res.status(404).json({message:'Post not found!'});
+        if (!post)
+            return res.status(404).json({ message: 'Post not found!' });
         const commentCount = await Comment.countDocuments({ postID: req.params.id });
         res.header("Content-Type", 'application/json');
         return res.status(200).json({ post, commentCount })
@@ -76,6 +76,7 @@ export const postDetails = async (req, res) => {
         return res.status(404).json({ message: error.message });
     }
 }
+
 export const postComments = async (req, res) => {
     try {
         const { lastCommentDate } = req.query;
@@ -105,8 +106,8 @@ export const postComments = async (req, res) => {
         return res.status(404).json({ message: error.message });
     }
 }
-export const createPost = async (req, res) => {
 
+export const createPost = async (req, res) => {
     const post = {
         description: req.body?.description,
         title: req.body?.title,
@@ -126,6 +127,7 @@ export const createPost = async (req, res) => {
             return res.status(404).json({ message: error.message });
         });
 }
+
 export const createComment = async (req, res) => {
     const comment = {
         comment: req.body?.comment
@@ -141,6 +143,7 @@ export const createComment = async (req, res) => {
             return res.status(404).json({ message: error.message });
         });
 }
+
 export const deletePost = async (req, res) => {
     const post = req.post;
     await post.deleteOne()
@@ -149,6 +152,7 @@ export const deletePost = async (req, res) => {
         .catch(err => { return res.status(404).json({ message: err.message }); });
     return res.status(200).json({ message: `Successfully deleted post with id ${post._id} and associated comments.` });
 }
+
 export const deleteComment = async (req, res) => {
     await req.comment.deleteOne()
         .then(() => {
@@ -158,6 +162,7 @@ export const deleteComment = async (req, res) => {
             return res.status(404).json({ message: err.message });
         });
 };
+
 export const updateComment = async (req, res) => {
     const comment = req.comment;
     const updatedComment = req.body?.comment;

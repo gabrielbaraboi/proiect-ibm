@@ -121,3 +121,41 @@ export const Requirement = styled.div`
     font-size: 14px;
     color: #7243E4;
 `
+
+export const InputRequirements = styled.div`
+    display: inline-flex;
+    flex-wrap: wrap;
+    margin: 10px 0 0 0;
+    padding: 0;
+    width: 100%;
+`
+
+export const InputRequirement = styled.div`
+    align-items: center;
+    display: flex;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    padding: 8px 14px;
+    background: #F1EBFC;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #7243E4;
+    button {
+        align-items: center;
+        appearance: none;
+        background: #ff4949ab;
+        border: none;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        display: inline-flex;
+        font-size: 12px;
+        height: 15px;
+        justify-content: center;
+        line-height: 0;
+        margin-left: 8px;
+        padding: 0;
+        transform: rotate(45deg);
+        width: 15px;
+    }
+`

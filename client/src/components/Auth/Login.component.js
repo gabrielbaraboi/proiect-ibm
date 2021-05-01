@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import useForm from "../../customHooks/useForm";
-import LoginValidationRules from "../../services/LoginValidationRules";
+import LoginValidationRules from "../../services/Validation/LoginValidationRules";
 import { login } from "../../services/UserServices";
 import NavBar from "../NavBar/NavBar.component"
 import { Container, PageTitle } from "../Global.styledComponents"

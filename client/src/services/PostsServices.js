@@ -10,19 +10,30 @@ export const getNextPostsPage = async (sorting, date, programmingLanguage, workH
         throw err;
     }
 };
-export const getPostDetails = async (id) => {
+
+export const createPost = async (data) => {
     try {
-        const res = await axios.get(`http://localhost:9000/posts/postDetails/${id}`);
+        const res = await axios
+            .post(`http://localhost:9000/posts/createPost/`, data, { withCredentials: true });
         return res;
-    }catch(err){
+    } catch (err) {
         throw err;
     }
 };
 
-export const deletePost = async (postID)=>{
+export const getPostDetails = async (id) => {
     try {
-        const res = await axios.delete(`http://localhost:9000/posts/${postID}`,{ withCredentials: true });
-        return res;   
+        const res = await axios.get(`http://localhost:9000/posts/postDetails/${id}`);
+        return res;
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const deletePost = async (postID) => {
+    try {
+        const res = await axios.delete(`http://localhost:9000/posts/${postID}`, { withCredentials: true });
+        return res;
     } catch (error) {
         throw error;
     }

@@ -20,7 +20,6 @@ export const register = async (data) => {
     }
 };
 
-
 export const logout = async () => {
     try {
         const res = await axios
@@ -30,7 +29,6 @@ export const logout = async () => {
         throw err;
     }
 };
-
 
 export const updateProfile = async (userData, id) => {
     try {

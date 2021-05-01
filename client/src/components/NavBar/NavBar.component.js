@@ -5,6 +5,7 @@ import "./NavBar.css";
 import Icon from '@mdi/react'
 import { mdiPlusBoxMultiple } from '@mdi/js';
 import { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import { Nav, Container, VerticalNav, TitleDiv, Title, UserProfileMinimizedNavBar, ProfileCard, Other, Vertical, Column, NavBarButton, ColumnNav, OtherColumn } from "./NavBar.styledComponents";
 
 const NavBar = ({ connectedUser }) => {
@@ -51,9 +52,11 @@ const NavBar = ({ connectedUser }) => {
                         <a className="flex-elem" href={`/`}><NavBarButton>Postari</NavBarButton></a>
                         {isUserData() ?
                             <Vertical>
-                                <NavBarButton>
-                                    <Icon path={mdiPlusBoxMultiple} size={1}></Icon>
-                                </NavBarButton>
+                                <Link to={`/posts/new`}>
+                                    <NavBarButton>
+                                        <Icon path={mdiPlusBoxMultiple} size={1}></Icon>
+                                    </NavBarButton>
+                                </Link>
                                 <a href={`/profile/${user?.id}`}>
                                     <ProfileCard>
                                         <img src={`/profile/${user?.id}/profilePicture`} style={mystyle}></img>
@@ -92,9 +95,9 @@ const NavBar = ({ connectedUser }) => {
                         </a>
                         {isUserData() ?
                             <Column>
-                                {/* { <Link to={`/`}> */}
-                                <NavBarButton>Adauga postare</NavBarButton>
-                                {/* </Link> } */}
+                                <Link to={`/posts/new`}>
+                                    <NavBarButton>Adauga postare</NavBarButton>
+                                </Link>
                                 <a href={`/`}>
                                     <NavBarButton backgroundColor={`#FF7272`} color={`white`} backgroundColorHover={`#FF3838`} onClick={(e) => {
                                         e.preventDefault();
