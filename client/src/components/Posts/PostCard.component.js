@@ -7,9 +7,12 @@ const PostCard = ({ theRef, post }) => {
     <Post>
       <PostHeader>
         <AuthorImage>
-          <Link to={`/profile/${post?.createdBy}`} target="_blank">
-            <Image src={`/profile/${post?.createdBy}/profilePicture`} />
-          </Link>
+          {post.creator ?
+            <Link to={`/profile/${post?.createdBy}`} target="_blank">
+              <Image src={`/profile/${post?.createdBy}/profilePicture`} />
+            </Link> :
+            <Image src={``} />
+          }
         </AuthorImage>
         <PostHeaderBody>
           <PostTitle>
