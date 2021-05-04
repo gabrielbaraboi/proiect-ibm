@@ -23,7 +23,7 @@ export const updateProfile = async (req, res) => {
     data = JSON.parse(req.body.data);
   if (fileData)
     data["profilePicture"] = fileData.filename;
-  const { firstName, lastName, companyName, DoB, description, linkedin, github } = data;
+  const { firstName, lastName, companyName, DoB, description, linkedin, github, facebook, twitter } = data;
   await UserModel.findOne({ _id: req.params.id }, async (err, doc) => {
     if (err) {
       console.log(err);
@@ -35,6 +35,8 @@ export const updateProfile = async (req, res) => {
     if (description) doc.description = description;
     if (linkedin) doc.linkedin = linkedin;
     if (github) doc.github = github;
+    if (facebook) doc.facebook = facebook;
+    if (twitter) doc.twitter = twitter;
     if (data.profilePicture) {
       const fileStream = fs.createReadStream(fileData.path);
       if (doc.profilePicture)

@@ -4,6 +4,10 @@ import { AboutMe, DescriptionField } from './ProfileStyledComponents'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import { saveUserData, getUserData } from "../../services/localStorageManagment.js";
+import facebook from './socialNetworks/facebook.png';
+import twitter from './socialNetworks/twitter.png';
+import github from './socialNetworks/github.png';
+import linkedin from './socialNetworks/linkedin.jpg';
 
 export const EditDescription = ({ toggleEditAboutMe, connectedUser, small }) => {
 
@@ -164,7 +168,7 @@ export const EditDoB = ({ toggleEditDoB, connectedUser }) => {
                 )
                 : (<></>)
             }
-            <input type="button" value='Submit' onClick={handleSubmit} />
+            <button onClick={handleSubmit} > Save changes </button>
             <button onClick={() => toggleEditDoB()}> Go back! </button> <br></br>
         </>
     )
@@ -176,9 +180,11 @@ export const EditNetworks = ({ toggleEditNetworks, connectedUser }) => {
 
     const [userData, setPostData] = useState({
         linkedin: connectedUser.detalii.linkedin,
-        github: connectedUser.detalii.github
+        github: connectedUser.detalii.github,
+        twitter: connectedUser.detalii.twitter,
+        facebook: connectedUser.detalii.facebook
     });
-
+    console.log(userData.twitter)
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(userData)
@@ -194,13 +200,25 @@ export const EditNetworks = ({ toggleEditNetworks, connectedUser }) => {
                 });
         }
     }
-    console.log(getUserData());
+    const sn = {
+        height: 15,
+        width: 15,
+        marginRight: 10,
+        marginTop: 2
+
+      };
+    const inp = {
+        height: 28.5,
+        width: 300,
+        fontSize: 15
+    };
     return (
         <>
-            <input value={userData.linkedin} type="text" placeholder="linkedin" onChange={(e) => setPostData({ ...userData, linkedin: e.target.value })} /> <br></br>
-            <input value={userData.github} type="text" placeholder="github" onChange={(e) => setPostData({ ...userData, github: e.target.value })} /> <br></br>
-
-            <input type="button" value='Submit' onClick={handleSubmit} />
+            <img src={linkedin} style={sn}/><input value={userData.linkedin} type="text" style={inp} placeholder="linkedin" onChange={(e) => setPostData({ ...userData, linkedin: e.target.value })} /> <br></br>
+            <img src={github} style={sn}/><input value={userData.github} type="text" style={inp} placeholder="github" onChange={(e) => setPostData({ ...userData, github: e.target.value })} /> <br></br>
+            <img src={facebook} style={sn}/><input value={userData.facebook} type="text" style={inp} placeholder="facebook" onChange={(e) => setPostData({ ...userData, facebook: e.target.value })} /> <br></br>
+            <img src={twitter} style={sn}/><input value={userData.twitter} type="text" style={inp} placeholder="twitter" onChange={(e) => setPostData({ ...userData, twitter: e.target.value })} /> <br></br>
+            <button onClick={handleSubmit} > Save changes </button>
             <button onClick={() => toggleEditNetworks()}> Go back! </button> <br></br>
         </>
     )

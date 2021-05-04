@@ -14,6 +14,7 @@ export const ImagePlace = styled.div`
   margin-left: 25px;
   margin-top: 25px;
   background-color: gray;
+  margin-bottom:10px;
   @media (max-width: 1000px){
       width: 270px;
       height: 270px;
@@ -34,12 +35,15 @@ export const AboutMe = styled.div`
   float: left;
   overflow: hidden;
   position: relative;
+  background: #FEFEFE;
+  
   width: 700px;
   height: 250px;
   border-radius: 25px;
   margin-left: 25px;
   margin-top: 25px;
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   text-align: justify;
   @media (max-width: 1400px){
     width: 570px;
@@ -60,7 +64,8 @@ export const AboutMeSmall  = styled.div`
   padding: 25px;
   margin: 0 auto;
   margin-top: 15px;
-  background-color: white;
+  background: #FEFEFE;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   width: 1100px;
   height: auto;
   border-radius: 25px;
@@ -82,11 +87,13 @@ export const AboutMeSmall  = styled.div`
 `
 
 export const GeneralInformations  = styled.div`
+paddding: 20px;
   display: block;
   padding: 25px;
   margin: 0 auto;
   margin-top: 15px;
-  background-color: white;
+  background: #FEFEFE;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   width: 1100px;
   height: auto;
   border-radius: 25px;
@@ -131,5 +138,12 @@ export const DescriptionField = styled.textarea`
   font-size: 17px;
   height: 85%;
   resize: none;
+  background: #FEFEFE;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   width: 100%;
+`
+export const EditPicture = styled.button`
+  background-color: yellow;
+  position: absolute;
+  margin-left: -50px;
 `
