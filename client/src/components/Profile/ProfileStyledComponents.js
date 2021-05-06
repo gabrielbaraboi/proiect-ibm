@@ -122,7 +122,10 @@ export const InformationCard = styled.div`
   }
 `
 
-export const AboutMeCard = styled.div`
+export const GeneralInformations  = styled.div`
+paddding: 20px;
+  display: block;
+  padding: 25px;
   margin: 0 auto;
   margin-top: 15px;
   background: #d7d9d7;

@@ -178,3 +178,12 @@ export const updateComment = async (req, res) => {
         .catch(err => { return res.status(404).json({ message: err.message }); });
 
 };
+
+export const getWorkPlaces = async (req, res) => {
+    try {
+        const workPlaces = await Post.find({}, 'workPlace');
+        return res.status(200).json({ workPlaces });
+    } catch (error) {
+        return res.status(404).json({ message: error.message });
+    }
+}

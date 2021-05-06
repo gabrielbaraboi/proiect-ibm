@@ -30,6 +30,15 @@ export const getPostDetails = async (id) => {
     }
 };
 
+export const getWorkPlaces = async () => {
+    try {
+        const res = await axios.get(`http://localhost:9000/posts/workPlaces`);
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const deletePost = async (postID) => {
     try {
         const res = await axios.delete(`http://localhost:9000/posts/${postID}`, { withCredentials: true });

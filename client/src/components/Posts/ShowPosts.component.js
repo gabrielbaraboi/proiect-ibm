@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import styled from "styled-components";
 import NavBar from "../NavBar/NavBar.component";
 import PostCard from "./PostCard.component"
-import { getNextPostsPage } from "../../services/PostsServices";
+import { getNextPostsPage, getWorkPlaces } from "../../services/PostsServices";
 import { Container, PageTitle, Row } from "../Global.styledComponents"
 import { AllPosts, Filter } from "./Post.styledComponents"
 
@@ -35,7 +34,8 @@ class ShowPosts extends Component {
       lastPostDate: 'none',
       hasMore: false,
       pageNumber: 0,
-      loading: true
+      loading: true,
+      workPlaces: []
     };
     this.onScroll = this.onScroll.bind(this);
   }
@@ -87,7 +87,6 @@ class ShowPosts extends Component {
     }
     if (this.state.workPlace !== prevState.workPlace || this.state.type !== prevState.type || this.state.workHours !== prevState.workHours)
       this.updateURL()
-
   }
 
   updateWorkPlace = e => this.setState({ workPlace: e.target.value });
@@ -103,6 +102,15 @@ class ShowPosts extends Component {
   render() {
     const posts = this.state.posts;
     let postList;
+    let workPlacesList;
+
+    getWorkPlaces()
+      .then(res => {
+        this.state.workPlaces = Array.from(new Set(res.data.workPlaces.map(a => a.workPlace)))
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     postList = posts.map((post, k) =>
       <PostCard post={post} key={k} />
@@ -122,6 +130,7 @@ class ShowPosts extends Component {
                 {this.state.loading && <strong>Loading</strong>}
               </AllPosts>
               <Filter>
+                Filter
                 <div id="search">
                   <select value={this.state.sorting == null ? '' : this.state.sorting.toString()} onChange={this.updateSort}>
                     <option value=''>Choose Sort Type</option>
@@ -140,8 +149,9 @@ class ShowPosts extends Component {
                   </select>
                   <select value={this.state.workPlace == null ? '' : this.state.workPlace.toString()} onChange={this.updateWorkPlace}>
                     <option value=''>Choose Work Place</option>
-                    <option value='Timisoara'>Timisoara</option>
-                    <option value='Bucharest'>Bucharest</option>
+                    {this.state.workPlaces.map((workPlace, k) =>
+                       <option value={workPlace} key={k}>{workPlace}</option>
+                    )}
                   </select>
                 </div>
               </Filter>

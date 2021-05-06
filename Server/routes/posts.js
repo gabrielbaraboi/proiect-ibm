@@ -1,5 +1,5 @@
 import express from 'express';
-import { getPosts, postDetails, postComments, createPost, createComment, deletePost, deleteComment, updateComment } from '../controllers/posts.js';
+import { getPosts, postDetails, postComments, createPost, createComment, deletePost, deleteComment, updateComment, getWorkPlaces } from '../controllers/posts.js';
 import { auth } from '../middleware/auth.js';
 import csrfProtection from '../middleware/csrfProtection.js';
 import { userComment } from '../middleware/userComment.js';
@@ -7,6 +7,7 @@ import { userPost } from '../middleware/userPost.js';
 const router = express.Router();
 
 router.get('/', getPosts);
+router.get('/workPlaces', getWorkPlaces);
 router.get('/postDetails/:id', postDetails);
 router.get('/postComments/:id', postComments);
 router.post('/createPost', auth, csrfProtection, createPost);
