@@ -31,6 +31,11 @@ export const CoverImagePlace = styled.div`
   @media (max-width: 750px){
     width: 500px;
   }
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+    
+  }
 
 `
 
@@ -69,7 +74,7 @@ export const AboutMe = styled.div`
   padding: 25px;
   background: #FEFEFE;
   width: 650px;
-  height: 300px;
+  height: auto;
   max-height: 300px;
   border-radius: 13px;
   text-align: justify;
@@ -143,12 +148,25 @@ export const DescriptionField = styled.textarea`
     
   display: block;
   font-size: 17px;
-  height: 85%;
+  height: 150px;
   resize: none;
   background: background: #d7d9d7;;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   width: 100%;
 `
+
+export const ProfilePicture = styled.img`
+  height: 100%;
+  width: 100%;
+  objectFit: cover;
+  border-radius: 50%;
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+    
+  }
+`
+
 
 export const modalStyles = {
   content : {
@@ -167,7 +185,13 @@ export const profileImageStyle = {
   width: "100%",
   objectFit: "cover",
   borderRadius: "50%",
-
+  "&:hover": {
+    width: "50%"
+  },
+  "&:last-child": {
+    width: "50%"
+  }
+  
 };
 
 export const NetworkImage = {

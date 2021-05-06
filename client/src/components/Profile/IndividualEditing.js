@@ -64,7 +64,7 @@ export const EditName = ({ toggleEditName, connectedUser }) => {
     const [userData, setPostData] = useState({
         firstName: connectedUser.detalii.firstName,
         lastName: connectedUser.detalii.lastName,
-        companyName: connectedUser.detalii.companyName,
+        companyName: connectedUser.detalii.companyName
     });
     console.log(getUserData());
     const handleSubmit = async(e) => {
@@ -134,6 +134,40 @@ export const EditProfilePicture = ({ toggleEditProfilePicture, connectedUser }) 
             ></input>
             <button onClick={handleSave}>Save</button>
             <button onClick={() => toggleEditProfilePicture()}>Cancel</button>
+            <br></br>
+        </>
+    )
+}
+
+
+
+export const EditCoverPicture = ({ toggleEditCoverPicture, connectedUser }) => {
+
+    const [file, setFile] = useState(null);
+    const handleSave = async(e) => {
+        e.preventDefault();
+        if (!file) return;
+        const formData = new FormData();
+        formData.append('cover-picture', file);
+        console.log("got here!");
+        await updateProfile(formData, connectedUser.detalii._id)
+            .then(res => {
+                window.location.reload();
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+    return (
+        <>
+            <input
+                filename={file}
+                onChange={e => setFile(e.target.files[0])}
+                type="file"
+                accept="image/*"
+            ></input>
+            <button onClick={handleSave}>Save</button>
+            <button onClick={() => toggleEditCoverPicture()}>Cancel</button>
             <br></br>
         </>
     )
