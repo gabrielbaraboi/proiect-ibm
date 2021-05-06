@@ -27,7 +27,6 @@ export const CoverImagePlace = styled.div`
   width: 649px;
   background-color: gray;
   margin: -25px;
-
   @media (max-width: 750px){
     width: 500px;
   }
@@ -36,9 +35,7 @@ export const CoverImagePlace = styled.div`
     cursor: pointer;
     
   }
-
 `
-
 
 export const EditProfileButton = styled.button`
   position: absolute;
@@ -67,8 +64,6 @@ export const NameArea = styled.div`
   text-align: left;
 `
 
-
-
 export const AboutMe = styled.div`
   overflow: hidden;
   padding: 25px;
@@ -87,7 +82,7 @@ export const AboutMe = styled.div`
 
 
 export const GeneralInformation  = styled.div`
-  paddding: 20px;
+  padding: 20px;
   display: block;
   padding: 25px;
   margin: 0 auto;
@@ -127,10 +122,7 @@ export const InformationCard = styled.div`
   }
 `
 
-export const GeneralInformations  = styled.div`
-paddding: 20px;
-  display: block;
-  padding: 25px;
+export const AboutMeCard = styled.div`
   margin: 0 auto;
   margin-top: 15px;
   background: #d7d9d7;
@@ -153,7 +145,7 @@ export const DescriptionField = styled.textarea`
   font-size: 17px;
   height: 150px;
   resize: none;
-  background: background: #d7d9d7;;
+  background: #d7d9d7;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   width: 100%;
 `
@@ -161,7 +153,7 @@ export const DescriptionField = styled.textarea`
 export const ProfilePicture = styled.img`
   height: 100%;
   width: 100%;
-  objectFit: cover;
+  object-fit: cover;
   border-radius: 50%;
   &:hover {
     opacity: 0.7;
@@ -169,7 +161,6 @@ export const ProfilePicture = styled.img`
     
   }
 `
-
 
 export const modalStyles = {
   content : {
@@ -181,7 +172,6 @@ export const modalStyles = {
     transform: 'translate(-50%, -50%)'
   }
 };
-
 
 export const profileImageStyle = {
   height: "100%",

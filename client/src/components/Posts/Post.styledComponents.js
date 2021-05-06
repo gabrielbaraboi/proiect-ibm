@@ -159,3 +159,28 @@ export const InputRequirement = styled.div`
         width: 15px;
     }
 `
+
+export const FilterTitle = styled.h2`
+    color: #1B2942;
+    font-size: 24px;
+    font-weight: 500;
+    overflow: hidden;
+    &:after {
+        content:"";
+        display: inline-block;
+        height: 0.5em;
+        vertical-align: bottom;
+        width: 100%;
+        margin-right: -100%;
+        margin-left: 10px;
+        border-top: 2px solid #e4e4e4;
+    }
+`
+
+export const FilterCategoryTitle = styled.h3`
+    color: #1B2942;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 8px;
+`

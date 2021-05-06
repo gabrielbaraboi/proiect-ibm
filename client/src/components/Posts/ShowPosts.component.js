@@ -3,7 +3,7 @@ import NavBar from "../NavBar/NavBar.component";
 import PostCard from "./PostCard.component"
 import { getNextPostsPage, getWorkPlaces } from "../../services/PostsServices";
 import { Container, PageTitle, Row } from "../Global.styledComponents"
-import { AllPosts, Filter } from "./Post.styledComponents"
+import { AllPosts, Filter, FilterTitle, FilterCategoryTitle } from "./Post.styledComponents"
 
 function setParams({ workPlace, sort, workHours, type, createdBy }) {
   const searchParams = new URLSearchParams();
@@ -102,7 +102,6 @@ class ShowPosts extends Component {
   render() {
     const posts = this.state.posts;
     let postList;
-    let workPlacesList;
 
     getWorkPlaces()
       .then(res => {
@@ -130,30 +129,29 @@ class ShowPosts extends Component {
                 {this.state.loading && <strong>Loading</strong>}
               </AllPosts>
               <Filter>
-                Filter
-                <div id="search">
-                  <select value={this.state.sorting == null ? '' : this.state.sorting.toString()} onChange={this.updateSort}>
-                    <option value=''>Choose Sort Type</option>
-                    <option value='asc'>Asc</option>
-                    <option value='desc'>Desc</option>
-                  </select>
-                  <select value={this.state.type == null ? '' : this.state.type.toString()} onChange={this.updateType}>
-                    <option value=''>Choose Post Type</option>
-                    <option value='offer'>Offer</option>
-                    <option value='request'>Request</option>
-                  </select>
-                  <select value={this.state.workHours == null ? '' : this.state.workHours.toString()} onChange={this.updateWorkHours}>
-                    <option value=''>Choose Work Hours</option>
-                    <option value='full-time'>Full time</option>
-                    <option value='part-time'>Part time</option>
-                  </select>
-                  <select value={this.state.workPlace == null ? '' : this.state.workPlace.toString()} onChange={this.updateWorkPlace}>
-                    <option value=''>Choose Work Place</option>
-                    {this.state.workPlaces.map((workPlace, k) =>
-                       <option value={workPlace} key={k}>{workPlace}</option>
-                    )}
-                  </select>
-                </div>
+                <FilterTitle>Filter</FilterTitle>
+                <FilterCategoryTitle>Sort</FilterCategoryTitle>
+                <input type="radio" id="asc" name="sort" value="asc" onChange={this.updateSort} checked={this.state.sorting !== null ? this.state.sorting.toString() === "asc" : true} />
+                <label htmlFor="asc">Ascending</label><br />
+                <input type="radio" id="desc" name="sort" value="desc" onChange={this.updateSort} checked={this.state.sorting !== null ? this.state.sorting.toString() === "desc" : false} />
+                <label htmlFor="desc">Descending</label>
+                <FilterCategoryTitle>Type</FilterCategoryTitle>
+                <input type="radio" id="offer" name="type" value="offer" onChange={this.updateType} checked={this.state.type.toString() === "offer"} />
+                <label htmlFor="offer">Offer</label><br />
+                <input type="radio" id="request" name="type" value="request" onChange={this.updateType} checked={this.state.type.toString() === "request"} />
+                <label htmlFor="request">Request</label>
+                <FilterCategoryTitle>Work Hours</FilterCategoryTitle>
+                <input type="radio" id="full-time" name="workHours" value="full-time" onChange={this.updateWorkHours} checked={this.state.workHours.toString() === "full-time"} />
+                <label htmlFor="full-time">Full Time</label><br />
+                <input type="radio" id="part-time" name="workHours" value="part-time" onChange={this.updateWorkHours} checked={this.state.workHours.toString() === "part-time"} />
+                <label htmlFor="part-time">Part Time</label>
+                <FilterCategoryTitle>Work Place</FilterCategoryTitle>
+                {this.state.workPlaces.map((workPlace, k) =>
+                  <div key={k}>
+                    <input type="radio" id={`workplace-`, k} name="workPlace" value={workPlace} onChange={this.updateWorkPlace} checked={this.state.workPlace.toString() === workPlace} />
+                    <label htmlFor={`workplace-`, k}>{workPlace}</label>
+                  </div>
+                )}
               </Filter>
             </Row>
           </Container>

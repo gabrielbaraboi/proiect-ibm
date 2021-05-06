@@ -38,7 +38,7 @@ export const VerticalNav = styled.div`
 export const Title = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
-    color: black;
+    color: white;
     @media (max-width: 780px) {
         margin: 0 4rem;
     }
@@ -62,7 +62,7 @@ export const NavBarButton = styled.button`
     border-radius: 5px;
     font-size: 1.2rem;
     margin: 0 1rem;
-    color: ${props => props.color || `black`};
+    color: ${props => props.color || `white`};
     transition: 1s ease;
     :hover{
         cursor: pointer;
