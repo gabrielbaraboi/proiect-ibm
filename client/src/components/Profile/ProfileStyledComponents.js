@@ -8,142 +8,178 @@ export const ShowPostContainer = styled.div`
 export const ImagePlace = styled.div`
   float: left;
   position: relative;
-  width: 250px;
-  height: 250px;
-  border-radius: 25px;
-  margin-left: 25px;
-  margin-top: 25px;
-  background-color: gray;
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  margin-top: 110px;
+  background-color: #d7d9d7;
   margin-bottom:10px;
-  @media (max-width: 1000px){
-      width: 270px;
-      height: 270px;
-  }
-  @media (max-width: 750px){
-    margin: 0 auto;
-    float: none;
-    margin-top: 20px;
-  }
-  
-`;
-
-export const ProfileImage = styled.img`
-  border-radius: 25px;
-`;
-
-export const AboutMe = styled.div`
-  float: left;
-  overflow: hidden;
-  position: relative;
-  background: #FEFEFE;
-  
-  width: 700px;
-  height: 250px;
-  border-radius: 25px;
-  margin-left: 25px;
-  margin-top: 25px;
-  padding-left: 10px;
-  padding-right: 10px;
-  text-align: justify;
-  @media (max-width: 1400px){
-    width: 570px;
-  }
-  @media (max-width: 1000px){
-      width: 300px;
-      height: 270px;
-  }
-  @media (max-width: 750px){
-    margin: 0 auto;
-    margin-top: 20px;
-    display: none;
-  }
-  
-`;
-
-export const AboutMeSmall  = styled.div`
-  padding: 25px;
-  margin: 0 auto;
-  margin-top: 15px;
-  background: #FEFEFE;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  width: 1100px;
-  height: auto;
-  border-radius: 25px;
-  border-width:0.5px;
   border-style: solid;
-  border-color:#d7d9d7;
-  text-align: justify;
-  display: none;
-  @media (max-width: 1400px){
-    width: 940px;
-  }
-  @media (max-width: 1000px){
-    width: 700px;
-  }
+  border-width: 6.5px;
+  border-color: #d7d9d7;
+`;
+
+export const CoverImagePlace = styled.div`
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  position: absolute;
+  height: 170px;
+  width: 649px;
+  background-color: gray;
+  margin: -25px;
+
   @media (max-width: 750px){
     width: 500px;
-    display: block;
+  }
+
+`
+
+
+export const EditProfileButton = styled.button`
+  position: absolute;
+  margin-top: 167px;
+  height: 30px;
+  width: 90px;
+  margin-left: 100px;
+  @media (max-width: 750px){
+    margin-left: 75px;
+    margin-top: 200px;
   }
 `
 
-export const GeneralInformations  = styled.div`
-paddding: 20px;
+
+export const NameArea = styled.div`
+  float: left;
+  position: absolute;
+  width: 300px;
+  height: 30px;
+  
+  margin-top: 165px;
+  margin-left: 125px;
+  
+  font-size: 25px;
+  // color: white;
+  text-align: left;
+`
+
+
+
+export const AboutMe = styled.div`
+  overflow: hidden;
+  padding: 25px;
+  background: #FEFEFE;
+  width: 650px;
+  height: 300px;
+  max-height: 300px;
+  border-radius: 13px;
+  text-align: justify;
+  background: #d7d9d7;
+  @media (max-width: 750px){
+    width: 500px;
+  }
+`;
+
+
+
+export const GeneralInformation  = styled.div`
+  paddding: 20px;
   display: block;
   padding: 25px;
   margin: 0 auto;
   margin-top: 15px;
   background: #FEFEFE;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  width: 1100px;
-  height: auto;
-  border-radius: 25px;
+  width: 650px;
+  height: 300px;
+  border-radius: 13px;
   border-width:0.5px;
   border-style: solid;
   border-color:#d7d9d7;
   text-align: center;
-  @media (max-width: 1400px){
-    width: 940px;
+  background: linear-gradient(#FEFEFE 57%, #d7d9d7 33%);
+  @media (max-width: 750px){
+    width: 500px;
   }
-  @media (max-width: 1000px){
-    width: 700px;
-  }
+  // &:hover {
+  //   background: #E6E7F680;
+  // }
+`
+
+export const InformationCard = styled.div`
+  padding: 20px;
+  width: 650px;
+  height: auto;
+  border-radius: 13px;
+  border-width:0.5px;
+  border-style: solid;
+  border-color:#d7d9d7;
+  background-color: #d7d9d7;
+  margin: 0 auto;
+  margin-top: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   @media (max-width: 750px){
     width: 500px;
   }
 `
 
-export const Content = styled.div`
-  display: inline-block;
-  text-align: left;
-  font-size: 27px;
-  margin-left: 25px;
-  width: 1100px;
-
-  @media (max-width: 1400px){
-    width: 940px;
-  }
-  @media (max-width: 1000px){
-    width: 700px;
-  }
+export const AboutMeCard = styled.div`
+  margin: 0 auto;
+  margin-top: 15px;
+  background: #d7d9d7;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  width: 650px;
+  height: auto;
+  border-radius: 13px;
+  border-width:0.5px;
+  border-style: solid;
+  border-color:#d7d9d7;
+  text-align: justify;
   @media (max-width: 750px){
-    width: 250px;
-    text-align: center;
-    margin-left: 0px;
-    }
-    
-  `;
+    width: 500px;
+  }
+`
 
 export const DescriptionField = styled.textarea`
+    
   display: block;
   font-size: 17px;
   height: 85%;
   resize: none;
-  background: #FEFEFE;
+  background: background: #d7d9d7;;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   width: 100%;
 `
-export const EditPicture = styled.button`
-  background-color: yellow;
-  position: absolute;
-  margin-left: -50px;
-`
+
+export const modalStyles = {
+  content : {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+};
+
+
+export const profileImageStyle = {
+  height: "100%",
+  width: "100%",
+  objectFit: "cover",
+  borderRadius: "50%",
+
+};
+
+export const NetworkImage = {
+  height: 70,
+  width: 70,
+  margin: 20
+};
+
+export const NoNetworkImage = {
+  height: 70,
+  width: 70,
+  margin: 20,
+  tintColor: 'red',
+  opacity: 0.2
+};

@@ -2,22 +2,23 @@ import { useState } from "react";
 import NavBar from "../../NavBar/NavBar.component";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
-import { ShowPostContainer, ImagePlace, AboutMe, AboutMeSmall, GeneralInformations, Content, ProfileImage } from '../ProfileStyledComponents';
+import { ShowPostContainer, ImagePlace, AboutMeCard, InformationCard, GeneralInformation, CoverImagePlace, profileImageStyle, EditProfileButton, NameArea, AboutMe, modalStyles, NetworkImage, NoNetworkImage } from '../ProfileStyledComponents';
 import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture } from "../IndividualEditing";
 import facebook from '../socialNetworks/facebook.png';
 import twitter from '../socialNetworks/twitter.png';
 import github from '../socialNetworks/github.png';
 import linkedin from '../socialNetworks/linkedin.jpg';
 import gmail from '../socialNetworks/gmail.png';
+import Modal from 'react-modal';
+
 
 export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
-
-
 
     const [EditTheProfilePicture, setEditProfilePicture] = useState(false);
     const toggleEditProfilePicture = () => {
         setEditProfilePicture(false);
     };
+
     const [EditAboutMe, setEditAboutMe] = useState(false);
     const toggleEditAboutMe = () => {
         setEditAboutMe(false);
@@ -35,19 +36,17 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
         setEditNetworks(false);
     }
 
-    const { id } = useParams();
-    const mystyle = {
-        height: "100%",
-        width: "100%",
-        objectFit: "cover",
-        borderRadius: "20px",
-    };
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const openModal = () => {
+        setIsOpen(true);
+    }
 
-    const sn = {
-        height: 70,
-        width: 70,
-        margin: 20
-      };
+    const closeModal = () => {
+        setIsOpen(false);
+    }
+
+    const { id } = useParams();
+
       const sn2 = {
         height: 70,
         width: 70,
@@ -57,29 +56,34 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
       };
 
 
+
     return (
         <ShowPostContainer className="App">
             <NavBar></NavBar>
 
-            <GeneralInformations>
+            <GeneralInformation>
+                <CoverImagePlace> 
+                    <img src='https://lp-cms-production.imgix.net/2019-06/28206231.jpg' style={{"width": "100%", "height": "100%", 'border-top-left-radius': '13px', 'border-top-right-radius': '13px', 'position': 'relative' }}></img>
+                </CoverImagePlace>
                 <ImagePlace>
-                    <ProfileImage src={`/profile/${id}/profilePicture`} style={mystyle}></ProfileImage>
+                    <img src={`/profile/${id}/profilePicture`} style={profileImageStyle}></img>
                 </ImagePlace>
-                {!EditAboutMe ?
-                    (<AboutMe>
-                        {postData?.detalii?.description ? ("About me: " + postData?.detalii?.description) :
-                            <div>
-                                Add an about me section.<br />
-                            </div>
-                        }
-                        <button onClick={() => setEditAboutMe(true)}>Edit</button>
-                    </AboutMe>) :
-
-                    (<EditDescription toggleEditAboutMe={toggleEditAboutMe} connectedUser={postData} small={false}></EditDescription>)
-                }
-
-                <Content>
-                {!EditTheProfilePicture ?
+                <NameArea>  
+                    {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName} <br/>
+                    <div style={{"font-size": "15px"}}> {postData?.detalii?.role} </div>
+                </NameArea>
+                <div>
+                    <EditProfileButton onClick={openModal}>Edit Profile</EditProfileButton>
+                    <Modal
+                        isOpen={modalIsOpen}
+                        // onAfterOpen={afterOpenModal}
+                        onRequestClose={closeModal}
+                        style={modalStyles}
+                        contentLabel="Example Modal"
+                    >
+                    <button onClick={closeModal}>close</button> <br/>
+                       <EditName connectedUser={postData}> </EditName> <br/>
+                       {!EditTheProfilePicture ?
                             (<>
                                 <button onClick={() => setEditProfilePicture(true)}>Change profile picture</button> <br></br>
                             </>
@@ -89,72 +93,66 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
                                 <EditProfilePicture toggleEditProfilePicture={toggleEditProfilePicture} connectedUser={postData} small={false}></EditProfilePicture>
                             )
                         }
-                    {!EditTheName ?
+                    </Modal>
+                </div>       
+
+            </GeneralInformation>
+            
+            <AboutMeCard>
+                
+                <AboutMe>
+                    <center> About </center>
+                    {!EditAboutMe ?
                         (<>
-                            {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName} 
-                            <button onClick={() => setEditName(true)}>Edit</button><br></br>
-                            <img src={gmail} style={{ height: 15, width: 15 }}/> <span style={{fontSize: 15}}>{postData?.detalii?.email} </span>
+                            {postData?.detalii?.description ? (postData?.detalii?.description) :
+                                <div>
+                                    Add an about me section.<br />
+                                </div>
+                            }
+                            <button onClick={() => setEditAboutMe(true)}>Edit</button>
+                        </>) :
 
-                        </>)
-
-                        :
-                        (<EditName toggleEditName={toggleEditName} connectedUser={postData} small={false}></EditName>
-                        )
-                        
+                        (<EditDescription toggleEditAboutMe={toggleEditAboutMe} connectedUser={postData} small={true}>Editam</EditDescription>)
                     }
-                </Content>
+                    </AboutMe>
 
-            </GeneralInformations>
-            <AboutMeSmall>
-                {!EditAboutMe ?
-                    (<>
-                        {postData?.detalii?.description ? ("About me: " + postData?.detalii?.description) :
-                            <div>
-                                Add an about me section.<br />
-                            </div>
-                        }
-                        <button onClick={() => setEditAboutMe(true)}>Edit</button>
-                    </>) :
-
-                    (<EditDescription toggleEditAboutMe={toggleEditAboutMe} connectedUser={postData} small={true}>Editam</EditDescription>)
-                }
-            </AboutMeSmall>
+            </AboutMeCard>
 
             {(postData?.detalii?.role == "student" || postData?.detalii?.role == "company") ?
-                <GeneralInformations>
+                <InformationCard>
 
                     {(!EditTheNetworks ?
                         (<>
                             Manage social media <br></br>
                             {postData?.detalii?.linkedin ?
-                                <a target="_blank" href={postData?.detalii?.linkedin}>
-                                    <img src={linkedin} style={sn}/>
+                                <a target="_blank" rel="noreferrer" href={postData?.detalii?.linkedin}>
+                                    <img src={linkedin} style={NetworkImage}/>
                                 </a> :
-                                    (<img src={linkedin} style={sn2}/>)
+                                    (<img src={linkedin} style={NoNetworkImage}/>)
                             }
                             {postData?.detalii?.github ?
-                                <a target="_blank" href={postData?.detalii?.github}>
-                                    <img src={github} style={sn}/>
+                                <a target="_blank" rel="noreferrer" href={postData?.detalii?.github}>
+                                    <img src={github} style={NetworkImage}/>
                                 </a> :
-                                (<img src={github} style={sn2}/>)
+                                (<img src={github} style={NoNetworkImage}/>)
                             }
                             {postData?.detalii?.facebook ?
-                                <a target="_blank" href={postData?.detalii?.facebook}>
-                                    <img src={facebook} style={sn}/>
+                                <a target="_blank" rel="noreferrer" href={postData?.detalii?.facebook}>
+                                    <img src={facebook} style={NetworkImage}/>
                                 </a> :
-                                 (<img src={facebook} style={sn2}/>)
+                                 (<img src={facebook} style={NoNetworkImage}/>)
                             }
                             {postData?.detalii?.twitter ?
-                                (<a target="_blank" href={postData?.detalii?.twitter}>
-                                    <img src={twitter} style={sn}/>
+                                (<a target="_blank" rel="noreferrer" href={postData?.detalii?.twitter}>
+                                    <img src={twitter} style={NetworkImage}/>
                                 </a>) :
-                                (<img src={twitter} style={sn2}/>)
+                                (<img src={twitter} style={NoNetworkImage}/>)
                             }
                                 <center><button onClick={() => setEditNetworks(true)}>Edit</button></center>
                            </> )
                         : (<EditNetworks toggleEditNetworks={toggleEditNetworks} connectedUser={postData} ></EditNetworks>)
                     )}
-                </GeneralInformations>
+                </InformationCard>
                 :
                 (<> </>)
 
@@ -166,13 +164,13 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
             
                     (!EditTheDoB ?
                         (
-                            <GeneralInformations>
+                            <InformationCard>
                                 <>
                                     Birth Date <br></br></>
                                     {postData?.detalii?.DoB ? Moment(postData?.detalii?.DoB).format('DD-MM-YYYY') : (<></>)}
                                     <button onClick={() => setEditDoB(true)}>Edit</button>
                                 
-                            </GeneralInformations>
+                            </InformationCard>
                         )
                         : (<EditDoB toggleEditDoB={toggleEditDoB} connectedUser={postData}> </EditDoB>)
                     ) : (<></>)
@@ -180,15 +178,16 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
     
 
 
-            <GeneralInformations>
+            <InformationCard>
                 <Link to={`/?createdBy=${postData?.detalii?._id}`}>
                     View your posts
                     </Link>
-            </GeneralInformations>
+            </InformationCard>
 
-            <GeneralInformations>
+            <InformationCard>
                 <button onClick={() => deleteThisUser()}>Delete your account</button>
-            </GeneralInformations>
+                
+            </InformationCard>
         </ShowPostContainer>
     )
 }

@@ -39,8 +39,8 @@ export const EditDescription = ({ toggleEditAboutMe, connectedUser, small }) => 
                         type="text"
                         placeholder="About me"
                         onChange={(e) => setPostData({ ...userData, description: e.target.value })}>
-                    </DescriptionField> <br></br>
-                    <input type="button" value='Submit' onClick={handleSubmit} />
+                    </DescriptionField> 
+                    <button onClick={handleSubmit}> Submit </button>
                     <button onClick={() => toggleEditAboutMe()}> Go back! </button> <br></br>
                 </AboutMe>)
                 : (<>
@@ -50,7 +50,7 @@ export const EditDescription = ({ toggleEditAboutMe, connectedUser, small }) => 
                         placeholder="About me"
                         onChange={(e) => setPostData({ ...userData, description: e.target.value })}>
                     </DescriptionField> <br></br>
-                    <input type="button" value='Submit' onClick={handleSubmit} />
+                    <button onClick={handleSubmit}> Save changes </button>
                     <button onClick={() => toggleEditAboutMe()}> Go back! </button> <br></br>
                 </>)}
         </>
@@ -87,15 +87,23 @@ export const EditName = ({ toggleEditName, connectedUser }) => {
                 });
         }
     }
+        const inp = {
+        height: 28.5,
+        width: 300,
+        fontSize: 15
+    };
     return (
         <>
-            {(connectedUser.detalii.role != "company") ?
-                (<><input value={userData.firstName} type="text" placeholder="First Name" onChange={(e) => setPostData({ ...userData, firstName: e.target.value })} /> <br></br>
-                    <input value={userData.lastName} type="text" placeholder="Last Name" onChange={(e) => setPostData({ ...userData, lastName: e.target.value })} /> <br></br> </>)
-                : (<><input value={userData.companyName} type="text" placeholder="Company Name" onChange={(e) => setPostData({ ...userData, companyName: e.target.value })} /> </>)
+            {(connectedUser.detalii.role !== "company") ?
+                (<> First Name <br/>
+                    <input value={userData.firstName} type="text" placeholder="First Name" style={inp} onChange={(e) => setPostData({ ...userData, firstName: e.target.value })} /> <br></br>
+                    Last Name <br/>
+                    <input value={userData.lastName} type="text" placeholder="Last Name" style={inp} onChange={(e) => setPostData({ ...userData, lastName: e.target.value })} /> <br></br> </>)
+                : (<> Company Name <br/>
+                    <input value={userData.companyName} type="text" placeholder="Company Name" style={inp} onChange={(e) => setPostData({ ...userData, companyName: e.target.value })} /> </>)
             }
             <input type="button" value='Submit' onClick={handleSubmit} />
-            <button onClick={() => toggleEditName()}> Go back! </button> <br></br>
+            {/* <button onClick={() => toggleEditName()}> Go back! </button> <br></br> */}
         </>
     )
 }
@@ -124,7 +132,7 @@ export const EditProfilePicture = ({ toggleEditProfilePicture, connectedUser }) 
                 type="file"
                 accept="image/*"
             ></input>
-            <button onClick={handleSave}>Save profile picture</button>
+            <button onClick={handleSave}>Save</button>
             <button onClick={() => toggleEditProfilePicture()}>Cancel</button>
             <br></br>
         </>
@@ -155,7 +163,7 @@ export const EditDoB = ({ toggleEditDoB, connectedUser }) => {
     }
     return (
         <>
-            {(connectedUser.detalii.role == "student") ?
+            {(connectedUser.detalii.role === "student") ?
                 (<>
                     <center> <Calendar
                         defaultValue={new Date(userData.DoB)}
