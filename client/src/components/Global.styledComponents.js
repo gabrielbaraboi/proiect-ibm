@@ -18,13 +18,14 @@ export const Container = styled.div`
 `;
 
 export const PageTitle = styled.p`
-    padding: 8px 20px;
+    padding: 8px 0;
     margin: 30px 0;
-    font-size: 22px;
-    color: #3e3e3e;
+    font-size: 24px;
+    color: #1B2942;
     border-radius: 5px;
+    font-weight: 500;
     display: inline-block;
-    background: #DCDCDC;
+    /* background: #DCDCDC; */
 `
 
 export const Row = styled.div`

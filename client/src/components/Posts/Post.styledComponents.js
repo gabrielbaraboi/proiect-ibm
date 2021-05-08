@@ -1,34 +1,39 @@
 import styled from "styled-components";
 
 export const AllPosts = styled.div`
-    width: 70%;
+    width: 75%;
     height: auto;
     padding-right: 20px;
 `
 
 export const Filter = styled.div`
-    width: 30%;
+    width: 25%;
     height: 500px;
-    background: #FEFEFE;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 16px;
+    background: rgba(255,255,255,.55);
+    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
+    border-radius: 6px;
     padding: 20px;
 `
 
 export const Post = styled.div`
     width: 100%;
-    background: #FEFEFE;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 16px;
+    background: rgba(255,255,255,.55);
+    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
+    border-radius: 6px;
     margin-top: 20px;
-    padding: 20px;
     transition: all .3s ease-in-out;
+    display: flex;
     &:nth-child(1) {
         margin-top:0;
     }
     &:hover {
-        background: #E6E7F680;
+        background: #FEFEFE;
     }
+`
+
+export const PostRightBlock = styled.div`
+    padding: 20px 20px 20px 10px;
+    width: calc(100% - 150px);
 `
 
 export const PostHeader = styled.div`
@@ -37,23 +42,24 @@ export const PostHeader = styled.div`
 `
 
 export const AuthorImage = styled.div`
-    width: 60px;
-    height: 60px;
-    border-radius: 100%;
+    width: 150px;
+    padding: 20px;
+    border-radius: 6px;
 `;
 
 export const Image = styled.img`
     height: 100%;
     width: 100%;
     object-fit: cover;
-    border-radius: 100%;
+    border-radius: 6px;
 `
 
 export const PostHeaderBody = styled.div`
     display: flex;
     flex-direction: column;
+    width: 73%;
     padding-left: 15px;
-    width: 70%;
+    border-left: 2px solid #363636;
 `;
 
 export const PostTitle = styled.h1`
@@ -74,10 +80,24 @@ export const PostHeaderDetails = styled.div`
 `
 
 export const Detail = styled.div`
-    margin-left: 15px;
+    margin-left: 10px;
     font-size: 12px;
-    margin-top: 5px;
+    margin-top: 8px;
     color: #66727E;
+    text-transform: capitalize;
+    &:after {
+        content: "";
+        display: inline-block;
+        height: 0.5em;
+        vertical-align: bottom;
+        height: 100%;
+        margin-right: -100%;
+        margin-left: 8px;
+        border-right: 2px solid #e4e4e4;
+    }
+    &:last-child::after {
+        display: none;
+    }
     &:nth-child(1) {
         margin-left: 0;
     }
@@ -88,11 +108,16 @@ export const PostHeaderData = styled.div`
 `
 
 export const DataItem = styled.div`
-    font-size: 14px;
+    font-size: 11px;
     text-align: right;
     color: #66727E;
+    margin-top: 5px;
+    &:nth-child(1) {
+        margin-top: 0;
+        font-size: 14px;
+    }
     a {
-        color: #66727E;
+        color: black;
         transition: all .2s ease-in-out;
     }
     a:hover {
@@ -116,10 +141,10 @@ export const Requirement = styled.div`
     margin-right: 8px;
     margin-top: 5px;
     padding: 8px 14px;
-    background: #F1EBFC;
+    background: #89ccf6;
     border-radius: 8px;
     font-size: 14px;
-    color: #7243E4;
+    color: #ffffff;
 `
 
 export const InputRequirements = styled.div`
@@ -177,10 +202,78 @@ export const FilterTitle = styled.h2`
     }
 `
 
+export const FilterCategory = styled.div`
+    margin-left: 10px;
+    label {
+        margin-left: 5px;
+    }
+`
+
 export const FilterCategoryTitle = styled.h3`
     color: #1B2942;
     font-size: 18px;
     font-weight: 500;
     margin-top: 15px;
     margin-bottom: 8px;
+    margin-left: -10px;
+`
+
+export const FilterField = styled.div`
+    color: #686D88;
+    display: block;
+    position: relative;
+    margin-top: 5px;
+    height: 18px;
+    &:hover label {
+	    color: #000000;
+    }
+    &:hover .check {
+	    border: 2px solid #89CCF6;
+    }
+    input[type=radio] {
+        position: absolute;
+        visibility: hidden;
+    }
+    label {
+        display: block;
+        position: relative;
+        cursor: pointer;
+        margin-left: 25px;
+        font-weight: 500;
+        transition: all .25s ease-in-out;
+    }
+    input[type=radio]:checked ~ .check {
+        border: 2px solid #89CCF6;
+    }
+
+    input[type=radio]:checked ~ .check::before {
+        background: #89CCF6;
+    }
+
+    input[type=radio]:checked ~ label {
+        color: #000000;
+    }
+`
+
+export const Check = styled.div`
+    display: block;
+    position: absolute;
+    top: 1px;
+    border: 2px solid #AAAAAA;
+    border-radius: 100%;
+    height: 18px;
+    width: 18px;
+    transition: all .25s ease-in-out;
+    &:before {
+        display: block;
+        position: absolute;
+        content: '';
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+        top: 2px;
+        left: 2px;
+        margin: auto;
+        transition: all .25s ease-in-out;
+    }
 `

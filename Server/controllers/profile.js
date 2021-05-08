@@ -78,7 +78,8 @@ export const getProfilePicture = async (req, res) => {
     if (!detalii.profilePicture) return res.status(404).json({ message: 'No profile picture!' });
     getFileStream(detalii.profilePicture)
       .on('error', (err) => {
-        return res.status(404).json({ message: err.message });
+        throw err;
+        // return res.status(404).json({ message: err.message });
       })
       .pipe(res);
   }).catch(err => { return res.status(404).json({ message: err.message }); });

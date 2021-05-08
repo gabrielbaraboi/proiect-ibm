@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
 export const Nav = styled.div`
-    background-color: #89CCF6;
+    padding: 8px 0;
+    /* background-color: #89CCF6; */
+    /* box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0px 0 1px rgb(10 10 10 / 2%); */
+    backdrop-filter: blur(20px);
+    background-color: rgba(255, 255, 255, .55);
 `
 
 export const Container = styled.div`
@@ -38,7 +42,7 @@ export const VerticalNav = styled.div`
 export const Title = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
-    color: white;
+    color: black;
     @media (max-width: 780px) {
         margin: 0 4rem;
     }
