@@ -78,15 +78,16 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
             <GeneralInformation>
                 <CoverImagePlace> 
                     <img src='https://lp-cms-production.imgix.net/2019-06/28206231.jpg' 
-                    style={{"width": "100%", "height": "100%", 'border-top-left-radius': '13px', 'border-top-right-radius': '13px', 'position': 'relative' }}
+                    style={{"width": "100%", "height": "100%", 'border-top-left-radius': '13px', 'border-top-right-radius': '13px', 'position': 'relative', 'background': 'rgba(255,255,255,.55)' }}
                     onClick={() => openModalEditPicture()} />
                 </CoverImagePlace>
                 <ImagePlace>
                 
                     <ProfilePicture 
                         onClick={() => openModalEditPicture()} 
-                        // onMouseOver={}
-                        src={`/profile/${id}/profilePicture`}></ProfilePicture>
+                        // onMouseOver={}ß
+                        src={`/profile/${id}/profilePicture`}>
+                    </ProfilePicture>
                     <Modal
                         isOpen={modalEditPictureIsOpen}
                         // onAfterOpen={afterOpenModal}
@@ -149,7 +150,7 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
                         </>) :
                         (<EditDescription toggleEditAboutMe={toggleEditAboutMe} connectedUser={postData} small={true}>Editam</EditDescription>)
                     }
-                    </AboutMe>
+                </AboutMe>
 
             </AboutMeCard>
 

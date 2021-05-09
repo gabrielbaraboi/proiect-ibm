@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const ShowPostContainer = styled.div`
   text-align: center;
-  background-color: #f2f3f5;
 `
 
 export const ImagePlace = styled.div`
@@ -12,11 +11,11 @@ export const ImagePlace = styled.div`
   height: 105px;
   border-radius: 50%;
   margin-top: 110px;
-  background-color: #d7d9d7;
+  background: rgba(255,255,255,.55);
   margin-bottom:10px;
   border-style: solid;
   border-width: 6.5px;
-  border-color: #d7d9d7;
+  border-color: rgba(255,255,255,255);
 `;
 
 export const CoverImagePlace = styled.div`
@@ -25,7 +24,7 @@ export const CoverImagePlace = styled.div`
   position: absolute;
   height: 170px;
   width: 649px;
-  background-color: gray;
+  background: rgba(255,255,255,.55);
   margin: -25px;
   @media (max-width: 750px){
     width: 500px;
@@ -67,16 +66,19 @@ export const NameArea = styled.div`
 export const AboutMe = styled.div`
   overflow: hidden;
   padding: 25px;
-  background: #FEFEFE;
+  background: rgba(255,255,255,.55);
   width: 650px;
   height: auto;
   max-height: 300px;
   border-radius: 13px;
   text-align: justify;
-  background: #d7d9d7;
   @media (max-width: 750px){
     width: 500px;
   }
+  &:hover {
+    background: #FEFEFE;
+  }
+  
 `;
 
 
@@ -87,7 +89,7 @@ export const GeneralInformation  = styled.div`
   padding: 25px;
   margin: 0 auto;
   margin-top: 15px;
-  background: #FEFEFE;
+  background: rgba(255,255,255,.55);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   width: 650px;
   height: 300px;
@@ -96,13 +98,12 @@ export const GeneralInformation  = styled.div`
   border-style: solid;
   border-color:#d7d9d7;
   text-align: center;
-  background: linear-gradient(#FEFEFE 57%, #d7d9d7 33%);
   @media (max-width: 750px){
     width: 500px;
   }
-  // &:hover {
-  //   background: #E6E7F680;
-  // }
+  &:hover {
+    background: #FEFEFE;
+  }
 `
 
 export const InformationCard = styled.div`
@@ -113,19 +114,22 @@ export const InformationCard = styled.div`
   border-width:0.5px;
   border-style: solid;
   border-color:#d7d9d7;
-  background-color: #d7d9d7;
+  background: rgba(255,255,255,.55);
   margin: 0 auto;
   margin-top: 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   @media (max-width: 750px){
     width: 500px;
   }
+  &:hover {
+    background: #FEFEFE;
+  }
 `
 
 export const AboutMeCard = styled.div`
   margin: 0 auto;
   margin-top: 15px;
-  background: #d7d9d7;
+  background: rgba(255,255,255,.55);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   width: 650px;
   height: auto;
@@ -137,6 +141,9 @@ export const AboutMeCard = styled.div`
   @media (max-width: 750px){
     width: 500px;
   }
+  &:hover {
+    background: #FEFEFE;
+  }
 `
 
 export const DescriptionField = styled.textarea`
@@ -145,9 +152,12 @@ export const DescriptionField = styled.textarea`
   font-size: 17px;
   height: 150px;
   resize: none;
-  background: #d7d9d7;
+  background: rgba(255,255,255,.55);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   width: 100%;
+  &:hover {
+    background: #FEFEFE;
+  }
 `
 
 export const ProfilePicture = styled.img`
@@ -155,10 +165,11 @@ export const ProfilePicture = styled.img`
   width: 100%;
   object-fit: cover;
   border-radius: 50%;
+  border-color: rgba(255,255,255,.55);
+  background: rgba(255,255,255,.55);
   &:hover {
     opacity: 0.7;
     cursor: pointer;
-    
   }
 `
 
@@ -178,6 +189,7 @@ export const profileImageStyle = {
   width: "100%",
   objectFit: "cover",
   borderRadius: "50%",
+  background: "rgba(255,255,255,.55)",
   "&:hover": {
     width: "50%"
   },
