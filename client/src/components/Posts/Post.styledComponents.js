@@ -8,7 +8,7 @@ export const AllPosts = styled.div`
 
 export const Filter = styled.div`
     width: 25%;
-    height: 500px;
+    height: fit-content;
     background: rgba(255,255,255,.55);
     box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
     border-radius: 6px;
@@ -245,11 +245,9 @@ export const FilterField = styled.div`
     input[type=radio]:checked ~ .check {
         border: 2px solid #89CCF6;
     }
-
     input[type=radio]:checked ~ .check::before {
         background: #89CCF6;
     }
-
     input[type=radio]:checked ~ label {
         color: #000000;
     }

@@ -44,7 +44,7 @@ const PostCard = ({ theRef, post }) => {
               }
             </DataItem>
             <DataItem>
-              {post?.dateCreated.slice(0, 10) + ' ' + hour + ':' + min}
+              {post?.dateCreated.slice(0, 10).replaceAll('-', '.') + ' ' + hour + ':' + min}
             </DataItem>
           </PostHeaderData>
         </PostHeader>

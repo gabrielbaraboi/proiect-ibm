@@ -2,10 +2,10 @@ import { useState } from "react";
 import NavBar from "../../NavBar/NavBar.component";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
-import { ShowPostContainer, ImagePlace, AboutMeCard, InformationCard, GeneralInformation, CoverImagePlace, EditProfileButton, NameArea, AboutMe, modalStyles, NetworkImage, NoNetworkImage, ProfilePicture } from '../ProfileStyledComponents';
+import { ImagePlace, AboutMeCard, InformationCard, GeneralInformation, CoverImagePlace, EditProfileButton, NameArea, modalStyles, NetworkImage, NoNetworkImage, ProfilePicture } from '../ProfileStyledComponents';
 import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture, EditCoverPicture } from "../IndividualEditing";
 import facebook from '../socialNetworks/facebook.png';
-import twitter from '../socialNetworks/twitter.png'; 
+import twitter from '../socialNetworks/twitter.png';
 import github from '../socialNetworks/github.png';
 import linkedin from '../socialNetworks/linkedin.jpg';
 import gmail from '../socialNetworks/gmail.png';
@@ -218,4 +218,4 @@ export const ShowProfileToOwner = ({ postData, deleteThisUser }) => {
 }
 
 
-export default ShowProfileToOwner;
+export default OwnerProfile;

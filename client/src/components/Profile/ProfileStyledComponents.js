@@ -5,7 +5,6 @@ export const ShowPostContainer = styled.div`
 `
 
 export const ImagePlace = styled.div`
-  float: left;
   position: relative;
   width: 105px;
   height: 105px;
@@ -37,30 +36,31 @@ export const CoverImagePlace = styled.div`
 `
 
 export const EditProfileButton = styled.button`
-  position: absolute;
   margin-top: 167px;
   height: 30px;
   width: 90px;
   margin-left: 100px;
-  @media (max-width: 750px){
-    margin-left: 75px;
-    margin-top: 200px;
-  }
 `
-
 
 export const NameArea = styled.div`
   float: left;
-  position: absolute;
   width: 300px;
   height: 30px;
-  
   margin-top: 165px;
   margin-left: 125px;
-  
   font-size: 25px;
-  // color: white;
   text-align: left;
+`
+
+export const GeneralInformation  = styled.div`
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
+  border-radius: 6px;
+  transition: all .3s ease-in-out;
+  display: block;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
 `
 
 export const AboutMe = styled.div`
@@ -70,7 +70,6 @@ export const AboutMe = styled.div`
   width: 650px;
   height: auto;
   max-height: 300px;
-  border-radius: 13px;
   text-align: justify;
   @media (max-width: 750px){
     width: 500px;
@@ -107,8 +106,12 @@ export const GeneralInformation  = styled.div`
 `
 
 export const InformationCard = styled.div`
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
+  border-radius: 6px;
+  transition: all .3s ease-in-out;
   padding: 20px;
-  width: 650px;
+  width: 100%;
   height: auto;
   border-radius: 13px;
   border-width:0.5px;
@@ -127,16 +130,18 @@ export const InformationCard = styled.div`
 `
 
 export const AboutMeCard = styled.div`
-  margin: 0 auto;
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
+  border-radius: 6px;
+  transition: all .3s ease-in-out;
+  display: block;
+  padding: 20px;
+  width: 100%;
   margin-top: 15px;
   background: rgba(255,255,255,.55);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   width: 650px;
   height: auto;
-  border-radius: 13px;
-  border-width:0.5px;
-  border-style: solid;
-  border-color:#d7d9d7;
   text-align: justify;
   @media (max-width: 750px){
     width: 500px;
@@ -147,7 +152,6 @@ export const AboutMeCard = styled.div`
 `
 
 export const DescriptionField = styled.textarea`
-    
   display: block;
   font-size: 17px;
   height: 150px;

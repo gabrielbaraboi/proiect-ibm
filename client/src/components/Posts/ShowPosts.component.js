@@ -146,27 +146,27 @@ class ShowPosts extends Component {
                 <FilterCategory>
                   <FilterCategoryTitle>Type</FilterCategoryTitle>
                   <FilterField>
-                  <input type="radio" id="offer" name="type" value="offer" onChange={this.updateType} checked={this.state.type.toString() === "offer"} />
-                  <label htmlFor="offer">Offer</label><br />
-                  <Check className="check" />
+                    <input type="radio" id="offer" name="type" value="offer" onChange={this.updateType} checked={this.state.type.toString() === "offer"} />
+                    <label htmlFor="offer">Offer</label><br />
+                    <Check className="check" />
                   </FilterField>
                   <FilterField>
-                  <input type="radio" id="request" name="type" value="request" onChange={this.updateType} checked={this.state.type.toString() === "request"} />
-                  <label htmlFor="request">Request</label>
-                  <Check className="check" />
+                    <input type="radio" id="request" name="type" value="request" onChange={this.updateType} checked={this.state.type.toString() === "request"} />
+                    <label htmlFor="request">Request</label>
+                    <Check className="check" />
                   </FilterField>
                 </FilterCategory>
                 <FilterCategory>
                   <FilterCategoryTitle>Work Hours</FilterCategoryTitle>
                   <FilterField>
-                  <input type="radio" id="full-time" name="workHours" value="full-time" onChange={this.updateWorkHours} checked={this.state.workHours.toString() === "full-time"} />
-                  <label htmlFor="full-time">Full Time</label><br />
-                  <Check className="check" />
+                    <input type="radio" id="full-time" name="workHours" value="full-time" onChange={this.updateWorkHours} checked={this.state.workHours.toString() === "full-time"} />
+                    <label htmlFor="full-time">Full Time</label><br />
+                    <Check className="check" />
                   </FilterField>
                   <FilterField>
-                  <input type="radio" id="part-time" name="workHours" value="part-time" onChange={this.updateWorkHours} checked={this.state.workHours.toString() === "part-time"} />
-                  <label htmlFor="part-time">Part Time</label>
-                  <Check className="check" />
+                    <input type="radio" id="part-time" name="workHours" value="part-time" onChange={this.updateWorkHours} checked={this.state.workHours.toString() === "part-time"} />
+                    <label htmlFor="part-time">Part Time</label>
+                    <Check className="check" />
                   </FilterField>
                 </FilterCategory>
                 <FilterCategory>

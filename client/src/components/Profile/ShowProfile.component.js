@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import axios from "axios";
 import { deleteUser, logout, getProfile } from "../../services/UserServices";
 import { clearUser } from "../../services/localStorageManagment";
-import ShowProfileToGuest from "./Views/GuestView";
-import ShowProfileToOwner from "./Views/OwnerView";
+import GuestProfile from "./Views/GuestView";
+import OwnerProfile from "./Views/OwnerView";
+import { Container, PageTitle, Row } from "../Global.styledComponents"
+import NavBar from "../NavBar/NavBar.component";
 
 
 export const ShowProfile = ({ connectedUser }) => {
@@ -48,9 +49,26 @@ export const ShowProfile = ({ connectedUser }) => {
 
   console.log(UserExists);
 
-  return (!logat ? (!admin ? (<><ShowProfileToGuest postData={postData}></ShowProfileToGuest></>)
-    : (<><ShowProfileToGuest admin={admin} postData={postData} deleteThisUser={deleteThisUser}></ShowProfileToGuest></>))
-    : (<><ShowProfileToOwner postData={postData} deleteThisUser={deleteThisUser} ></ShowProfileToOwner></>)
+  return (
+    <>
+      <header>
+        <NavBar />
+      </header>
+      <main>
+        <Container>
+          <PageTitle>Profile</PageTitle>
+          {!logat ? (
+            !admin ? (
+              <GuestProfile postData={postData} />
+            ) : (
+              <GuestProfile admin={admin} postData={postData} deleteThisUser={deleteThisUser} />
+            )
+          ) : (
+            <OwnerProfile postData={postData} deleteThisUser={deleteThisUser} />
+          )}
+        </Container>
+      </main>
+    </>
   )
 
 }
