@@ -25,6 +25,7 @@ export const PageTitle = styled.p`
     border-radius: 5px;
     font-weight: 500;
     display: inline-block;
+    /* background: #DCDCDC; */
 `
 
 export const Row = styled.div`
