@@ -1,180 +1,172 @@
 import styled from 'styled-components'
 
-export const ShowPostContainer = styled.div`
-  text-align: center;
+export const GeneralInformation = styled.div`
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
+  border-radius: 6px;
+  transition: all .3s ease-in-out;
+  display: block;
+  padding: 20px;
+`
+
+export const CoverImagePlace = styled.div`
+  border-radius: 6px;
+  height: 300px;
+  transition: all .3s ease-in-out;
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+  }
 `
 
 export const ImagePlace = styled.div`
-  float: left;
   position: relative;
-  width: 105px;
-  height: 105px;
-  border-radius: 50%;
-  margin-top: 110px;
-  background: rgba(255,255,255,.55);
-  margin-bottom:10px;
-  border-style: solid;
-  border-width: 6.5px;
-  border-color: rgba(255,255,255,255);
+  width: 220px;
+  height: 220px;
+  border-radius: 100%;
+  margin-top: -70px;
+  margin-left: 50px;
+  background: white;
+  border: 3px solid rgb(250 246 250);
 `;
-
-export const CoverImagePlace = styled.div`
-  border-top-left-radius: 13px;
-  border-top-right-radius: 13px;
-  position: absolute;
-  height: 170px;
-  width: 649px;
-  background: rgba(255,255,255,.55);
-  margin: -25px;
-  @media (max-width: 750px){
-    width: 500px;
-  }
-  &:hover {
-    opacity: 0.7;
-    cursor: pointer;
-    
-  }
-`
-
-export const EditProfileButton = styled.button`
-  position: absolute;
-  margin-top: 167px;
-  height: 30px;
-  width: 90px;
-  margin-left: 100px;
-  @media (max-width: 750px){
-    margin-left: 75px;
-    margin-top: 200px;
-  }
-`
-
-
-export const NameArea = styled.div`
-  float: left;
-  position: absolute;
-  width: 300px;
-  height: 30px;
-  
-  margin-top: 165px;
-  margin-left: 125px;
-  
-  font-size: 25px;
-  // color: white;
-  text-align: left;
-`
-
-export const AboutMe = styled.div`
-  overflow: hidden;
-  padding: 25px;
-  background: rgba(255,255,255,.55);
-  width: 650px;
-  height: auto;
-  max-height: 300px;
-  border-radius: 13px;
-  text-align: justify;
-  @media (max-width: 750px){
-    width: 500px;
-  }
-  &:hover {
-    background: #FEFEFE;
-  }
-  
-`;
-
-
-
-export const GeneralInformation  = styled.div`
-  padding: 20px;
-  display: block;
-  padding: 25px;
-  margin: 0 auto;
-  margin-top: 15px;
-  background: rgba(255,255,255,.55);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  width: 650px;
-  height: 300px;
-  border-radius: 13px;
-  border-width:0.5px;
-  border-style: solid;
-  border-color:#d7d9d7;
-  text-align: center;
-  @media (max-width: 750px){
-    width: 500px;
-  }
-  &:hover {
-    background: #FEFEFE;
-  }
-`
-
-export const InformationCard = styled.div`
-  padding: 20px;
-  width: 650px;
-  height: auto;
-  border-radius: 13px;
-  border-width:0.5px;
-  border-style: solid;
-  border-color:#d7d9d7;
-  background: rgba(255,255,255,.55);
-  margin: 0 auto;
-  margin-top: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  @media (max-width: 750px){
-    width: 500px;
-  }
-  &:hover {
-    background: #FEFEFE;
-  }
-`
-
-export const AboutMeCard = styled.div`
-  margin: 0 auto;
-  margin-top: 15px;
-  background: rgba(255,255,255,.55);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  width: 650px;
-  height: auto;
-  border-radius: 13px;
-  border-width:0.5px;
-  border-style: solid;
-  border-color:#d7d9d7;
-  text-align: justify;
-  @media (max-width: 750px){
-    width: 500px;
-  }
-  &:hover {
-    background: #FEFEFE;
-  }
-`
-
-export const DescriptionField = styled.textarea`
-    
-  display: block;
-  font-size: 17px;
-  height: 150px;
-  resize: none;
-  background: rgba(255,255,255,.55);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  width: 100%;
-  &:hover {
-    background: #FEFEFE;
-  }
-`
 
 export const ProfilePicture = styled.img`
   height: 100%;
   width: 100%;
   object-fit: cover;
-  border-radius: 50%;
-  border-color: rgba(255,255,255,.55);
-  background: rgba(255,255,255,.55);
-  &:hover {
-    opacity: 0.7;
-    cursor: pointer;
+  border-radius: 100%;
+`
+
+export const Informations = styled.div`
+  display: flex;
+  position: relative;
+`
+
+export const Details = styled.div`
+  position: relative;
+  margin-left: 30px;
+`
+
+export const Detail = styled.div`
+  font-size: 16px;
+  color: #9B9B9B;
+  font-weight: 500;
+  &:first-child {
+    color: black;
+    font-size: 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    margin-top: 25px;
+  }
+  .icon {
+    position: relative;
+    font-size: 20px;
+    left: 10px;
+    bottom: 2px;
+    transition: all .3s ease-in-out;
+    color: #686D88;
+    &:hover {
+      cursor: pointer;
+      color: black;
+    }
   }
 `
 
+export const SocialLinks = styled.div`
+  display: flex;
+  margin-left: auto;
+  margin-top: 25px;
+
+  .icon-edit {
+    position: relative;
+    font-size: 20px;
+    margin-left: 20px;
+    top: 3px;
+    transition: all .3s ease-in-out;
+    color: #686D88;
+    &:hover {
+      cursor: pointer;
+      color: black;
+    }
+  }
+`
+
+export const Social = styled.div`
+  position: relative;
+
+  .icon {
+    font-size: 30px;
+    margin-left: 10px;
+  }
+
+  &:nth-child(1) {
+    color: #0076B2;
+  }
+
+  &:nth-child(2) {
+    color: black;
+  }
+
+  &:nth-child(3) {
+    color: #384DA3;
+  }
+
+  &:nth-child(4) {
+    color: #5DB2F7;
+  }
+
+  .no-social {
+    opacity: .4;
+  }
+`
+
+export const AboutMe = styled.div`
+  overflow: hidden;
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
+  border-radius: 6px;
+  transition: all .3s ease-in-out;
+  padding: 20px;
+  width: 100%;
+  max-height: 300px;
+  text-align: justify;
+`;
+
+export const InformationCard = styled.div`
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
+  border-radius: 6px;
+  transition: all .3s ease-in-out;
+  padding: 20px;
+  width: 100%;
+  height: auto;
+  margin-top: 15px;
+`
+
+export const AboutMeCard = styled.div`
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
+  border-radius: 6px;
+  transition: all .3s ease-in-out;
+  display: block;
+  padding: 20px;
+  width: 100%;
+  margin-top: 15px;
+  height: auto;
+  text-align: justify;
+`
+
+export const DescriptionField = styled.textarea`
+  display: block;
+  font-size: 17px;
+  width: 100%;
+`
+
 export const modalStyles = {
-  content : {
+  content: {
     top: '50%',
     left: '50%',
     right: 'auto',
@@ -182,33 +174,4 @@ export const modalStyles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)'
   }
-};
-
-export const profileImageStyle = {
-  height: "100%",
-  width: "100%",
-  objectFit: "cover",
-  borderRadius: "50%",
-  background: "rgba(255,255,255,.55)",
-  "&:hover": {
-    width: "50%"
-  },
-  "&:last-child": {
-    width: "50%"
-  }
-  
-};
-
-export const NetworkImage = {
-  height: 70,
-  width: 70,
-  margin: 20
-};
-
-export const NoNetworkImage = {
-  height: 70,
-  width: 70,
-  margin: 20,
-  tintColor: 'red',
-  opacity: 0.2
 };

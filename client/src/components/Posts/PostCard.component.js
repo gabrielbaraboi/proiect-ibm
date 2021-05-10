@@ -3,7 +3,7 @@ import { PostRightBlock, Post, PostHeader, AuthorImage, Image, PostHeaderBody, P
 
 const PostCard = ({ theRef, post }) => {
 
-  let created_date = new Date(post.dateCreated);
+  let created_date = new Date(post?.dateCreated);
   let hour = created_date.getHours();
   if (hour < 10)
     hour = '0' + hour
@@ -44,7 +44,7 @@ const PostCard = ({ theRef, post }) => {
               }
             </DataItem>
             <DataItem>
-              {post?.dateCreated.slice(0, 10) + ' ' + hour + ':' + min}
+              {post?.dateCreated.slice(0, 10).replaceAll('-', '.') + ' ' + hour + ':' + min}
             </DataItem>
           </PostHeaderData>
         </PostHeader>
