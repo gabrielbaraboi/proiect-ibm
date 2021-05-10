@@ -19,6 +19,9 @@ export const CoverImagePlace = styled.div`
     border-radius: 6px;
     object-fit: cover;
   }
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 export const ImagePlace = styled.div`
@@ -37,6 +40,9 @@ export const ProfilePicture = styled.img`
   width: 100%;
   object-fit: cover;
   border-radius: 100%;
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 export const Informations = styled.div`

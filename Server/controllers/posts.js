@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import Post from '../models/PostModel.js';
 import Comment from '../models/CommentModel.js';
-
+import Application from '../models/ApplicationModel.js';
+import { application } from "express";
 const postsPageSize = 8;
 const commentsPageSize = 10;
 
@@ -76,6 +77,46 @@ export const postDetails = async (req, res) => {
         return res.status(404).json({ message: error.message });
     }
 }
+
+
+export const getApplications = async (req, res) => {
+        Application.find({offerID: req.params.id})
+            .populate('applicant', 'firstName lastName email linkedin github facebook twitter profilePicture')
+            .exec((err, applications) => {
+                if(err) {
+                    return res.status(404).json({ message: error.message });
+                }
+                res.header("Content-Type", 'application/json');
+                return res.status(200).json({ applications })
+            });
+}
+
+
+export const createApplication = async (req, res) => {
+
+    application['offerID'] = req.params.id
+    application['applicant'] = mongoose.Types.ObjectId(req.body.applicant);
+
+    Application.findOne({applicant: application['applicant'], offerID: application['offerID']})
+        .then(checkApp => {
+            if (checkApp)
+            {
+                return res.status(400).json({ message: 'You already applied for this position!' })
+            }
+            else {
+                const newApplicatioon = new Application(application);
+                newApplicatioon.save()
+                    .then(() => {
+                        return res.status(201).json(newApplicatioon);
+                    })
+                    .catch((error) => {
+                        return res.status(404).json({ message: error.message });
+                    });
+            }
+    });
+
+}
+
 
 export const postComments = async (req, res) => {
     try {

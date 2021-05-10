@@ -4,13 +4,13 @@ import styled from "styled-components";
 import NavBar from "./NavBar/NavBar.component";
 import { CommentSection } from "./CommentSection.component";
 import { Link } from "react-router-dom";
-import { getPostDetails, deletePost } from "../services/PostsServices"
+import { getPostDetails, deletePost, getApplications, createApplication } from "../services/PostsServices"
 import { useHistory } from 'react-router';
 
 export const ShowPost = ({ connectedUser }) => {
   const { id } = useParams();
-
   const [postData, setPostData] = useState({});
+  const [applicationsData, setApplicationData] = useState({});
   const [loading, setLoading] = useState(true);
 
   const userPost = (user, post) => {
@@ -26,6 +26,24 @@ export const ShowPost = ({ connectedUser }) => {
       .catch(err => console.log(err))
   }
     , []);
+
+  ///////////
+    useEffect(() => {
+      getApplications(id)
+        .then(res => {
+          setApplicationData(res.data);
+        })
+        .catch(err => console.log(err))
+    }
+    , []);
+
+    
+  if(userPost(connectedUser, postData)) {
+    console.log(applicationsData);
+  }
+  
+  ///////////
+
   const history = useHistory();
   const deleteThisPost = () => {
     deletePost(id).then(res => {
@@ -45,6 +63,10 @@ export const ShowPost = ({ connectedUser }) => {
     <div>
       <ShowPostContainer className="App">
         <NavBar></NavBar>
+          { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData)) ?
+                <button onClick={() => createApplication(id, connectedUser.id)}> APPLY </button>
+            : (<></>)) : (<></>)
+          }
         <TopSection>
           <Line></Line>
           <ImagePlace>

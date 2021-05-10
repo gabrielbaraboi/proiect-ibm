@@ -47,3 +47,23 @@ export const deletePost = async (postID) => {
         throw error;
     }
 };
+
+export const getApplications = async (id) => {
+    try {
+        const res = axios.get(`http://localhost:9000/posts/${id}/applications`);
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const createApplication = async (id, userID) => {
+    try {
+        const applicant = {"applicant": userID}
+        const res = await axios
+            .post(`http://localhost:9000/posts/createApplication/${id}`, applicant, { withCredentials: true });
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
