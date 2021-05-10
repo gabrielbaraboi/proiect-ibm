@@ -4,7 +4,7 @@ import { deleteUser, logout, getProfile } from "../../services/UserServices";
 import { clearUser } from "../../services/localStorageManagment";
 import GuestProfile from "./Views/GuestView";
 import OwnerProfile from "./Views/OwnerView";
-import { Container, PageTitle, Row } from "../Global.styledComponents"
+import { Container, PageTitle } from "../Global.styledComponents"
 import NavBar from "../NavBar/NavBar.component";
 
 

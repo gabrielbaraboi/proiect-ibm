@@ -6,30 +6,10 @@ export const Nav = styled.div`
     background-color: rgba(255, 255, 255, .55);
 `
 
-export const Container = styled.div`
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-    
-    @media (min-width: 576px) {
-      max-width: 540px;
-    }
-    @media (min-width: 768px) {
-      max-width: 720px;
-    }
-    @media (min-width: 992px) {
-      max-width: 960px;
-    }
-    @media (min-width: 1200px) {
-      max-width: 1140px;
-    }
-`;
-
 export const VerticalNav = styled.div`
     height: 70px;
     display: flex;
     align-items: center;
-    padding: 0 1rem;
     justify-content: space-between;
     @media (max-width: 780px) {
         justify-content: space-between;

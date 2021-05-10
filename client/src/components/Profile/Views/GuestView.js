@@ -14,15 +14,19 @@ export const GuestProfile = ({ postData, deleteThisUser, admin }) => {
 
   const { id } = useParams();
 
-  let date = new Date(postData?.detalii?.DoB);
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1
-  if (month < 10)
-    month = '0' + month
-  let day = date.getDate()
-  if (day < 10)
-    day = '0' + day
-  const DoB = day + '.' + month + '.' + year
+  let DoB = '';
+
+  if (postData?.detalii?.DoB) {
+    let date = new Date(postData?.detalii?.DoB);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1
+    if (month < 10)
+      month = '0' + month
+    let day = date.getDate()
+    if (day < 10)
+      day = '0' + day
+    DoB = day + '.' + month + '.' + year
+  }
 
   return (
     <>

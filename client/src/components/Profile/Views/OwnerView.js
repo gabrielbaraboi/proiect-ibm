@@ -16,16 +16,19 @@ import { getCV } from "../../../services/UserServices";
 
 export const OwnerProfile = ({ postData, deleteThisUser }) => {
 
-  let date = new Date(postData?.detalii?.DoB);
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1
-  if (month < 10)
-    month = '0' + month
-  let day = date.getDate()
-  if (day < 10)
-    day = '0' + day
-  const DoB = day + '.' + month + '.' + year
+  let DoB = '';
 
+  if (postData?.detalii?.DoB) {
+    let date = new Date(postData?.detalii?.DoB);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1
+    if (month < 10)
+      month = '0' + month
+    let day = date.getDate()
+    if (day < 10)
+      day = '0' + day
+    DoB = day + '.' + month + '.' + year
+  }
 
   const [EditTheProfilePicture, setEditProfilePicture] = useState(false);
   const toggleEditProfilePicture = () => {
@@ -170,7 +173,7 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
           </>) :
           (<EditDescription toggleEditAboutMe={toggleEditAboutMe} connectedUser={postData} small={true}>Editam</EditDescription>)
         }
-        {postData?.detalii?.role==='student'?
+        {postData?.detalii?.role === 'student' ?
           <div>
             {postData?.detalii?.CV ?
               <a href={`http://localhost:9000/profile/${postData?.detalii?._id}/CV`}>Download CV</a>
@@ -179,7 +182,7 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
             }
             <EditCV connectedUser={postData}></EditCV>
           </div>
-          :null
+          : null
         }
         <Link to={`/?createdBy=${postData?.detalii?._id}`}>
           View your posts

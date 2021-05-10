@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
     width: 100%;
     margin: 0 auto;
+    padding: 0 1rem;
     @media (min-width: 576px) {
         max-width: 540px;
     }
@@ -25,7 +26,6 @@ export const PageTitle = styled.p`
     border-radius: 5px;
     font-weight: 500;
     display: inline-block;
-    /* background: #DCDCDC; */
 `
 
 export const Row = styled.div`
