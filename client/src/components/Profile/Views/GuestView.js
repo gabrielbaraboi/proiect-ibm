@@ -63,14 +63,16 @@ export const GuestProfile = ({ postData, deleteThisUser, admin }) => {
         : (<></>)
       }
 
-
-      <div>
-        {postData?.detalii?.CV ?
-          <a href={`http://localhost:9000/profile/${postData?.detalii?._id}/CV`}>Download CV</a>
-          :
-          "We don't have CV"
-        }
-      </div>
+      {postData?.detalii?.role === 'student' ?
+        <div>
+          {postData?.detalii?.CV ?
+            <a href={`http://localhost:9000/profile/${postData?.detalii?._id}/CV`}>Download CV</a>
+            :
+            "We don't have CV"
+          }
+        </div>
+        : null
+      }
       <InformationCard>
         <Link to={`/?createdBy=${postData?.detalii?._id}`}>
           View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}

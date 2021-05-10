@@ -170,16 +170,17 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
           </>) :
           (<EditDescription toggleEditAboutMe={toggleEditAboutMe} connectedUser={postData} small={true}>Editam</EditDescription>)
         }
-
-        <div>
-          {postData?.detalii?.CV ?
-            <a href={`http://localhost:9000/profile/${postData?.detalii?._id}/CV`}>Download CV</a>
-            :
-            "We don't have CV"
-          }
-          <EditCV connectedUser={postData}></EditCV>
-        </div>
-
+        {postData?.detalii?.role==='student'?
+          <div>
+            {postData?.detalii?.CV ?
+              <a href={`http://localhost:9000/profile/${postData?.detalii?._id}/CV`}>Download CV</a>
+              :
+              "We don't have CV"
+            }
+            <EditCV connectedUser={postData}></EditCV>
+          </div>
+          :null
+        }
         <Link to={`/?createdBy=${postData?.detalii?._id}`}>
           View your posts
         </Link>
