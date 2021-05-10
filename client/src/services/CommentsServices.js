@@ -14,11 +14,11 @@ export const postComment = async (id, comment) => {
     }
 };
 
-export const getNextCommentPage = async (postID, lastCommentDate) => {
+export const getNextCommentPage = async (postID, lastCommentID) => {
     try {
         const res = await axios
             .get(`http://localhost:9000/posts/postComments/${postID}`, {
-                params: { lastCommentDate }
+                params: { lastCommentID }
             });
         return res;
     } catch (err) {

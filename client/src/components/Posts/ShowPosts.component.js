@@ -31,7 +31,7 @@ class ShowPosts extends Component {
       createdBy: new URLSearchParams(this.props.location.search).getAll('createdBy'),
       workPlace: new URLSearchParams(this.props.location.search).getAll('workPlace'),
       type: new URLSearchParams(this.props.location.search).getAll('type'),
-      lastPostDate: 'none',
+      lastPostID: 'none',
       hasMore: false,
       pageNumber: 0,
       loading: true,
@@ -63,7 +63,7 @@ class ShowPosts extends Component {
         ...prevState,
         pageNumber: 1,
         posts: [],
-        lastPostDate: 'none'
+        lastPostID: 'none'
       }));
       this.updateURL()
     }
@@ -72,13 +72,13 @@ class ShowPosts extends Component {
         ...prevState,
         loading: true
       }));
-      getNextPostsPage(this.state.sorting, this.state.lastPostDate, this.state.programmingLanguage, this.state.workHours,
+      getNextPostsPage(this.state.sorting, this.state.lastPostID, this.state.programmingLanguage, this.state.workHours,
         this.state.workPlace, this.state.type, this.state.createdBy)
         .then(res => {
           this.setState(prevState => ({
             ...prevState,
             posts: [...this.state.posts, ...res.data.posts],
-            lastPostDate: res.data.posts.length > 0 ? res.data.lastPostDate : this.state.lastPostDate,
+            lastPostID: res.data.posts.length > 0 ? res.data.lastPostID : this.state.lastPostID,
             hasMore: res.data.posts.length > 0,
             loading: false
           }));

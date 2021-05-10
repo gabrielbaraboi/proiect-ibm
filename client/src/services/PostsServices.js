@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const getNextPostsPage = async (sorting, date, programmingLanguage, workHours, workPlace, type, createdBy) => {
+export const getNextPostsPage = async (sorting, postID, programmingLanguage, workHours, workPlace, type, createdBy) => {
     try {
         const res = await axios.get('http://localhost:9000/posts/', {
-            params: { sorting, date, programmingLanguage, workHours, workPlace, type, createdBy }
+            params: { sorting, postID, programmingLanguage, workHours, workPlace, type, createdBy }
         });
         return res;
     } catch (err) {

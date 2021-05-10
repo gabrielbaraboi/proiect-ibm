@@ -8,13 +8,19 @@ const commentsPageSize = 10;
 
 export const getPosts = async (req, res) => {
 
-    const { sorting, date, programmingLanguage, workHours, workPlace, type, createdBy } = req.query;
+    const { sorting, postID, programmingLanguage, workHours, workPlace, type, createdBy } = req.query;
 
     try {
 
         const sorting_r = sorting === 'asc' ? 1 : -1;
-        const date_r = new Date(date);
-        const filter = !isNaN(date_r) ? sorting_r === 1 ? { dateCreated: { $gt: date_r } } : { dateCreated: { $lt: date_r } } : {};
+        let postID_r = null;
+        try {
+            postID_r = mongoose.Types.ObjectId(postID);
+        }
+        catch (err) {
+
+        }
+        const filter = postID_r ? sorting_r === 1 ? { _id: { $gt: postID_r } } : { _id: { $lt: postID_r } } : {};
 
         if (programmingLanguage) filter['programmingLanguage'] = { $in: programmingLanguage };
         if (workHours) filter['workHours'] = { $in: workHours };
@@ -26,7 +32,7 @@ export const getPosts = async (req, res) => {
 
             { $match: filter },
             { "$addFields": { "createdBy_id": { "$toObjectId": "$createdBy" } } },
-            { $sort: { dateCreated: sorting_r } },
+            { $sort: { _id: sorting_r } },
             { $limit: postsPageSize },
             {
                 $lookup:
@@ -42,7 +48,7 @@ export const getPosts = async (req, res) => {
         ]).toArray();
         //Last loaded post date console.log(posts[pageSize-1].dateCreated); 
         const hasPosts = posts.length > 0;
-        return res.status(200).json({ posts, lastPostDate: hasPosts ? posts[posts.length - 1].dateCreated : 'same' });
+        return res.status(200).json({ posts, lastPostID: hasPosts ? posts[posts.length - 1]._id : 'same' });
 
     } catch (error) {
         return res.status(404).json({ message: error.message });
@@ -80,15 +86,15 @@ export const postDetails = async (req, res) => {
 
 
 export const getApplications = async (req, res) => {
-        Application.find({offerID: req.params.id})
-            .populate('applicant', 'firstName lastName email linkedin github facebook twitter profilePicture')
-            .exec((err, applications) => {
-                if(err) {
-                    return res.status(404).json({ message: error.message });
-                }
-                res.header("Content-Type", 'application/json');
-                return res.status(200).json({ applications })
-            });
+    Application.find({ offerID: req.params.id })
+        .populate('applicant', 'firstName lastName email linkedin github facebook twitter profilePicture')
+        .exec((err, applications) => {
+            if (err) {
+                return res.status(404).json({ message: error.message });
+            }
+            res.header("Content-Type", 'application/json');
+            return res.status(200).json({ applications })
+        });
 }
 
 
@@ -97,10 +103,9 @@ export const createApplication = async (req, res) => {
     application['offerID'] = req.params.id
     application['applicant'] = mongoose.Types.ObjectId(req.body.applicant);
 
-    Application.findOne({applicant: application['applicant'], offerID: application['offerID']})
+    Application.findOne({ applicant: application['applicant'], offerID: application['offerID'] })
         .then(checkApp => {
-            if (checkApp)
-            {
+            if (checkApp) {
                 return res.status(400).json({ message: 'You already applied for this position!' })
             }
             else {
@@ -113,21 +118,26 @@ export const createApplication = async (req, res) => {
                         return res.status(404).json({ message: error.message });
                     });
             }
-    });
+        });
 
 }
 
 
 export const postComments = async (req, res) => {
     try {
-        const { lastCommentDate } = req.query;
-        const date = new Date(lastCommentDate);
-        const filter = !isNaN(date) ? { datePosted: { $lt: date } } : {};
+        const { lastCommentID } = req.query;
+        let commentID = null;
+        try {
+            commentID = mongoose.Types.ObjectId(lastCommentID);
+        } catch (err) {
+
+        };
+        const filter = commentID ? { _id: { $lt: commentID } } : {};
         filter['postID'] = req.params.id;
         const comments = await Comment.collection.aggregate([
             { $match: filter },
             { "$addFields": { "createdBy_id": { "$toObjectId": "$createdBy" } } },
-            { $sort: { datePosted: -1 } },
+            { $sort: { _id: -1 } },
             { $limit: commentsPageSize },
             {
                 $lookup:
@@ -142,7 +152,7 @@ export const postComments = async (req, res) => {
             { $project: { "commentator.password": 0, "commentator.email": 0, "commentator._id": 0 } }
         ]).toArray();
         const hasComments = comments.length > 0;
-        return res.status(200).json({ comments, lastCommentDate: hasComments ? comments[comments.length - 1].datePosted : 'same' });
+        return res.status(200).json({ comments, lastCommentID: hasComments ? comments[comments.length - 1]._id : 'same' });
     } catch (error) {
         return res.status(404).json({ message: error.message });
     }
