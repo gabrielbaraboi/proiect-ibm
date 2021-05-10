@@ -1,14 +1,7 @@
-import NavBar from "../../NavBar/NavBar.component";
 import { Link, useParams } from "react-router-dom";
-import Moment from "moment";
-import { ImagePlace, GeneralInformation, AboutMeCard, Details, Detail, Informations, CoverImagePlace, InformationCard, SocialImage, ProfilePicture } from '../ProfileStyledComponents'
-import facebook from '../socialNetworks/facebook.png';
-import twitter from '../socialNetworks/twitter.png';
-import github from '../socialNetworks/github.png';
-import linkedin from '../socialNetworks/linkedin.jpg';
-import gmail from '../socialNetworks/gmail.png';
-import { deleteUser } from "../../../services/UserServices";
-
+import { Social, SocialLinks, ImagePlace, GeneralInformation, AboutMeCard, Details, Detail, Informations, CoverImagePlace, InformationCard, ProfilePicture } from '../ProfileStyledComponents'
+import { faTwitter, faGithub, faLinkedin, faFacebook } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export const GuestProfile = ({ postData, deleteThisUser, admin }) => {
 
@@ -45,6 +38,46 @@ export const GuestProfile = ({ postData, deleteThisUser, admin }) => {
             <Detail>{postData?.detalii?.role}</Detail>
             <Detail>{DoB}</Detail>
           </Details>
+          {(postData?.detalii?.linkedin || postData?.detalii?.github || postData?.detalii?.facebook || postData?.detalii?.twitter) ?
+            (<SocialLinks>
+              {postData?.detalii?.linkedin ?
+                    <Social>
+                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.linkedin}>
+                        <FontAwesomeIcon icon={faLinkedin} size="1x" className="icon linkedin" />
+                      </a>
+                    </Social>
+                    :
+                    ('')
+                  }
+                  {postData?.detalii?.github ?
+                    <Social>
+                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.github}>
+                        <FontAwesomeIcon icon={faGithub} size="1x" className="icon github" />
+                      </a>
+                    </Social>
+                    :
+                    ('')
+                  }
+                  {postData?.detalii?.facebook ?
+                    <Social>
+                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.facebook}>
+                        <FontAwesomeIcon icon={faFacebook} size="1x" className="icon facebook" />
+                      </a>
+                    </Social>
+                    :
+                    ('')
+                  }
+                  {postData?.detalii?.twitter ?
+                    <Social>
+                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.twitter}>
+                        <FontAwesomeIcon icon={faTwitter} size="1x" className="icon twitter" />
+                      </a>
+                    </Social>
+                    :
+                    ('')
+                  }
+            </SocialLinks>)
+            : (<></>)}
         </Informations>
       </GeneralInformation>
 
@@ -53,18 +86,6 @@ export const GuestProfile = ({ postData, deleteThisUser, admin }) => {
           {postData?.detalii?.description}
         </AboutMeCard>) :
         (<></>)
-      }
-
-
-      {(postData?.detalii?.linkedin || postData?.detalii?.github || postData?.detalii?.facebook || postData?.detalii?.twitter) ?
-        (<InformationCard>
-          {/* {postData?.detalii?.linkedin ? (<a href={postData?.detalii?.linkedin}> <img src={linkedin} style={SocialImage} />  </a>) : (<></>)}
-        {postData?.detalii?.github ? (<><a href={postData?.detalii?.github}> <img src={github} style={SocialImage} /> </a></>) : (<></>)}
-        {postData?.detalii?.facebook ? (<><a href={postData?.detalii?.facebook}> <img src={facebook} style={SocialImage} /> </a></>) : (<></>)}
-        {postData?.detalii?.twitter ? (<><a href={postData?.detalii?.twitter}> <img src={twitter} style={SocialImage} /> </a></>) : (<></>)} */}
-
-        </InformationCard>)
-        : (<></>)
       }
 
       {postData?.detalii?.role === 'student' ?

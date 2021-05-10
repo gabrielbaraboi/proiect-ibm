@@ -6,11 +6,8 @@ import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture, E
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import { faTwitter, faGithub, faLinkedin, faFacebook } from '@fortawesome/free-brands-svg-icons'
-import facebook from '../socialNetworks/facebook.png';
-import twitter from '../socialNetworks/twitter.png';
-import github from '../socialNetworks/github.png';
-import linkedin from '../socialNetworks/linkedin.jpg';
 import Modal from 'react-modal';
+import ReactTooltip from "react-tooltip";
 import { getCV } from "../../../services/UserServices";
 
 
@@ -110,45 +107,45 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
                   {postData?.detalii?.linkedin ?
                     <Social>
                       <a target="_blank" rel="noreferrer" href={postData?.detalii?.linkedin}>
-                        <FontAwesomeIcon icon={faLinkedin} size="1x" className="icon" />
+                        <FontAwesomeIcon icon={faLinkedin} size="1x" className="icon linkedin" />
                       </a>
                     </Social>
                     :
                     (<Social>
-                      <FontAwesomeIcon icon={faLinkedin} size="1x" className="icon no-social" />
+                      <FontAwesomeIcon icon={faLinkedin} size="1x" className="icon no-social linkedin" />
                     </Social>)
                   }
                   {postData?.detalii?.github ?
                     <Social>
                       <a target="_blank" rel="noreferrer" href={postData?.detalii?.github}>
-                        <FontAwesomeIcon icon={faGithub} size="1x" className="icon" />
+                        <FontAwesomeIcon icon={faGithub} size="1x" className="icon github" />
                       </a>
                     </Social>
                     :
                     (<Social>
-                      <FontAwesomeIcon icon={faGithub} size="1x" className="icon no-social" />
+                      <FontAwesomeIcon icon={faGithub} size="1x" className="icon no-social github" />
                     </Social>)
                   }
                   {postData?.detalii?.facebook ?
                     <Social>
                       <a target="_blank" rel="noreferrer" href={postData?.detalii?.facebook}>
-                        <FontAwesomeIcon icon={faFacebook} size="1x" className="icon" />
+                        <FontAwesomeIcon icon={faFacebook} size="1x" className="icon facebook" />
                       </a>
                     </Social>
                     :
                     (<Social>
-                      <FontAwesomeIcon icon={faFacebook} size="1x" className="icon no-social" />
+                      <FontAwesomeIcon icon={faFacebook} size="1x" className="icon no-social facebook" />
                     </Social>)
                   }
                   {postData?.detalii?.twitter ?
                     <Social>
                       <a target="_blank" rel="noreferrer" href={postData?.detalii?.twitter}>
-                        <FontAwesomeIcon icon={faTwitter} size="1x" className="icon" />
+                        <FontAwesomeIcon icon={faTwitter} size="1x" className="icon twitter" />
                       </a>
                     </Social>
                     :
                     (<Social>
-                      <FontAwesomeIcon icon={faTwitter} size="1x" className="icon no-social" />
+                      <FontAwesomeIcon icon={faTwitter} size="1x" className="icon no-social twitter" />
                     </Social>)
                   }
                   <FontAwesomeIcon icon={faPencilAlt} size="1x" onClick={() => setEditNetworks(true)} className="icon-edit" />

@@ -1,15 +1,10 @@
 import { Link } from "react-router-dom";
+import moment from "moment";
 import { PostRightBlock, Post, PostHeader, AuthorImage, Image, PostHeaderBody, PostTitle, PostHeaderDetails, Detail, PostHeaderData, DataItem, PostDescription, PostRequirements, Requirement } from "./Post.styledComponents"
 
 const PostCard = ({ theRef, post }) => {
 
-  let created_date = new Date(post?.dateCreated);
-  let hour = created_date.getHours();
-  if (hour < 10)
-    hour = '0' + hour
-  let min = created_date.getMinutes();
-  if (min < 10)
-    min = '0' + min
+  const created_date = new Date(post?.dateCreated);
 
   return (
     <Post>
@@ -44,7 +39,7 @@ const PostCard = ({ theRef, post }) => {
               }
             </DataItem>
             <DataItem>
-              {post?.dateCreated.slice(0, 10).replaceAll('-', '.') + ' ' + hour + ':' + min}
+              {moment(created_date).fromNow()}
             </DataItem>
           </PostHeaderData>
         </PostHeader>

@@ -108,20 +108,20 @@ export const Social = styled.div`
     margin-left: 10px;
   }
 
-  &:nth-child(1) {
-    color: #0076B2;
+  .linkedin {
+    color: #0076B2 !important;
   }
 
-  &:nth-child(2) {
-    color: black;
+  .github {
+    color: black !important;
   }
 
-  &:nth-child(3) {
-    color: #384DA3;
+  .facebook {
+    color: #384DA3 !important;
   }
 
-  &:nth-child(4) {
-    color: #5DB2F7;
+  .twitter {
+    color: #5DB2F7 !important;
   }
 
   .no-social {
