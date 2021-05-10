@@ -34,12 +34,24 @@ export const updateProfile = async (userData, id) => {
     try {
         const res = await axios
             .put(`http://localhost:9000/profile/updateProfile/${id}`, userData, {
-                withCredentials: true
-                , headers: { 'Content-Type': 'multipart/form-data' }
+                withCredentials: true,
+                headers: { 'Content-Type': 'multipart/form-data' }
             });
         return res;
     } catch (err) {
         throw err;
+    }
+};
+
+export const updateCV = async (userData, id) => {
+    try {
+        const res = await axios.put(`http://localhost:9000/profile/updateProfile/${id}/CV`, userData, {
+            withCredentials: true,
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        return res
+    } catch (error) {
+        throw error;
     }
 };
 

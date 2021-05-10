@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { updateProfile } from "../../services/UserServices";
+import { updateProfile,updateCV } from "../../services/UserServices";
 import { AboutMe, DescriptionField } from './ProfileStyledComponents'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
@@ -15,7 +15,7 @@ export const EditDescription = ({ toggleEditAboutMe, connectedUser, small }) => 
         description: connectedUser.detalii.description
     });
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (userData) {
             const formData = new FormData();
@@ -39,7 +39,7 @@ export const EditDescription = ({ toggleEditAboutMe, connectedUser, small }) => 
                         type="text"
                         placeholder="About me"
                         onChange={(e) => setPostData({ ...userData, description: e.target.value })}>
-                    </DescriptionField> 
+                    </DescriptionField>
                     <button onClick={handleSubmit}> Submit </button>
                     <button onClick={() => toggleEditAboutMe()}> Go back! </button> <br></br>
                 </AboutMe>)
@@ -67,7 +67,7 @@ export const EditName = ({ toggleEditName, connectedUser }) => {
         companyName: connectedUser.detalii.companyName
     });
     console.log(getUserData());
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(userData)
         if (userData) {
@@ -87,7 +87,7 @@ export const EditName = ({ toggleEditName, connectedUser }) => {
                 });
         }
     }
-        const inp = {
+    const inp = {
         height: 28.5,
         width: 300,
         fontSize: 15
@@ -95,11 +95,11 @@ export const EditName = ({ toggleEditName, connectedUser }) => {
     return (
         <>
             {(connectedUser.detalii.role !== "company") ?
-                (<> First Name <br/>
+                (<> First Name <br />
                     <input value={userData.firstName} type="text" placeholder="First Name" style={inp} onChange={(e) => setPostData({ ...userData, firstName: e.target.value })} /> <br></br>
-                    Last Name <br/>
+                    Last Name <br />
                     <input value={userData.lastName} type="text" placeholder="Last Name" style={inp} onChange={(e) => setPostData({ ...userData, lastName: e.target.value })} /> <br></br> </>)
-                : (<> Company Name <br/>
+                : (<> Company Name <br />
                     <input value={userData.companyName} type="text" placeholder="Company Name" style={inp} onChange={(e) => setPostData({ ...userData, companyName: e.target.value })} /> </>)
             }
             <input type="button" value='Submit' onClick={handleSubmit} />
@@ -110,12 +110,11 @@ export const EditName = ({ toggleEditName, connectedUser }) => {
 export const EditProfilePicture = ({ toggleEditProfilePicture, connectedUser }) => {
 
     const [file, setFile] = useState(null);
-    const handleSave = async(e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
         if (!file) return;
         const formData = new FormData();
         formData.append('profile-picture', file);
-        console.log("got here!");
         await updateProfile(formData, connectedUser.detalii._id)
             .then(res => {
                 window.location.reload();
@@ -139,12 +138,44 @@ export const EditProfilePicture = ({ toggleEditProfilePicture, connectedUser }) 
     )
 }
 
+export const EditCV = ({ connectedUser }) => {
+
+    const [file, setFile] = useState(null);
+    const handleSave = async (e) => {
+        e.preventDefault();
+        if (!file || file.type !== 'application/pdf') return;
+        console.log(file);
+        const formData = new FormData();
+        formData.append('CV', file);
+        await updateCV(formData, connectedUser.detalii._id)
+            .then(res => {
+                window.location.reload();
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+    };
+    return (
+        <>
+            <input
+                filename={file}
+                onChange={e => setFile(e.target.files[0])}
+                type="file"
+                accept="application/pdf"
+            ></input>
+            <button onClick={handleSave}>Upload CV</button>
+            <br></br>
+        </>
+    )
+}
+
 
 
 export const EditCoverPicture = ({ toggleEditCoverPicture, connectedUser }) => {
 
     const [file, setFile] = useState(null);
-    const handleSave = async(e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
         if (!file) return;
         const formData = new FormData();
@@ -181,7 +212,7 @@ export const EditDoB = ({ toggleEditDoB, connectedUser }) => {
     });
 
     console.log(userData);
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (userData) {
             const formData = new FormData();
@@ -248,7 +279,7 @@ export const EditNetworks = ({ toggleEditNetworks, connectedUser }) => {
         marginRight: 10,
         marginTop: 2
 
-      };
+    };
     const inp = {
         height: 28.5,
         width: 300,
@@ -256,10 +287,10 @@ export const EditNetworks = ({ toggleEditNetworks, connectedUser }) => {
     };
     return (
         <>
-            <img src={linkedin} style={sn}/><input value={userData.linkedin} type="text" style={inp} placeholder="linkedin" onChange={(e) => setPostData({ ...userData, linkedin: e.target.value })} /> <br></br>
-            <img src={github} style={sn}/><input value={userData.github} type="text" style={inp} placeholder="github" onChange={(e) => setPostData({ ...userData, github: e.target.value })} /> <br></br>
-            <img src={facebook} style={sn}/><input value={userData.facebook} type="text" style={inp} placeholder="facebook" onChange={(e) => setPostData({ ...userData, facebook: e.target.value })} /> <br></br>
-            <img src={twitter} style={sn}/><input value={userData.twitter} type="text" style={inp} placeholder="twitter" onChange={(e) => setPostData({ ...userData, twitter: e.target.value })} /> <br></br>
+            <img src={linkedin} style={sn} /><input value={userData.linkedin} type="text" style={inp} placeholder="linkedin" onChange={(e) => setPostData({ ...userData, linkedin: e.target.value })} /> <br></br>
+            <img src={github} style={sn} /><input value={userData.github} type="text" style={inp} placeholder="github" onChange={(e) => setPostData({ ...userData, github: e.target.value })} /> <br></br>
+            <img src={facebook} style={sn} /><input value={userData.facebook} type="text" style={inp} placeholder="facebook" onChange={(e) => setPostData({ ...userData, facebook: e.target.value })} /> <br></br>
+            <img src={twitter} style={sn} /><input value={userData.twitter} type="text" style={inp} placeholder="twitter" onChange={(e) => setPostData({ ...userData, twitter: e.target.value })} /> <br></br>
             <button onClick={handleSubmit} > Save changes </button>
             <button onClick={() => toggleEditNetworks()}> Go back! </button> <br></br>
         </>

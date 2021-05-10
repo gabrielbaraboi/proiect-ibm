@@ -10,7 +10,8 @@ const StudentSchema = mongoose.Schema({
     linkedin : {type: String, required: false},
     github : {type: String, required: false},
     facebook: {type: String, required: false},
-    twitter: {type: String, required: false}
+    twitter: {type: String, required: false},
+    CV: {type: String}
 },
 {
     discriminatorKey: 'role',

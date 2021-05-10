@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
 import { Detail, ImagePlace, AboutMeCard, InformationCard, Informations, GeneralInformation, CoverImagePlace, Details, modalStyles, ProfilePicture, Social, SocialLinks } from '../ProfileStyledComponents';
-import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture, EditCoverPicture } from "../IndividualEditing";
+import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture, EditCoverPicture, EditCV } from "../IndividualEditing";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import { faTwitter, faGithub, faLinkedin, faFacebook } from '@fortawesome/free-brands-svg-icons'
@@ -11,6 +11,7 @@ import twitter from '../socialNetworks/twitter.png';
 import github from '../socialNetworks/github.png';
 import linkedin from '../socialNetworks/linkedin.jpg';
 import Modal from 'react-modal';
+import { getCV } from "../../../services/UserServices";
 
 
 export const OwnerProfile = ({ postData, deleteThisUser }) => {
@@ -169,6 +170,16 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
           </>) :
           (<EditDescription toggleEditAboutMe={toggleEditAboutMe} connectedUser={postData} small={true}>Editam</EditDescription>)
         }
+
+        <div>
+          {postData?.detalii?.CV ?
+            <a href={`http://localhost:9000/profile/${postData?.detalii?._id}/CV`}>Download CV</a>
+            :
+            "We don't have CV"
+          }
+          <EditCV connectedUser={postData}></EditCV>
+        </div>
+
         <Link to={`/?createdBy=${postData?.detalii?._id}`}>
           View your posts
         </Link>

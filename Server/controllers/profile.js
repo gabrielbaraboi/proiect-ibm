@@ -27,6 +27,7 @@ export const updateProfile = async (req, res) => {
   await UserModel.findOne({ _id: req.params.id }, async (err, doc) => {
     if (err) {
       console.log(err);
+      return res.status(404).json({ message: err.message });
     }
     if (firstName) doc.firstName = firstName;
     if (lastName) doc.lastName = lastName;
@@ -59,6 +60,36 @@ export const updateProfile = async (req, res) => {
     });
   });
 };
+export const updateCV = async (req, res) => {
+  const fileData = req?.file;
+  if (!fileData)
+    return res.status(404).json({ message: 'No CV uploaded!' });
+  if (req?.user?.role !== 'student')
+    return res.status(400).json({ message: 'Only Students can have CVs!' });
+  await UserModel.findOne({ _id: req.params.id }, async (err, doc) => {
+    if (err) {
+      console.log(err);
+      return res.status(404).json({ message: err.message });
+    }
+    const fileStream = fs.createReadStream(fileData.path);
+    if (doc.CV)
+      deleteFile(doc.CV).catch(err => { return res.status(404).json({ message: err.message }) });
+    await uploadFile(fileData.filename, fileStream)
+      .then(async () => {
+        await unlink(fileData.path).catch(err => { throw err; });
+      }).catch(async (err) => {
+        await unlink(fileData.path).catch(err => { throw err; });
+        return res.status(404).json({ message: err.message });
+      });
+    doc.CV = fileData.filename;
+    doc.save((err, doc) => {
+      if (err) {
+        return res.status(404).json({ message: error.message });
+      }
+      return res.status(200).json(doc);
+    });
+  });
+};
 
 export const deleteUser = async (req, res) => {
   await UserModel.findByIdAndDelete(req.params.id)
@@ -77,6 +108,22 @@ export const getProfilePicture = async (req, res) => {
     if (!detalii) return res.status(404).json({ message: 'User not found!' });
     if (!detalii.profilePicture) return res.status(404).json({ message: 'No profile picture!' });
     getFileStream(detalii.profilePicture)
+      .on('error', (err) => {
+        console.log("we've got another error");
+        return res.status(404).json({message:err.message});
+      })
+      .pipe(res);
+  }).catch(err => { return res.status(404).json({ message: err.message }); });
+};
+
+export const getCV = async (req, res) => {
+  if (!req.params.id) return res.status(404).json({ message: "Invalid profile id!" });
+  await UserModel.findById(req.params.id, '-password').then(async (detalii) => {
+    if (!detalii) return res.status(404).json({ message: 'User not found!' });
+    if (!detalii.CV) return res.status(404).json({ message: 'No CV found!' });
+    res.attachment('CV.pdf');
+    res.set("Content-Type", "application/pdf");
+    getFileStream(detalii.CV)
       .on('error', (err) => {
         throw err;
         // return res.status(404).json({ message: err.message });
