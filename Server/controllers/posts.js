@@ -170,7 +170,7 @@ export const createPost = async (req, res) => {
     post['createdBy'] = req.user.id;
     post['type'] = req.user.role === 'student' ? 'request' : 'offer';
     const newPost = new Post(post);
-    await newPost.save()
+     newPost.save()
         .then(() => {
             return res.status(201).json(newPost);
         })
@@ -186,7 +186,7 @@ export const createComment = async (req, res) => {
     comment['postID'] = req.params.id;
     comment['createdBy'] = req.user.id;
     const newComment = new Comment(comment);
-    await newComment.save()
+     newComment.save()
         .then(() => {
             return res.status(201).json(newComment);
         })
@@ -205,7 +205,7 @@ export const deletePost = async (req, res) => {
 }
 
 export const deleteComment = async (req, res) => {
-    await req.comment.deleteOne()
+     req.comment.deleteOne()
         .then(() => {
             return res.status(200).json({ message: `Successfully deleted comment with id ${req.comment._id}` })
         })
@@ -222,7 +222,7 @@ export const updateComment = async (req, res) => {
     if (updateComment === req.comment.comment)
         return res.status(404).json({ message: "We didn't recieve a modified comment!" });
     comment.comment = updatedComment;
-    await comment.save()
+     comment.save()
         .then(() => {
             return res.status(200).json({ message: `Successfully updated comment with id ${comment.id}` });
         })

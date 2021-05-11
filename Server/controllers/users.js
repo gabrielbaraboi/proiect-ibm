@@ -78,7 +78,7 @@ export const createUser = async (req, res) => {
                     if (fileData) {
                         responseUser["profilePicture"] = fileData.filename;
                         const fileStream = fs.createReadStream(fileData.path);
-                        await uploadFile(fileData.filename, fileStream)
+                         uploadFile(fileData.filename, fileStream)
                             .then(async () => {
                                 await unlink(fileData.path).catch(err => { throw err; });
                             }).catch(async (err) => {
