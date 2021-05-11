@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import { faTwitter, faGithub, faLinkedin, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import Modal from 'react-modal';
-import ReactTooltip from "react-tooltip";
+// import ReactTooltip from "react-tooltip";
 import { getCV } from "../../../services/UserServices";
 
 
@@ -77,6 +77,14 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
 
   const closeModalDelete = () => {
     setModalDelete(false);
+  }
+  const [modalNetworks, setModalNetworksIsOpen] = useState(false);
+  const openModalNetworks = () => {
+    setModalNetworksIsOpen(true);
+  }
+
+  const closeModalNetworks = () => {
+    setModalNetworksIsOpen(false);
   }
 
   const { id } = useParams();
@@ -148,7 +156,7 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
                       <FontAwesomeIcon icon={faTwitter} size="1x" className="icon no-social twitter" />
                     </Social>)
                   }
-                  <FontAwesomeIcon icon={faPencilAlt} size="1x" onClick={() => setEditNetworks(true)} className="icon-edit" />
+                  <FontAwesomeIcon icon={faPencilAlt} size="1x" onClick={() => openModalNetworks()} className="icon-edit" />
                 </SocialLinks>)
                 : (<EditNetworks toggleEditNetworks={toggleEditNetworks} connectedUser={postData} ></EditNetworks>)
               )
@@ -227,6 +235,13 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
         <button onClick={closeModalDelete}>close</button> <br />
                     Deleting an account is irreversible <br />
         <button onClick={() => deleteThisUser()}>Finish Deletion</button>
+      </Modal>
+      <Modal
+        isOpen={modalNetworks}
+        onRequestClose={closeModalNetworks}
+        style={modalStyles}>
+        <button onClick={closeModalEditPicture}>close</button> <br />
+        <EditNetworks connectedUser={postData}> </EditNetworks>
       </Modal>
     </>
   )

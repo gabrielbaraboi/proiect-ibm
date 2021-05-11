@@ -58,12 +58,11 @@ export const ShowPost = ({ connectedUser }) => {
     width: "100%",
     objectFit: "cover"
   };
-
   return (
     <div>
       <ShowPostContainer className="App">
         <NavBar></NavBar>
-          { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData)) ?
+          { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData) && postData?.post?.type === 'offer') ?
                 <button onClick={() => createApplication(id, connectedUser.id)}> APPLY </button>
             : (<></>)) : (<></>)
           }
