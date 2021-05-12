@@ -6,7 +6,7 @@ import { unlink } from 'fs/promises';
 import { uploadFile } from "./ibmCloud.js";
 
 export const getDetails = async (req, res) => {
-   UserModel.findById(req.params.id, '-password').then(detalii => {
+  UserModel.findById(req.params.id, '-password').then(detalii => {
     if (!detalii) return res.status(404).json({ message: 'User not found!' });
     res.header("Content-Type", 'application/json');
     return res.status(200).json({ detalii })
@@ -42,9 +42,10 @@ export const updateProfile = async (req, res) => {
       const fileStream = fs.createReadStream(fileData.path);
       if (doc.profilePicture)
         deleteFile(doc.profilePicture).catch(err => { return res.status(404).json({ message: err.message }) });
-       uploadFile(fileData.filename, fileStream)
+      uploadFile(fileData.filename, fileStream)
         .then(async () => {
           await unlink(fileData.path).catch(err => { throw err; });
+          logDone();
         }).catch(async (err) => {
           await unlink(fileData.path).catch(err => { throw err; });
           return res.status(404).json({ message: err.message });
@@ -74,7 +75,7 @@ export const updateCV = async (req, res) => {
     const fileStream = fs.createReadStream(fileData.path);
     if (doc.CV)
       deleteFile(doc.CV).catch(err => { return res.status(404).json({ message: err.message }) });
-     uploadFile(fileData.filename, fileStream)
+    uploadFile(fileData.filename, fileStream)
       .then(async () => {
         await unlink(fileData.path).catch(err => { throw err; });
       }).catch(async (err) => {
@@ -92,7 +93,7 @@ export const updateCV = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-   UserModel.findByIdAndDelete(req.params.id)
+  UserModel.findByIdAndDelete(req.params.id)
     .then((user) => {
       if (user.profilePicture)
         deleteFile(user.profilePicture)
@@ -104,30 +105,28 @@ export const deleteUser = async (req, res) => {
 
 export const getProfilePicture = async (req, res) => {
   if (!req.params.id) return res.status(404).json({ message: "Invalid profile id!" });
-   UserModel.findById(req.params.id, '-password').then(async (detalii) => {
+  UserModel.findById(req.params.id, '-password').then(async (detalii) => {
     if (!detalii) return res.status(404).json({ message: 'User not found!' });
     if (!detalii.profilePicture) return res.status(404).json({ message: 'No profile picture!' });
-    getFileStream(detalii.profilePicture)
-      .on('error', (err) => {
-        console.log("we've got another error");
-        return res.status(404).json({message:err.message});
-      })
-      .pipe(res);
+    getFileStream(detalii.profilePicture).on('error',err=>{
+      return res.status(404).json({ message: err.message });
+    }).pipe(res).on('error',err => {
+      return res.status(404).json({ message: err.message });
+    });
   }).catch(err => { return res.status(404).json({ message: err.message }); });
 };
 
 export const getCV = async (req, res) => {
   if (!req.params.id) return res.status(404).json({ message: "Invalid profile id!" });
-   UserModel.findById(req.params.id, '-password').then(async (detalii) => {
+  UserModel.findById(req.params.id, '-password').then(async (detalii) => {
     if (!detalii) return res.status(404).json({ message: 'User not found!' });
     if (!detalii.CV) return res.status(404).json({ message: 'No CV found!' });
     res.attachment('CV.pdf');
     res.set("Content-Type", "application/pdf");
-    getFileStream(detalii.CV)
-      .on('error', (err) => {
-        throw err;
-        // return res.status(404).json({ message: err.message });
-      })
-      .pipe(res);
+    getFileStream(detalii.CV).on('error',err=>{
+      return res.status(404).json({ message: err.message });
+    }).pipe(res).on('error',err => {
+      return res.status(404).json({ message: err.message });
+    });
   }).catch(err => { return res.status(404).json({ message: err.message }); });
 };

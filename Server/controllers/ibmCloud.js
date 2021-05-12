@@ -14,9 +14,6 @@ export const getFileStream = (itemName) => {
     return cos.getObject({
         Bucket: bucketName,
         Key: itemName
-    }).on('error',(err)=>{
-        console.log("we've got an error");
-        throw err;
     }).createReadStream();
 };
 export const deleteFile = async (itemName) => {
