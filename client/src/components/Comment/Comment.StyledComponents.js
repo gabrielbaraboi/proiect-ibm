@@ -3,9 +3,8 @@ import styled from "styled-components";
 const Container = styled.div`
 display: flex;
 margin: 1rem 0;
-padding: 0 1rem;
 border-bottom: 1px solid #c4c4c4;
-padding: 1rem 0;
+padding: 1rem 0 2rem 0;
 position: relative;
 `;
 
@@ -64,9 +63,6 @@ const CommentMenu = styled.div`
 position: absolute;
 top: 0;
 right: 0;
-
-
-
 `;
 
 const DropdownMenu = styled.div`
@@ -79,4 +75,39 @@ const DropdownMenuIcon = styled.div`
 text-align: right;
 `;
 
-export { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon};
+const IconContainer = styled.div`
+    background-color: white;
+    margin: .1rem 0;
+    padding: 0 .2rem;
+    :hover{
+        cursor: pointer;
+    }
+`;
+
+const CancelIcon = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    :hover{
+        cursor: pointer;
+    }
+`;
+
+const SaveDiv = styled.div`
+    position: absolute;
+    top: 25px;
+    right: 0;
+
+`;
+
+const SaveButton = styled.div`
+    background-color: #89CCF6;
+    color: white;
+    border-radius: 5px;
+    padding: .5rem;
+    :hover{
+        cursor: pointer;
+    }
+
+`;
+export { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon, IconContainer, CancelIcon, SaveDiv, SaveButton};

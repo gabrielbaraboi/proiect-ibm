@@ -6,6 +6,7 @@ import { CommentSection } from "./CommentSection.component";
 import { Link } from "react-router-dom";
 import { getPostDetails, deletePost, getApplications, createApplication } from "../services/PostsServices"
 import { useHistory } from 'react-router';
+import { Container } from "./Global.styledComponents";
 
 export const ShowPost = ({ connectedUser }) => {
   const { id } = useParams();
@@ -59,7 +60,7 @@ export const ShowPost = ({ connectedUser }) => {
     objectFit: "cover"
   };
   return (
-    <div>
+    <Container>
       <ShowPostContainer className="App">
         <NavBar></NavBar>
           { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData) && postData?.post?.type === 'offer') ?
@@ -113,7 +114,7 @@ export const ShowPost = ({ connectedUser }) => {
           </div>}
       </ShowPostContainer>
       <CommentSection postID={id} connectedUser={connectedUser} commentCount={postData?.commentCount}></CommentSection>
-    </div>
+    </Container>
 
   )
 }
@@ -200,7 +201,7 @@ const PostDataRow = styled.div`
     flex-direction: column;
     padding: 1rem 1rem;
   }
-  padding: 1rem 5rem;
+  padding: 1rem;
 `;
 
 const About = styled.div`

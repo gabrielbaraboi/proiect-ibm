@@ -81,7 +81,6 @@ export const CommentSection = ({ postID, connectedUser, commentCount }) => {
 }
 
 const Container = styled.div`
-    padding: 0 5rem;
     @media (max-width: 1000px){
         margin: 0;
         padding: 1rem;

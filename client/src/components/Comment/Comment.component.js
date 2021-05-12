@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { deleteComment, updateComment } from "../../services/CommentsServices";
-import { mdiDotsHorizontal } from '@mdi/js';
+import { mdiDotsVertical, mdiDelete, mdiCommentEdit, mdiClose, mdiCancel} from '@mdi/js';
 import Icon from '@mdi/react';
-import { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon } from "./Comment.StyledComponents";
+import { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon, IconContainer, CancelIcon, SaveDiv, SaveButton } from "./Comment.StyledComponents";
+
 export const Comment = ({ comment, connectedUser }) => {
 
     const [isDeleted, setIsDeleted] = useState(false);
@@ -73,19 +74,29 @@ export const Comment = ({ comment, connectedUser }) => {
                     </strong>
                         </div>
                         :
-                        <CommentText>{`${comment?.comment}`}</CommentText>}
+                        <CommentText>{updatedCommentValue}</CommentText>}
             </CommentDiv>
             {
                 (connectedUser?.id === comment?.createdBy || connectedUser?.role === 'admin') && !isDeleted &&
                 (editing ?
                     <div>
-                        <button onClick={() => setEditing(false)}>Cancel</button>
-                        <button onClick={() => saveEdit()}>Save edit</button>
+                        <CancelIcon>
+                            <Icon path={mdiClose} 
+                                size={1}
+                                title={`Cancel`}
+                                onClick={() => setEditing(false)}
+                                >
+                            </Icon>
+                        </CancelIcon>
+                        {/* <button onClick={() => setEditing(false)}>Cancel</button> */}
+                        <SaveDiv>
+                            <SaveButton onClick={() => saveEdit()}>Save</SaveButton>
+                        </SaveDiv>
                     </div>
                     :
                     <CommentMenu>
                         <DropdownMenuIcon>
-                        <Icon path={mdiDotsHorizontal} 
+                        <Icon path={mdiDotsVertical} 
                             size={1}
                             onClick={(e) => setShowDropdownMenu(!showDropdownMenu)}
                             >
@@ -93,12 +104,28 @@ export const Comment = ({ comment, connectedUser }) => {
                         </DropdownMenuIcon>
                         {showDropdownMenu ? 
                         <DropdownMenu>
-                            <button onClick={deleteThisComment}>Delete Comment</button>
-                            <button onClick={() => startEditing()}>Edit Comment</button>
-                        </DropdownMenu>
-                    :
-                    ``}
+                            <IconContainer>
+                            <Icon path={mdiDelete} 
+                                color={`#FF7272`}
+                                title={`Delete comment`}
+                                size={1}
+                                onClick={(e) => {deleteThisComment(); setShowDropdownMenu(!showDropdownMenu);}}
+                                >
+                            </Icon>
+                            
+                            </IconContainer>
+                            <IconContainer>
+                            <Icon path={mdiCommentEdit} 
+                                title={`Edit comment`}
+                                size={1}
+                                onClick={(e) => {startEditing(); setShowDropdownMenu(!showDropdownMenu);}}
+                                >
+                        </Icon>
                         
+                            </IconContainer>
+                            </DropdownMenu>
+                    :
+                    ``}    
                     </CommentMenu>
                 )
             }
