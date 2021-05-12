@@ -60,9 +60,11 @@ export const ShowPost = ({ connectedUser }) => {
     objectFit: "cover"
   };
   return (
+    <div>
+    <NavBar></NavBar>
     <Container>
       <ShowPostContainer className="App">
-        <NavBar></NavBar>
+        
           { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData) && postData?.post?.type === 'offer') ?
                 <button onClick={() => createApplication(id, connectedUser.id)}> APPLY </button>
             : (<></>)) : (<></>)
@@ -115,6 +117,7 @@ export const ShowPost = ({ connectedUser }) => {
       </ShowPostContainer>
       <CommentSection postID={id} connectedUser={connectedUser} commentCount={postData?.commentCount}></CommentSection>
     </Container>
+    </div>
 
   )
 }
