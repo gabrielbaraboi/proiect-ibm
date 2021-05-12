@@ -240,7 +240,7 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
         isOpen={modalNetworks}
         onRequestClose={closeModalNetworks}
         style={modalStyles}>
-        <button onClick={closeModalEditPicture}>close</button> <br />
+        <button onClick={closeModalNetworks}>close</button> <br />
         <EditNetworks connectedUser={postData}> </EditNetworks>
       </Modal>
     </>

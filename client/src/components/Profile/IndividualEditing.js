@@ -292,7 +292,6 @@ export const EditNetworks = ({ toggleEditNetworks, connectedUser }) => {
             <img src={facebook} style={sn} /><input value={userData.facebook} type="text" style={inp} placeholder="facebook" onChange={(e) => setPostData({ ...userData, facebook: e.target.value })} /> <br></br>
             <img src={twitter} style={sn} /><input value={userData.twitter} type="text" style={inp} placeholder="twitter" onChange={(e) => setPostData({ ...userData, twitter: e.target.value })} /> <br></br>
             <button onClick={handleSubmit} > Save changes </button>
-            <button onClick={() => toggleEditNetworks()}> Go back! </button> <br></br>
         </>
     )
 }
