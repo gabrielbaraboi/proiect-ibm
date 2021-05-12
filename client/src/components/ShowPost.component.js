@@ -63,6 +63,7 @@ export const ShowPost = ({ connectedUser }) => {
     <div>
     <NavBar></NavBar>
     <Container>
+      <ContainerDiv>
       <ShowPostContainer className="App">
         
           { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData) && postData?.post?.type === 'offer') ?
@@ -116,6 +117,7 @@ export const ShowPost = ({ connectedUser }) => {
           </div>}
       </ShowPostContainer>
       <CommentSection postID={id} connectedUser={connectedUser} commentCount={postData?.commentCount}></CommentSection>
+      </ContainerDiv>
     </Container>
     </div>
 
@@ -123,6 +125,7 @@ export const ShowPost = ({ connectedUser }) => {
 }
 
 const ShowPostContainer = styled.div`
+  margin-top: 1rem;
   text-align: center;
 `;
 
@@ -232,4 +235,8 @@ const CustomUL = styled.ul`
 
 const CustomLi = styled.li`
   padding: 0 0 .2rem 0;
+`;
+
+const ContainerDiv = styled.div`
+  background-color: rgba(255,255,255, .55);
 `;

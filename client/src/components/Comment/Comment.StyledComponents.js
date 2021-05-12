@@ -4,7 +4,7 @@ const Container = styled.div`
 display: flex;
 margin: 1rem 0;
 border-bottom: 1px solid #c4c4c4;
-padding: 1rem 0 2rem 0;
+padding: 1rem .5rem 2rem .5rem;
 position: relative;
 `;
 
