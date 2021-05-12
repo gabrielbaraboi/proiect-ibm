@@ -110,4 +110,9 @@ const SaveButton = styled.div`
     }
 
 `;
-export { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon, IconContainer, CancelIcon, SaveDiv, SaveButton};
+
+const EditedI = styled.i`
+    color: #7c7c7c;
+    font-size: .8rem;
+`;
+export { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon, IconContainer, CancelIcon, SaveDiv, SaveButton, EditedI};

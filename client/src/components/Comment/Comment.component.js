@@ -2,7 +2,7 @@ import { useState } from "react";
 import { deleteComment, updateComment } from "../../services/CommentsServices";
 import { mdiDotsVertical, mdiDelete, mdiCommentEdit, mdiClose, mdiCancel} from '@mdi/js';
 import Icon from '@mdi/react';
-import { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon, IconContainer, CancelIcon, SaveDiv, SaveButton } from "./Comment.StyledComponents";
+import { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon, IconContainer, CancelIcon, SaveDiv, SaveButton, EditedI } from "./Comment.StyledComponents";
 
 export const Comment = ({ comment, connectedUser }) => {
 
@@ -59,7 +59,7 @@ export const Comment = ({ comment, connectedUser }) => {
                                         :<strong style={{color: 'blue'}}>Admin account</strong>   
                                 }
                 </CommentUserName>
-                {edited && <i>Edited comment</i>}
+                {edited && <EditedI>(edited)</EditedI>}
                 {editing ?
                     <textarea
                         type="text"
@@ -84,7 +84,7 @@ export const Comment = ({ comment, connectedUser }) => {
                             <Icon path={mdiClose} 
                                 size={1}
                                 title={`Cancel`}
-                                onClick={() => setEditing(false)}
+                                onClick={() => {setEditing(false); setUpdatedCommentValue(comment?.comment)}}
                                 >
                             </Icon>
                         </CancelIcon>

@@ -46,7 +46,7 @@ export const CommentSection = ({ postID, connectedUser, commentCount }) => {
                 <LabelPost>Comentarii</LabelPost>
                 <CommentsCountDiv>
                     <CommentsCount>{commentCount}</CommentsCount>
-                    <CommentsCountText>Comentarii</CommentsCountText>
+                    <CommentsCountText>{commentCount > 1 ? `Comentarii` : `Comentariu`}</CommentsCountText>
                 </CommentsCountDiv>
             </CommentInfo>
             {connectedUser &&
