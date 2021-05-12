@@ -2,8 +2,8 @@ import cos from '../config/ibmCloudConfig.js';
 
 const bucketName = "ibmprojectbucket";
 
-export const uploadFile = async (itemName, file) => {
-    return await cos.putObject({
+export const uploadFile = (itemName, file) => {
+    return cos.putObject({
         Bucket: bucketName,
         Key: itemName,
         Body: file
@@ -16,7 +16,7 @@ export const getFileStream = (itemName) => {
         Key: itemName
     }).createReadStream();
 };
-export const deleteFile = async (itemName) => {
+export const deleteFile = (itemName) => {
     return cos.deleteObject({
         Bucket: bucketName,
         Key: itemName

@@ -85,8 +85,8 @@ export const postDetails = async (req, res) => {
 }
 
 
-export const getApplications = async (req, res) => {
-    Application.find({ offerID: req.params.id })
+export const getApplications = (req, res) => {
+     Application.find({ offerID: req.params.id })
         .populate('applicant', 'firstName lastName email linkedin github facebook twitter profilePicture')
         .exec((err, applications) => {
             if (err) {
@@ -98,7 +98,7 @@ export const getApplications = async (req, res) => {
 }
 
 
-export const createApplication = async (req, res) => {
+export const createApplication = (req, res) => {
 
     application['offerID'] = req.params.id
     application['applicant'] = mongoose.Types.ObjectId(req.body.applicant);
@@ -158,7 +158,7 @@ export const postComments = async (req, res) => {
     }
 }
 
-export const createPost = async (req, res) => {
+export const createPost = (req, res) => {
     const post = {
         description: req.body?.description,
         title: req.body?.title,
@@ -179,7 +179,7 @@ export const createPost = async (req, res) => {
         });
 }
 
-export const createComment = async (req, res) => {
+export const createComment = (req, res) => {
     const comment = {
         comment: req.body?.comment
     };
@@ -204,7 +204,7 @@ export const deletePost = async (req, res) => {
     return res.status(200).json({ message: `Successfully deleted post with id ${post._id} and associated comments.` });
 }
 
-export const deleteComment = async (req, res) => {
+export const deleteComment =  (req, res) => {
      req.comment.deleteOne()
         .then(() => {
             return res.status(200).json({ message: `Successfully deleted comment with id ${req.comment._id}` })

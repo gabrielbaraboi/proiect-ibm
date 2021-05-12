@@ -5,11 +5,11 @@ import fs from 'fs';
 import { unlink } from 'fs/promises';
 import { uploadFile } from "./ibmCloud.js";
 
-export const getDetails = async (req, res) => {
-  UserModel.findById(req.params.id, '-password').then(detalii => {
-    if (!detalii) return res.status(404).json({ message: 'User not found!' });
+export const getDetails = (req, res) => {
+  UserModel.findById(req.params.id, '-password').then(details => {
+    if (!details) return res.status(404).json({ message: 'User not found!' });
     res.header("Content-Type", 'application/json');
-    return res.status(200).json({ detalii })
+    return res.status(200).json({ details })
   }).catch(err => {
     return res.status(404).json({ message: err.message });
   });
@@ -92,7 +92,7 @@ export const updateCV = async (req, res) => {
   });
 };
 
-export const deleteUser = async (req, res) => {
+export const deleteUser = (req, res) => {
   UserModel.findByIdAndDelete(req.params.id)
     .then((user) => {
       if (user.profilePicture)
@@ -103,12 +103,12 @@ export const deleteUser = async (req, res) => {
     .catch((err) => { return res.status(404).json({ message: err.message }) });
 };
 
-export const getProfilePicture = async (req, res) => {
+export const getProfilePicture = (req, res) => {
   if (!req.params.id) return res.status(404).json({ message: "Invalid profile id!" });
-  UserModel.findById(req.params.id, '-password').then(async (detalii) => {
-    if (!detalii) return res.status(404).json({ message: 'User not found!' });
-    if (!detalii.profilePicture) return res.status(404).json({ message: 'No profile picture!' });
-    getFileStream(detalii.profilePicture).on('error',err=>{
+  UserModel.findById(req.params.id, '-password').then((details) => {
+    if (!details) return res.status(404).json({ message: 'User not found!' });
+    if (!details.profilePicture) return res.status(404).json({ message: 'No profile picture!' });
+    getFileStream(details.profilePicture).on('error',err=>{
       return res.status(404).json({ message: err.message });
     }).pipe(res).on('error',err => {
       return res.status(404).json({ message: err.message });
@@ -116,17 +116,23 @@ export const getProfilePicture = async (req, res) => {
   }).catch(err => { return res.status(404).json({ message: err.message }); });
 };
 
-export const getCV = async (req, res) => {
+export const getCV = (req, res) => {
   if (!req.params.id) return res.status(404).json({ message: "Invalid profile id!" });
-  UserModel.findById(req.params.id, '-password').then(async (detalii) => {
-    if (!detalii) return res.status(404).json({ message: 'User not found!' });
-    if (!detalii.CV) return res.status(404).json({ message: 'No CV found!' });
+  UserModel.findById(req.params.id, '-password').then((details) => {
+    if (!details) return res.status(404).json({ message: 'User not found!' });
+    if (!details.CV) return res.status(404).json({ message: 'No CV found!' });
     res.attachment('CV.pdf');
     res.set("Content-Type", "application/pdf");
-    getFileStream(detalii.CV).on('error',err=>{
+    console.log('Log1');
+    getFileStream(details.CV).on('error',err=>{
+      console.log('Log2');
       return res.status(404).json({ message: err.message });
     }).pipe(res).on('error',err => {
+      console.log('Log3');
       return res.status(404).json({ message: err.message });
     });
-  }).catch(err => { return res.status(404).json({ message: err.message }); });
+    console.log('Log4');
+  }).catch(err => { 
+    console.log('Log5');
+    return res.status(404).json({ message: err.message }); });
 };
