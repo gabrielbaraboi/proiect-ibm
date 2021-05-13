@@ -65,11 +65,6 @@ export const ShowPost = ({ connectedUser }) => {
     <Container>
       <ContainerDiv>
       <ShowPostContainer className="App">
-        
-          { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData) && postData?.post?.type === 'offer') ?
-                <button onClick={() => createApplication(id, connectedUser.id)}> APPLY </button>
-            : (<></>)) : (<></>)
-          }
         <TopSection>
           <Line></Line>
           <ImagePlace>
@@ -84,6 +79,10 @@ export const ShowPost = ({ connectedUser }) => {
           </Link>
         </Company>
         <Place>{postData?.post?.workPlace}</Place>
+        { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData) && postData?.post?.type === 'offer') ?
+                <ApplyButton onClick={() => createApplication(id, connectedUser.id)}> APPLY </ApplyButton>
+            : (<></>)) : (<></>)
+          }
         <PostData>
           <PostDataRow>
             <LabelPost htmlFor="about">Despre job:</LabelPost>
@@ -239,4 +238,27 @@ const CustomLi = styled.li`
 
 const ContainerDiv = styled.div`
   background-color: rgba(255,255,255, .55);
+  border-radius: 6px;
+  padding: 0 5rem;
+  box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 2%), 0 0px 0 1px rgb(10 10 10 / 2%);
+  @media (max-width: 1000px){
+    padding: 0 .5rem;  
+  }
+`;
+
+const ApplyButton = styled.button`
+  padding: 1rem;
+  border-radius: 4px; 
+  border: none;
+  background-color: green;
+  color: white;
+  background: rgb(70,214,39);
+  background: linear-gradient(
+121deg
+, rgba(70,214,39,1) 0%, rgba(42,185,56,1) 84%);
+margin-bottom: 1rem;
+:hover{
+  cursor: pointer;
+}
+
 `;

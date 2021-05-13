@@ -147,6 +147,7 @@ const CommentInputContainer = styled.div`
 const CommentInputTextArea = styled.textarea`
     
     font-size: 1.2rem;
+    padding: .2rem 0 0 .5rem;
     width: 100%;
     height: 100%;
     @media (max-width: 1000px){
