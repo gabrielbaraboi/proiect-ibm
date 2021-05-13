@@ -12,7 +12,7 @@ import linkedin from './socialNetworks/linkedin.jpg';
 export const EditDescription = ({ toggleEditAboutMe, connectedUser, small }) => {
 
     const [userData, setPostData] = useState({
-        description: connectedUser.detalii.description
+        description: connectedUser.details.description
     });
 
     const handleSubmit = async (e) => {
@@ -20,7 +20,7 @@ export const EditDescription = ({ toggleEditAboutMe, connectedUser, small }) => 
         if (userData) {
             const formData = new FormData();
             formData.append('data', JSON.stringify(userData));
-            await updateProfile(formData, connectedUser.detalii._id)
+            await updateProfile(formData, connectedUser.details._id)
                 .then(res => {
                     window.location.reload();
                 })
@@ -62,9 +62,9 @@ export const EditName = ({ toggleEditName, connectedUser }) => {
 
     // console.log(connectedUser)
     const [userData, setPostData] = useState({
-        firstName: connectedUser.detalii.firstName,
-        lastName: connectedUser.detalii.lastName,
-        companyName: connectedUser.detalii.companyName
+        firstName: connectedUser.details.firstName,
+        lastName: connectedUser.details.lastName,
+        companyName: connectedUser.details.companyName
     });
     console.log(getUserData());
     const handleSubmit = async (e) => {
@@ -77,7 +77,7 @@ export const EditName = ({ toggleEditName, connectedUser }) => {
             if (userData.companyName) userInformations['companyName'] = userData.companyName;
             const formData = new FormData();
             formData.append('data', JSON.stringify(userData));
-            await updateProfile(formData, connectedUser.detalii._id)
+            await updateProfile(formData, connectedUser.details._id)
                 .then(res => {
                     window.location.reload();
                     saveUserData(userInformations);
@@ -94,7 +94,7 @@ export const EditName = ({ toggleEditName, connectedUser }) => {
     };
     return (
         <>
-            {(connectedUser.detalii.role !== "company") ?
+            {(connectedUser.details.role !== "company") ?
                 (<> First Name <br />
                     <input value={userData.firstName} type="text" placeholder="First Name" style={inp} onChange={(e) => setPostData({ ...userData, firstName: e.target.value })} /> <br></br>
                     Last Name <br />
@@ -115,7 +115,7 @@ export const EditProfilePicture = ({ toggleEditProfilePicture, connectedUser }) 
         if (!file) return;
         const formData = new FormData();
         formData.append('profile-picture', file);
-        await updateProfile(formData, connectedUser.detalii._id)
+        await updateProfile(formData, connectedUser.details._id)
             .then(res => {
                 window.location.reload();
             })
@@ -147,7 +147,7 @@ export const EditCV = ({ connectedUser }) => {
         console.log(file);
         const formData = new FormData();
         formData.append('CV', file);
-        await updateCV(formData, connectedUser.detalii._id)
+        await updateCV(formData, connectedUser.details._id)
             .then(res => {
                 window.location.reload();
             })
@@ -181,7 +181,7 @@ export const EditCoverPicture = ({ toggleEditCoverPicture, connectedUser }) => {
         const formData = new FormData();
         formData.append('cover-picture', file);
         console.log("got here!");
-        await updateProfile(formData, connectedUser.detalii._id)
+        await updateProfile(formData, connectedUser.details._id)
             .then(res => {
                 window.location.reload();
             })
@@ -208,7 +208,7 @@ export const EditCoverPicture = ({ toggleEditCoverPicture, connectedUser }) => {
 export const EditDoB = ({ toggleEditDoB, connectedUser }) => {
 
     const [userData, setPostData] = useState({
-        DoB: connectedUser.detalii.DoB
+        DoB: connectedUser.details.DoB
     });
 
     console.log(userData);
@@ -217,7 +217,7 @@ export const EditDoB = ({ toggleEditDoB, connectedUser }) => {
         if (userData) {
             const formData = new FormData();
             formData.append('data', JSON.stringify(userData));
-            await updateProfile(formData, connectedUser.detalii._id)
+            await updateProfile(formData, connectedUser.details._id)
                 .then(res => {
                     window.location.reload();
                 })
@@ -228,7 +228,7 @@ export const EditDoB = ({ toggleEditDoB, connectedUser }) => {
     }
     return (
         <>
-            {(connectedUser.detalii.role === "student") ?
+            {(connectedUser.details.role === "student") ?
                 (<>
                     <center> <Calendar
                         defaultValue={new Date(userData.DoB)}
@@ -252,10 +252,10 @@ export const EditNetworks = ({ toggleEditNetworks, connectedUser }) => {
 
 
     const [userData, setPostData] = useState({
-        linkedin: connectedUser.detalii.linkedin,
-        github: connectedUser.detalii.github,
-        twitter: connectedUser.detalii.twitter,
-        facebook: connectedUser.detalii.facebook
+        linkedin: connectedUser.details.linkedin,
+        github: connectedUser.details.github,
+        twitter: connectedUser.details.twitter,
+        facebook: connectedUser.details.facebook
     });
     console.log(userData.twitter)
     const handleSubmit = async (e) => {
@@ -264,7 +264,7 @@ export const EditNetworks = ({ toggleEditNetworks, connectedUser }) => {
         if (userData) {
             const formData = new FormData();
             formData.append('data', JSON.stringify(userData));
-            await updateProfile(formData, connectedUser.detalii._id)
+            await updateProfile(formData, connectedUser.details._id)
                 .then(res => {
                     window.location.reload();
                 })

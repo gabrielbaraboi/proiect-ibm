@@ -70,7 +70,7 @@ export const Detail = styled.div`
   .icon {
     position: relative;
     font-size: 20px;
-    left: 10px;
+    margin-left: 10px;
     bottom: 2px;
     transition: all .3s ease-in-out;
     color: #686D88;
@@ -78,6 +78,9 @@ export const Detail = styled.div`
       cursor: pointer;
       color: black;
     }
+  }
+  a {
+    color: black;
   }
 `
 

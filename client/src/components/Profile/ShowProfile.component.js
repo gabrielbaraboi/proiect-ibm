@@ -56,7 +56,7 @@ export const ShowProfile = ({ connectedUser }) => {
       </header>
       <main>
         <Container>
-          <PageTitle>{postData?.detalii?.role === "company" ? "Company" : "User"} Profile</PageTitle>
+          <PageTitle>{postData?.details?.role === "company" ? "Company" : "User"} Profile</PageTitle>
           {!logat ? (
             !admin ? (
               <GuestProfile postData={postData} />

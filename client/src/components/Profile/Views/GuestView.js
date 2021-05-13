@@ -9,8 +9,8 @@ export const GuestProfile = ({ postData, deleteThisUser, admin }) => {
 
   let DoB = '';
 
-  if (postData?.detalii?.DoB) {
-    let date = new Date(postData?.detalii?.DoB);
+  if (postData?.details?.DoB) {
+    let date = new Date(postData?.details?.DoB);
     let year = date.getFullYear();
     let month = date.getMonth() + 1
     if (month < 10)
@@ -33,76 +33,75 @@ export const GuestProfile = ({ postData, deleteThisUser, admin }) => {
           </ImagePlace>
           <Details>
             <Detail>
-              {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
+              {postData?.details?.companyName} {postData?.details?.firstName} {postData?.details?.lastName}
             </Detail>
-            <Detail>{postData?.detalii?.role}</Detail>
+            <Detail>{postData?.details?.role}</Detail>
             <Detail>{DoB}</Detail>
+            {postData?.details?.role === 'student' ?
+              <Detail>
+                {postData?.details?.CV ?
+                  <a href={`http://localhost:9000/profile/${postData?.details?._id}/CV`}>Download CV</a>
+                  :
+                  "We don't have CV"
+                }
+              </Detail>
+              : null
+            }
+            <Detail>
+              <a href={`/?createdBy=${postData?.details?._id}`}>
+                View more posts by {postData?.details?.companyName} {postData?.details?.firstName} {postData?.details?.lastName}
+              </a>
+            </Detail>
           </Details>
-          {(postData?.detalii?.linkedin || postData?.detalii?.github || postData?.detalii?.facebook || postData?.detalii?.twitter) ?
+          {(postData?.details?.linkedin || postData?.details?.github || postData?.details?.facebook || postData?.details?.twitter) ?
             (<SocialLinks>
-              {postData?.detalii?.linkedin ?
-                    <Social>
-                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.linkedin}>
-                        <FontAwesomeIcon icon={faLinkedin} size="1x" className="icon linkedin" />
-                      </a>
-                    </Social>
-                    :
-                    ('')
-                  }
-                  {postData?.detalii?.github ?
-                    <Social>
-                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.github}>
-                        <FontAwesomeIcon icon={faGithub} size="1x" className="icon github" />
-                      </a>
-                    </Social>
-                    :
-                    ('')
-                  }
-                  {postData?.detalii?.facebook ?
-                    <Social>
-                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.facebook}>
-                        <FontAwesomeIcon icon={faFacebook} size="1x" className="icon facebook" />
-                      </a>
-                    </Social>
-                    :
-                    ('')
-                  }
-                  {postData?.detalii?.twitter ?
-                    <Social>
-                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.twitter}>
-                        <FontAwesomeIcon icon={faTwitter} size="1x" className="icon twitter" />
-                      </a>
-                    </Social>
-                    :
-                    ('')
-                  }
+              {postData?.details?.linkedin ?
+                <Social>
+                  <a target="_blank" rel="noreferrer" href={postData?.details?.linkedin}>
+                    <FontAwesomeIcon icon={faLinkedin} size="1x" className="icon linkedin" />
+                  </a>
+                </Social>
+                :
+                ('')
+              }
+              {postData?.details?.github ?
+                <Social>
+                  <a target="_blank" rel="noreferrer" href={postData?.details?.github}>
+                    <FontAwesomeIcon icon={faGithub} size="1x" className="icon github" />
+                  </a>
+                </Social>
+                :
+                ('')
+              }
+              {postData?.details?.facebook ?
+                <Social>
+                  <a target="_blank" rel="noreferrer" href={postData?.details?.facebook}>
+                    <FontAwesomeIcon icon={faFacebook} size="1x" className="icon facebook" />
+                  </a>
+                </Social>
+                :
+                ('')
+              }
+              {postData?.details?.twitter ?
+                <Social>
+                  <a target="_blank" rel="noreferrer" href={postData?.details?.twitter}>
+                    <FontAwesomeIcon icon={faTwitter} size="1x" className="icon twitter" />
+                  </a>
+                </Social>
+                :
+                ('')
+              }
             </SocialLinks>)
             : (<></>)}
         </Informations>
       </GeneralInformation>
 
-      {(postData?.detalii?.description) ?
+      {(postData?.details?.description) ?
         (<AboutMeCard>
-          {postData?.detalii?.description}
+          {postData?.details?.description}
         </AboutMeCard>) :
         (<></>)
       }
-
-      {postData?.detalii?.role === 'student' ?
-        <div>
-          {postData?.detalii?.CV ?
-            <a href={`http://localhost:9000/profile/${postData?.detalii?._id}/CV`}>Download CV</a>
-            :
-            "We don't have CV"
-          }
-        </div>
-        : null
-      }
-      <InformationCard>
-        <Link to={`/?createdBy=${postData?.detalii?._id}`}>
-          View more posts by {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
-        </Link>
-      </InformationCard>
     </>
   )
 }

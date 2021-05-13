@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import UserModel from "../models/UserModel.js";
+import Application from "../models/ApplicationModel.js";
 import { getFileStream, deleteFile } from "./ibmCloud.js";
 import fs from 'fs';
 import { unlink } from 'fs/promises';
@@ -108,9 +109,9 @@ export const getProfilePicture = (req, res) => {
   UserModel.findById(req.params.id, '-password').then((details) => {
     if (!details) return res.status(404).json({ message: 'User not found!' });
     if (!details.profilePicture) return res.status(404).json({ message: 'No profile picture!' });
-    getFileStream(details.profilePicture).on('error',err=>{
+    getFileStream(details.profilePicture).on('error', err => {
       return res.status(404).json({ message: err.message });
-    }).pipe(res).on('error',err => {
+    }).pipe(res).on('error', err => {
       return res.status(404).json({ message: err.message });
     });
   }).catch(err => { return res.status(404).json({ message: err.message }); });
@@ -124,15 +125,42 @@ export const getCV = (req, res) => {
     res.attachment('CV.pdf');
     res.set("Content-Type", "application/pdf");
     console.log('Log1');
-    getFileStream(details.CV).on('error',err=>{
+    getFileStream(details.CV).on('error', err => {
       console.log('Log2');
       return res.status(404).json({ message: err.message });
-    }).pipe(res).on('error',err => {
+    }).pipe(res).on('error', err => {
       console.log('Log3');
       return res.status(404).json({ message: err.message });
     });
     console.log('Log4');
-  }).catch(err => { 
+  }).catch(err => {
     console.log('Log5');
-    return res.status(404).json({ message: err.message }); });
+    return res.status(404).json({ message: err.message });
+  });
 };
+
+export const getStudentApplications = (req, res) => {
+  Application.find({ applicant: req.params.id })
+    .populate('offer', 'title')
+    .populate('offerCreator', 'companyName')
+    .exec((err, applications) => {
+      if (err) {
+        return res.status(404).json({ message: error.message });
+      }
+      res.header("Content-Type", 'application/json');
+      return res.status(200).json({ applications })
+    });
+}
+
+export const getCompanyApplications = (req, res) => {
+  Application.find({ offerCreator: req.params.id })
+    .populate('applicant', 'firstName lastName email')
+    .populate('offer', 'title')
+    .exec((err, applications) => {
+      if (err) {
+        return res.status(404).json({ message: error.message });
+      }
+      res.header("Content-Type", 'application/json');
+      return res.status(200).json({ applications })
+    });
+}

@@ -1,11 +1,8 @@
 import mongoose from 'mongoose'
 
-import User from './UserModel.js';
-import Post from './PostModel.js';
-
-
 const ApplicationSchema = mongoose.Schema({
-    offerID: { type: String, required: true },
+    offer:  { type: mongoose.Schema.Types.ObjectId, ref: 'Post', required: true },
+    offerCreator: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     applicant: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 },{ timestamps: { createdAt: 'dateCreated' }});
 

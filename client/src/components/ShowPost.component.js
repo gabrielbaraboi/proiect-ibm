@@ -80,7 +80,7 @@ export const ShowPost = ({ connectedUser }) => {
         </Company>
         <Place>{postData?.post?.workPlace}</Place>
         { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData) && postData?.post?.type === 'offer') ?
-                <ApplyButton onClick={() => createApplication(id, connectedUser.id)}> APPLY </ApplyButton>
+                <ApplyButton onClick={() => createApplication(id, connectedUser.id, postData?.post?.createdBy_id)}> APPLY </ApplyButton>
             : (<></>)) : (<></>)
           }
         <PostData>
@@ -260,5 +260,4 @@ margin-bottom: 1rem;
 :hover{
   cursor: pointer;
 }
-
 `;

@@ -86,7 +86,7 @@ export const postDetails = async (req, res) => {
 
 
 export const getApplications = (req, res) => {
-     Application.find({ offerID: req.params.id })
+    Application.find({ offerID: req.params.id })
         .populate('applicant', 'firstName lastName email linkedin github facebook twitter profilePicture')
         .exec((err, applications) => {
             if (err) {
@@ -100,10 +100,12 @@ export const getApplications = (req, res) => {
 
 export const createApplication = (req, res) => {
 
-    application['offerID'] = req.params.id
-    application['applicant'] = mongoose.Types.ObjectId(req.body.applicant);
-
-    Application.findOne({ applicant: application['applicant'], offerID: application['offerID'] })
+    const application = {
+        offer: req.params.id,
+        applicant: req.body.applicant,
+        offerCreator: req.body.offerCreator,
+    };
+    Application.findOne({ applicant: application['applicant'], offer: application['offer'] })
         .then(checkApp => {
             if (checkApp) {
                 return res.status(400).json({ message: 'You already applied for this position!' })
@@ -119,7 +121,6 @@ export const createApplication = (req, res) => {
                     });
             }
         });
-
 }
 
 
@@ -170,7 +171,7 @@ export const createPost = (req, res) => {
     post['createdBy'] = req.user.id;
     post['type'] = req.user.role === 'student' ? 'request' : 'offer';
     const newPost = new Post(post);
-     newPost.save()
+    newPost.save()
         .then(() => {
             return res.status(201).json(newPost);
         })
@@ -186,7 +187,7 @@ export const createComment = (req, res) => {
     comment['postID'] = req.params.id;
     comment['createdBy'] = req.user.id;
     const newComment = new Comment(comment);
-     newComment.save()
+    newComment.save()
         .then(() => {
             return res.status(201).json(newComment);
         })
@@ -204,8 +205,8 @@ export const deletePost = async (req, res) => {
     return res.status(200).json({ message: `Successfully deleted post with id ${post._id} and associated comments.` });
 }
 
-export const deleteComment =  (req, res) => {
-     req.comment.deleteOne()
+export const deleteComment = (req, res) => {
+    req.comment.deleteOne()
         .then(() => {
             return res.status(200).json({ message: `Successfully deleted comment with id ${req.comment._id}` })
         })
@@ -222,7 +223,7 @@ export const updateComment = async (req, res) => {
     if (updateComment === req.comment.comment)
         return res.status(404).json({ message: "We didn't recieve a modified comment!" });
     comment.comment = updatedComment;
-     comment.save()
+    comment.save()
         .then(() => {
             return res.status(200).json({ message: `Successfully updated comment with id ${comment.id}` });
         })

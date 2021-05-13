@@ -57,11 +57,14 @@ export const getApplications = async (id) => {
     }
 };
 
-export const createApplication = async (id, userID) => {
+export const createApplication = async (id, userID, creatorID) => {
     try {
-        const applicant = {"applicant": userID}
+        const data = {
+            "applicant" : userID,
+            "offerCreator" : creatorID
+        }
         const res = await axios
-            .post(`http://localhost:9000/posts/createApplication/${id}`, applicant, { withCredentials: true });
+            .post(`http://localhost:9000/posts/createApplication/${id}`, data, { withCredentials: true });
         return res;
     } catch (error) {
         throw error;

@@ -1,22 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
 import { Detail, ImagePlace, AboutMeCard, InformationCard, Informations, GeneralInformation, CoverImagePlace, Details, modalStyles, ProfilePicture, Social, SocialLinks } from '../ProfileStyledComponents';
 import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture, EditCoverPicture, EditCV } from "../IndividualEditing";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { faPencilAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons'
 import { faTwitter, faGithub, faLinkedin, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import Modal from 'react-modal';
-// import ReactTooltip from "react-tooltip";
-import { getCV } from "../../../services/UserServices";
+import { getCompanyApplications, getStudentApplications } from "../../../services/UserServices";
 
 
 export const OwnerProfile = ({ postData, deleteThisUser }) => {
 
+  const { id } = useParams();
   let DoB = '';
 
-  if (postData?.detalii?.DoB) {
-    let date = new Date(postData?.detalii?.DoB);
+  if (postData?.details?.DoB) {
+    let date = new Date(postData?.details?.DoB);
     let year = date.getFullYear();
     let month = date.getMonth() + 1
     if (month < 10)
@@ -50,6 +50,15 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
   const [EditTheNetworks, setEditNetworks] = useState(false);
   const toggleEditNetworks = () => {
     setEditNetworks(false);
+  }
+
+  const [modalEditCVIsOpen, setModalEditCVIsOpen] = useState(false);
+  const openModalCV = () => {
+    setModalEditCVIsOpen(true);
+  }
+
+  const closeModalEditCV = () => {
+    setModalEditCVIsOpen(false);
   }
 
   const [modalEditNameIsOpen, setModalEditNameIsOpen] = useState(false);
@@ -87,7 +96,25 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
     setModalNetworksIsOpen(false);
   }
 
-  const { id } = useParams();
+  const [applicationData, setApplicationData] = useState([]);
+  useEffect(() => {
+    if (postData?.details?.role === 'student') {
+      getStudentApplications(id)
+        .then(res => {
+          setApplicationData(res.data.applications);
+        })
+        .catch(err => console.log(err))
+    } else {
+      getCompanyApplications(id)
+        .then(res => {
+          setApplicationData(res.data.applications);
+        })
+        .catch(err => console.log(err))
+    }
+  }
+    , []);
+
+  console.log(applicationData)
 
   return (
     <>
@@ -102,19 +129,35 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
           </ImagePlace>
           <Details>
             <Detail>
-              {postData?.detalii?.companyName} {postData?.detalii?.firstName} {postData?.detalii?.lastName}
+              {postData?.details?.companyName} {postData?.details?.firstName} {postData?.details?.lastName}
               <FontAwesomeIcon icon={faPencilAlt} size="1x" onClick={openModalEditName} className="icon" />
             </Detail>
-            <Detail>{postData?.detalii?.role}</Detail>
+            <Detail>{postData?.details?.role}</Detail>
             <Detail>{DoB}</Detail>
+            {postData?.details?.role === 'student' ?
+              <Detail>
+                {postData?.details?.CV ?
+                  <a href={`http://localhost:9000/profile/${postData?.details?._id}/CV`}>Download CV</a>
+                  :
+                  "We don't have CV"
+                }
+                <FontAwesomeIcon icon={faPencilAlt} size="1x" onClick={openModalCV} className="icon" />
+              </Detail>
+              : null
+            }
+            <Detail>
+              <a href={`/?createdBy=${postData?.details?._id}`}>
+                View posts
+              </a>
+            </Detail>
           </Details>
           {
-            (postData?.detalii?.role == "student" || postData?.detalii?.role == "company") ?
+            (postData?.details?.role == "student" || postData?.details?.role == "company") ?
               (!EditTheNetworks ?
                 (<SocialLinks>
-                  {postData?.detalii?.linkedin ?
+                  {postData?.details?.linkedin ?
                     <Social>
-                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.linkedin}>
+                      <a target="_blank" rel="noreferrer" href={postData?.details?.linkedin}>
                         <FontAwesomeIcon icon={faLinkedin} size="1x" className="icon linkedin" />
                       </a>
                     </Social>
@@ -123,9 +166,9 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
                       <FontAwesomeIcon icon={faLinkedin} size="1x" className="icon no-social linkedin" />
                     </Social>)
                   }
-                  {postData?.detalii?.github ?
+                  {postData?.details?.github ?
                     <Social>
-                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.github}>
+                      <a target="_blank" rel="noreferrer" href={postData?.details?.github}>
                         <FontAwesomeIcon icon={faGithub} size="1x" className="icon github" />
                       </a>
                     </Social>
@@ -134,9 +177,9 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
                       <FontAwesomeIcon icon={faGithub} size="1x" className="icon no-social github" />
                     </Social>)
                   }
-                  {postData?.detalii?.facebook ?
+                  {postData?.details?.facebook ?
                     <Social>
-                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.facebook}>
+                      <a target="_blank" rel="noreferrer" href={postData?.details?.facebook}>
                         <FontAwesomeIcon icon={faFacebook} size="1x" className="icon facebook" />
                       </a>
                     </Social>
@@ -145,9 +188,9 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
                       <FontAwesomeIcon icon={faFacebook} size="1x" className="icon no-social facebook" />
                     </Social>)
                   }
-                  {postData?.detalii?.twitter ?
+                  {postData?.details?.twitter ?
                     <Social>
-                      <a target="_blank" rel="noreferrer" href={postData?.detalii?.twitter}>
+                      <a target="_blank" rel="noreferrer" href={postData?.details?.twitter}>
                         <FontAwesomeIcon icon={faTwitter} size="1x" className="icon twitter" />
                       </a>
                     </Social>
@@ -169,7 +212,7 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
         <center> About </center>
         {!EditAboutMe ?
           (<>
-            {postData?.detalii?.description ? (postData?.detalii?.description) :
+            {postData?.details?.description ? (postData?.details?.description) :
               <div>
                 Add an about me section.<br />
               </div>
@@ -178,21 +221,43 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
           </>) :
           (<EditDescription toggleEditAboutMe={toggleEditAboutMe} connectedUser={postData} small={true}>Editam</EditDescription>)
         }
-        {postData?.detalii?.role === 'student' ?
-          <div>
-            {postData?.detalii?.CV ?
-              <a href={`http://localhost:9000/profile/${postData?.detalii?._id}/CV`}>Download CV</a>
-              :
-              "We don't have CV"
-            }
-            <EditCV connectedUser={postData}></EditCV>
-          </div>
-          : null
-        }
-        <Link to={`/?createdBy=${postData?.detalii?._id}`}>
-          View your posts
-        </Link>
       </AboutMeCard>
+      <InformationCard>
+        <table id="table_id" class="display">
+          <thead>
+            {(postData?.details?.role == "student") ?
+              (
+                <tr>
+                  <th>Offer Creator</th>
+                  <th>Offer Title</th>
+                  <th>Creation Date</th>
+                </tr>
+              ) : (
+                <tr>
+                  <th>Application Creator</th>
+                  <th>Offer Title</th>
+                  <th>Creation Date</th>
+                </tr>
+              )
+            }
+          </thead>
+          <tbody>
+            {applicationData.map((application, key) =>
+              <tr key={key}>
+                {(postData?.details?.role == "student") ?
+                  (
+                    <td>{application?.offerCreator?.companyName}</td>
+                  ) : (
+                    <td>{application?.applicant?.firstName + ' ' + application?.applicant?.lastName}</td>
+                  )
+                }
+                <td>{application?.offer?.title}</td>
+                <td>{application?.dateCreated.slice(0, 10).replaceAll('-', '.')}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </InformationCard>
       <InformationCard>
         <button onClick={() => openModalDelete()}>Delete your account</button>
       </InformationCard>
@@ -215,16 +280,21 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
       <Modal isOpen={modalEditNameIsOpen} onRequestClose={closeModalEditName} style={modalStyles}>
         <button onClick={closeModalEditName}>close</button> <br />
         <EditName connectedUser={postData}> </EditName> <br />
-        {(postData?.detalii?.role == "student") ?
+        {(postData?.details?.role == "student") ?
           (!EditTheDoB ?
             (<>
               Birth Date:
-                {postData?.detalii?.DoB ? Moment(postData?.detalii?.DoB).format(' DD-MM-YYYY') : (<></>)}
+                {postData?.details?.DoB ? Moment(postData?.details?.DoB).format(' DD-MM-YYYY') : (<></>)}
               <button onClick={() => setEditDoB(true)}>Edit</button>
             </>) :
             (<EditDoB toggleEditDoB={toggleEditDoB} connectedUser={postData}> </EditDoB>)
           ) : (<></>)
         }
+      </Modal>
+
+      <Modal isOpen={modalEditCVIsOpen} onRequestClose={closeModalEditCV} style={modalStyles}>
+        <button onClick={closeModalEditCV}>close</button> <br />
+        <EditCV connectedUser={postData}></EditCV>
       </Modal>
 
       <Modal

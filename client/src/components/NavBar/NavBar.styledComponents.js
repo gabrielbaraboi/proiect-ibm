@@ -53,6 +53,7 @@ export const NavBarButton = styled.button`
 `;
 
 export const ColumnNav = styled.div`
+    text-align: center;
 `;
 
 export const OtherColumn = styled.div`
