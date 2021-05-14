@@ -12,13 +12,14 @@ const ImageDiv = styled.div`
 width: 60px;
 height: 60px;
 flex-shrink: 0;
-border-radius: 100%;
+border-radius: 50%;
 background-color: #C4C4C4;
 text-align: center;
 display: flex;
 justify-content: center;
 align-items: center;
 margin: 0 1rem 0 0;
+object-fit: contain;
 @media (max-width: 1000px){
     width: 40px;
     height: 40px;

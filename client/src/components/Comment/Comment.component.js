@@ -3,14 +3,22 @@ import { deleteComment, updateComment } from "../../services/CommentsServices";
 import { mdiDotsVertical, mdiDelete, mdiCommentEdit, mdiClose, mdiCancel} from '@mdi/js';
 import Icon from '@mdi/react';
 import { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon, IconContainer, CancelIcon, SaveDiv, SaveButton, EditedI } from "./Comment.StyledComponents";
+import ReactImageFallback from "react-image-fallback";
 
 export const Comment = ({ comment, connectedUser }) => {
-
     const [isDeleted, setIsDeleted] = useState(false);
     const [editing, setEditing] = useState(false);
     const [updatedCommentValue, setUpdatedCommentValue] = useState(comment?.comment);
     const [edited, setEdited] = useState(comment?.datePosted < comment?.updatedAt);
     const [showDropdownMenu, setShowDropdownMenu] = useState(false);
+
+    const CommentPicture = {
+        'max-width': '100%',
+    'max-height': '100%',
+    'min-width': '100%',
+    'min-height': '100%',
+    'border-radius': '50%',
+    };
 
     const deleteThisComment = () => {
         deleteComment(comment._id)
@@ -44,18 +52,23 @@ export const Comment = ({ comment, connectedUser }) => {
     return (
         <Container>
             <ImageDiv>
-                <UserInitial>{comment.commentator ?
+                {/* <CommentPicture src={`/profile/${comment?.createdBy}/profilePicture`}></CommentPicture> */}
+                <ReactImageFallback
+                    src={`/profile/${comment?.createdBy}/profilePicture`}
+                    fallbackImage={process.env.PUBLIC_URL + '/iconUser.jpg'}
+                    style={CommentPicture} />
+                {/* <UserInitial>{comment.commentator ?
                     `${comment?.commentator?.firstName?.charAt(0) ? comment?.commentator?.firstName?.charAt(0) : comment?.commentator?.companyName?.charAt(0)}`
                     : null}
-                </UserInitial>
+                </UserInitial> */}
             </ImageDiv>
             <CommentDiv>
                 <CommentUserName>{!comment.commentator ? 
                                 <strong>Deleted User</strong> 
                                 : comment.commentator.role === 'student' ? 
-                                    comment.commentator.firstName + " " + comment.commentator.lastName 
+                                    <a href={`/profile/${comment.createdBy}`}>{`${comment.commentator.firstName + " " + comment.commentator.lastName}`} </a>
                                     : comment.commentator.role==='company' ? 
-                                        comment.commentator.companyName
+                                        <a href={`/profile/${comment.createdBy}`}>{`${comment.commentator.companyName}`} </a>
                                         :<strong style={{color: 'blue'}}>Admin account</strong>   
                                 }
                 </CommentUserName>
@@ -131,4 +144,14 @@ export const Comment = ({ comment, connectedUser }) => {
             }
         </Container>
     )
+
+   
 }
+
+// const CommentPicture = styled.img`
+//     max-width: 100%;
+//     max-height: 100%;
+//     min-width: 100%;
+//     min-height: 100%;
+//     border-radius: 50%;
+// `;
