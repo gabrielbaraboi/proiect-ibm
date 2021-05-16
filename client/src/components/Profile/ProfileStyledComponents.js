@@ -170,6 +170,7 @@ export const AboutMeCard = styled.div`
 
 export const DescriptionField = styled.textarea`
   display: block;
+  height: 200px;
   font-size: 17px;
   width: 100%;
 `

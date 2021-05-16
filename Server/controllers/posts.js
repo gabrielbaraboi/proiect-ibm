@@ -86,8 +86,10 @@ export const postDetails = async (req, res) => {
 
 
 export const getApplications = (req, res) => {
-    Application.find({ offerID: req.params.id })
+    Application.find({ offer: mongoose.Types.ObjectId(req.params.id) })
         .populate('applicant', 'firstName lastName email linkedin github facebook twitter profilePicture')
+        .populate('offerCreator', 'companyName firstName lastName email linkedin github facebook twitter profilePicture')
+        .populate('offer')
         .exec((err, applications) => {
             if (err) {
                 return res.status(404).json({ message: error.message });

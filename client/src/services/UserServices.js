@@ -83,9 +83,9 @@ export const getStudentApplications = async (id) => {
     }
 };
 
-export const getCompanyApplications = async (id) => {
+export const getApplications = async (id) => {
     try {
-        const res = axios.get(`http://localhost:9000/profile/${id}/getCompanyApplications`);
+        const res = axios.get(`http://localhost:9000/profile/${id}/getApplications`);
         return res;
     } catch (error) {
         throw error;

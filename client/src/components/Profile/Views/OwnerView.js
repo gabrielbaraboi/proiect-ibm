@@ -7,11 +7,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons'
 import { faTwitter, faGithub, faLinkedin, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import Modal from 'react-modal';
-import { getCompanyApplications, getStudentApplications } from "../../../services/UserServices";
+import { getApplications } from "../../../services/UserServices";
 
 
 export const OwnerProfile = ({ postData, deleteThisUser }) => {
-
+  console.log(postData?.details?.role);
   const { id } = useParams();
   let DoB = '';
 
@@ -95,26 +95,16 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
   const closeModalNetworks = () => {
     setModalNetworksIsOpen(false);
   }
-
+  console.log(postData?.details?.role);
   const [applicationData, setApplicationData] = useState([]);
   useEffect(() => {
-    if (postData?.details?.role === 'student') {
-      getStudentApplications(id)
+      getApplications(id)
         .then(res => {
           setApplicationData(res.data.applications);
         })
         .catch(err => console.log(err))
-    } else {
-      getCompanyApplications(id)
-        .then(res => {
-          setApplicationData(res.data.applications);
-        })
-        .catch(err => console.log(err))
-    }
   }
     , []);
-
-  console.log(applicationData)
 
   return (
     <>
@@ -152,7 +142,7 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
             </Detail>
           </Details>
           {
-            (postData?.details?.role == "student" || postData?.details?.role == "company") ?
+            (postData?.details?.role === "student" || postData?.details?.role === "company") ?
               (!EditTheNetworks ?
                 (<SocialLinks>
                   {postData?.details?.linkedin ?
@@ -217,7 +207,7 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
                 Add an about me section.<br />
               </div>
             }
-            <button onClick={() => setEditAboutMe(true)}>Edit</button>
+            <center><button onClick={() => setEditAboutMe(true)}>Edit</button></center>
           </>) :
           (<EditDescription toggleEditAboutMe={toggleEditAboutMe} connectedUser={postData} small={true}>Editam</EditDescription>)
         }
@@ -225,7 +215,7 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
       <InformationCard>
         <table id="table_id" class="display">
           <thead>
-            {(postData?.details?.role == "student") ?
+            {(postData?.details?.role === "student") ?
               (
                 <tr>
                   <th>Offer Creator</th>
@@ -244,11 +234,11 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
           <tbody>
             {applicationData.map((application, key) =>
               <tr key={key}>
-                {(postData?.details?.role == "student") ?
+                {(postData?.details?.role === "student") ?
                   (
                     <td>{application?.offerCreator?.companyName}</td>
                   ) : (
-                    <td>{application?.applicant?.firstName + ' ' + application?.applicant?.lastName}</td>
+                    <td>{application?.applicant?.firstName + ' ' + application?.applicant?.lastName} </td>
                   )
                 }
                 <td>{application?.offer?.title}</td>
