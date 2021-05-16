@@ -9,13 +9,21 @@ import { useHistory } from 'react-router';
 import { Container } from "./Global.styledComponents";
 import ReactImageFallback from "react-image-fallback";
 import { ImageRectStyle } from './Global.styledComponents';
+import Modal from 'react-modal';
 
 export const ShowPost = ({ connectedUser }) => {
   const { id } = useParams();
   const [postData, setPostData] = useState({});
   const [applicationsData, setApplicationData] = useState({});
   const [loading, setLoading] = useState(true);
-  
+  const [modalApplicants, setModalApplicantsIsOpen] = useState(false);
+  const openModalApplicants = () => {
+    setModalApplicantsIsOpen(true);
+  }
+  const closeModalApplicants = () => {
+    setModalApplicantsIsOpen(false);
+  }
+
   const userPost = (user, post) => {
     return (post?.post?.createdBy === user?.id) || (user?.role === 'admin');
   };
@@ -41,9 +49,19 @@ export const ShowPost = ({ connectedUser }) => {
     , []);
 
     
-  if(userPost(connectedUser, postData)) {
-    console.log(applicationsData);
+  console.log(applicationsData);
+  
+  var iApplied = false;
+  if(applicationsData.applications && connectedUser)
+  {
+    applicationsData.applications.forEach(application => {
+      if(connectedUser.id ==  application.applicant._id) {
+        console.log("I already applied");
+        iApplied = true;
+      }
+    });
   }
+
   
   ///////////
 
@@ -81,10 +99,19 @@ export const ShowPost = ({ connectedUser }) => {
           </Link>
         </Company>
         <Place>{postData?.post?.workPlace}</Place>
+
         { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData) && postData?.post?.type === 'offer') ?
-                <ApplyButton onClick={() => createApplication(id, connectedUser.id, postData?.post?.createdBy_id)}> APPLY </ApplyButton>
-            : (<></>)) : (<></>)
+                <>
+                {!iApplied ? 
+                  <ApplyButton onClick={() => createApplication(id, connectedUser.id, postData?.post?.createdBy_id) }> APPLY </ApplyButton>
+                : (<ApplyButton style={{"background" : "grey", "cursor" : "default"}}> You already applied </ApplyButton>) }
+                </>
+                : (<></>)) : (<></>)
           }
+        {userPost(connectedUser, postData) ? 
+          <ApplyButton onClick={() => openModalApplicants()} > Applicants </ApplyButton>
+          : <></>
+        }
         <PostData>
           <PostDataRow>
             <LabelPost htmlFor="about">Despre job:</LabelPost>
@@ -120,8 +147,38 @@ export const ShowPost = ({ connectedUser }) => {
       <CommentSection postID={id} connectedUser={connectedUser} commentCount={postData?.commentCount}></CommentSection>
       </ContainerDiv>
     </Container>
-    </div>
+    
+    {userPost(connectedUser, postData) ?
+      <Modal
+        isOpen={modalApplicants}
+        onRequestClose={closeModalApplicants}
+        style={modalStyles}>
+        <button onClick={closeModalApplicants}>close</button> <br />
+        <table id="table_id" class="display">
+          {(applicationsData.applications) ? 
+              <>{(applicationsData.applications.length > 0) ? 
+                  <><thead>
+                      <tr>
+                        <th>Application Creator</th>
+                        <th>Creation Date</th>
+                      </tr>     
+                  </thead>
+                  <tbody>
+                    {applicationsData.applications.map((application, key) =>
+                      <tr key={key}>
+                        <td>{application?.applicant?.firstName + ' ' + application?.applicant?.lastName} </td>
+                        <td>{application?.dateCreated.slice(0, 10).replaceAll('-', '.')}</td>
+                      </tr>
+                    )}
+                  </tbody> </> : (<>No applicants</>)} </>
+            :(<></>)}
+          </table>
 
+      </Modal>
+        : (<></>)
+      }
+    </div>
+ 
   )
 }
 
@@ -263,3 +320,14 @@ margin-bottom: 1rem;
   cursor: pointer;
 }
 `;
+
+export const modalStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+};

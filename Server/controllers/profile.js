@@ -152,14 +152,16 @@ export const getStudentApplications = (req, res) => {
     });
 }
 
-export const getCompanyApplications = (req, res) => {
-  Application.find({ offerCreator: req.params.id })
-    .populate('applicant', 'firstName lastName email')
+export const getApplications = (req, res) => {
+  Application.find({ $or: [{offerCreator: req.params.id}, {applicant: req.params.id}] })
+    .populate('applicant', 'firstName lastName email companyName')
     .populate('offer', 'title')
+    .populate('offerCreator', 'companyName')
     .exec((err, applications) => {
       if (err) {
         return res.status(404).json({ message: error.message });
       }
+      console.log(applications)
       res.header("Content-Type", 'application/json');
       return res.status(200).json({ applications })
     });
