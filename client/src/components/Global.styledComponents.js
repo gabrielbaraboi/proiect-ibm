@@ -34,19 +34,19 @@ export const Row = styled.div`
 `;
 
 export const ImageRectStyle = {
-    'max-width': '100%',
-'max-height': '100%',
-'min-width': '100%',
-'min-height': '100%',
-'border-radius': '4px',
-'object-fit':'cover'
+    'maxWidth': '100%',
+'maxHeight': '100%',
+'minWidth': '100%',
+'minHeight': '100%',
+'borderRadius': '4px',
+'objectFit':'cover'
 };
 
 export const ImageCircleStyle = {
-    'max-width': '100%',
-'max-height': '100%',
-'min-width': '100%',
-'min-height': '100%',
-'border-radius': '100%',
-'object-fit':'cover'
+    'maxWidth': '100%',
+'maxHeight': '100%',
+'minWidth': '100%',
+'minHeight': '100%',
+'borderRadius': '100%',
+'objectFit':'cover'
 };
