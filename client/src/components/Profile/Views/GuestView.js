@@ -2,6 +2,8 @@ import { Link, useParams } from "react-router-dom";
 import { Social, SocialLinks, ImagePlace, GeneralInformation, AboutMeCard, Details, Detail, Informations, CoverImagePlace, InformationCard, ProfilePicture } from '../ProfileStyledComponents'
 import { faTwitter, faGithub, faLinkedin, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import ReactImageFallback from "react-image-fallback";
+import { ImageCircleStyle } from "../../Global.styledComponents";
 
 export const GuestProfile = ({ postData, deleteThisUser, admin }) => {
 
@@ -29,7 +31,10 @@ export const GuestProfile = ({ postData, deleteThisUser, admin }) => {
         </CoverImagePlace>
         <Informations>
           <ImagePlace>
-            <ProfilePicture src={`/profile/${id}/profilePicture`} />
+            <ReactImageFallback
+                    src={`/profile/${id}/profilePicture`}
+                    fallbackImage={process.env.PUBLIC_URL + '/iconUser.jpg'}
+                    style={ImageCircleStyle} />
           </ImagePlace>
           <Details>
             <Detail>

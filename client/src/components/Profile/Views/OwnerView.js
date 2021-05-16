@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
-import { Detail, ImagePlace, AboutMeCard, InformationCard, Informations, GeneralInformation, CoverImagePlace, Details, modalStyles, ProfilePicture, Social, SocialLinks } from '../ProfileStyledComponents';
+import { Detail, ImagePlace, AboutMeCard, InformationCard, Informations, GeneralInformation, CoverImagePlace, Details, modalStyles, ProfilePicture, Social, SocialLinks, ProfilePictureDiv } from '../ProfileStyledComponents';
 import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture, EditCoverPicture, EditCV } from "../IndividualEditing";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons'
 import { faTwitter, faGithub, faLinkedin, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import Modal from 'react-modal';
 import { getCompanyApplications, getStudentApplications } from "../../../services/UserServices";
-
+import ReactImageFallback from "react-image-fallback";
+import { ImageCircleStyle } from "../../Global.styledComponents";
 
 export const OwnerProfile = ({ postData, deleteThisUser }) => {
 
@@ -125,7 +126,15 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
         </CoverImagePlace>
         <Informations>
           <ImagePlace>
-            <ProfilePicture onClick={() => openModalEditPicture()} src={`/profile/${id}/profilePicture`} />
+            {/* <ProfilePicture onClick={() => openModalEditPicture()} src={`/profile/${id}/profilePicture`} /> */}
+            <ProfilePictureDiv>            
+              <ReactImageFallback
+                    src={`/profile/${id}/profilePicture`}
+                    fallbackImage={process.env.PUBLIC_URL + '/iconUser.jpg'}
+                    style={ImageCircleStyle}
+                    onClick={() => openModalEditPicture()} />
+            </ProfilePictureDiv>
+
           </ImagePlace>
           <Details>
             <Detail>

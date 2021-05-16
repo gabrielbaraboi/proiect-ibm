@@ -184,3 +184,13 @@ export const modalStyles = {
     transform: 'translate(-50%, -50%)'
   }
 };
+
+export const ProfilePictureDiv = styled.div`
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 100%;
+  &:hover {
+    cursor: pointer;
+  }
+`

@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { PostRightBlock, Post, PostHeader, AuthorImage, Image, PostHeaderBody, PostTitle, PostHeaderDetails, Detail, PostHeaderData, DataItem, PostDescription, PostRequirements, Requirement } from "./Post.styledComponents"
+import ReactImageFallback from "react-image-fallback";
+import { ImageRectStyle } from '../Global.styledComponents';
+
 
 const PostCard = ({ theRef, post }) => {
 
@@ -9,12 +12,16 @@ const PostCard = ({ theRef, post }) => {
   return (
     <Post>
       <AuthorImage>
-        {post.creator ?
+        {/* {post.creator ?
           <Link to={`/profile/${post?.createdBy}`} target="_blank">
             <Image src={`/profile/${post?.createdBy}/profilePicture`} />
           </Link> :
           <Image src=" " />
-        }
+        } */}
+        <ReactImageFallback
+                    src={`/profile/${post?.createdBy}/profilePicture`}
+                    fallbackImage={process.env.PUBLIC_URL + '/iconUser.jpg'}
+                    style={ImageRectStyle} />
       </AuthorImage>
       <PostRightBlock>
         <PostHeader>

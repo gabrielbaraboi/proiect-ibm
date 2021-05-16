@@ -8,19 +8,14 @@ import { getPostDetails, deletePost, getApplications, createApplication } from "
 import { useHistory } from 'react-router';
 import { Container } from "./Global.styledComponents";
 import ReactImageFallback from "react-image-fallback";
+import { ImageRectStyle } from './Global.styledComponents';
 
 export const ShowPost = ({ connectedUser }) => {
   const { id } = useParams();
   const [postData, setPostData] = useState({});
   const [applicationsData, setApplicationData] = useState({});
   const [loading, setLoading] = useState(true);
-  const ProfilePictureStyle = {
-    'max-width': '100%',
-'max-height': '100%',
-'min-width': '100%',
-'min-height': '100%',
-'border-radius': '4px',
-};
+  
   const userPost = (user, post) => {
     return (post?.post?.createdBy === user?.id) || (user?.role === 'admin');
   };
@@ -61,11 +56,7 @@ export const ShowPost = ({ connectedUser }) => {
       .catch(err => console.log(err));
   };
 
-  const mystyle = {
-    height: "100%",
-    width: "100%",
-    objectFit: "cover"
-  };
+
   return (
     <div>
     <NavBar></NavBar>
@@ -79,7 +70,7 @@ export const ShowPost = ({ connectedUser }) => {
             <ReactImageFallback
                     src={`/profile/${postData?.post?.createdBy_id}/profilePicture`}
                     fallbackImage={process.env.PUBLIC_URL + '/iconUser.jpg'}
-                    style={ProfilePictureStyle} />
+                    style={ImageRectStyle} />
           </ImagePlace>
           <Data>Postat: {postData?.post?.dateCreated?.slice(0, 10)}</Data>
         </TopSection>

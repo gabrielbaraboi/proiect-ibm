@@ -4,6 +4,7 @@ import { mdiDotsVertical, mdiDelete, mdiCommentEdit, mdiClose, mdiCancel} from '
 import Icon from '@mdi/react';
 import { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon, IconContainer, CancelIcon, SaveDiv, SaveButton, EditedI } from "./Comment.StyledComponents";
 import ReactImageFallback from "react-image-fallback";
+import { ImageCircleStyle } from '../Global.styledComponents';
 
 export const Comment = ({ comment, connectedUser }) => {
     const [isDeleted, setIsDeleted] = useState(false);
@@ -11,14 +12,6 @@ export const Comment = ({ comment, connectedUser }) => {
     const [updatedCommentValue, setUpdatedCommentValue] = useState(comment?.comment);
     const [edited, setEdited] = useState(comment?.datePosted < comment?.updatedAt);
     const [showDropdownMenu, setShowDropdownMenu] = useState(false);
-
-    const CommentPicture = {
-        'max-width': '100%',
-    'max-height': '100%',
-    'min-width': '100%',
-    'min-height': '100%',
-    'border-radius': '50%',
-    };
 
     const deleteThisComment = () => {
         deleteComment(comment._id)
@@ -56,7 +49,7 @@ export const Comment = ({ comment, connectedUser }) => {
                 <ReactImageFallback
                     src={`/profile/${comment?.createdBy}/profilePicture`}
                     fallbackImage={process.env.PUBLIC_URL + '/iconUser.jpg'}
-                    style={CommentPicture} />
+                    style={ImageCircleStyle} />
                 {/* <UserInitial>{comment.commentator ?
                     `${comment?.commentator?.firstName?.charAt(0) ? comment?.commentator?.firstName?.charAt(0) : comment?.commentator?.companyName?.charAt(0)}`
                     : null}
@@ -147,11 +140,3 @@ export const Comment = ({ comment, connectedUser }) => {
 
    
 }
-
-// const CommentPicture = styled.img`
-//     max-width: 100%;
-//     max-height: 100%;
-//     min-width: 100%;
-//     min-height: 100%;
-//     border-radius: 50%;
-// `;

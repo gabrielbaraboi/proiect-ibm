@@ -32,3 +32,21 @@ export const Row = styled.div`
     display: flex;
     flex-wrap: wrap;
 `;
+
+export const ImageRectStyle = {
+    'max-width': '100%',
+'max-height': '100%',
+'min-width': '100%',
+'min-height': '100%',
+'border-radius': '4px',
+'object-fit':'cover'
+};
+
+export const ImageCircleStyle = {
+    'max-width': '100%',
+'max-height': '100%',
+'min-width': '100%',
+'min-height': '100%',
+'border-radius': '100%',
+'object-fit':'cover'
+};

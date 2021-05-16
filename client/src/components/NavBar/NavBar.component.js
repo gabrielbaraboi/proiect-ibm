@@ -9,14 +9,7 @@ import { Link } from "react-router-dom";
 import { Container } from "../Global.styledComponents"
 import { Nav, VerticalNav, TitleDiv, Title, UserProfileMinimizedNavBar, ProfileCard, Other, Vertical, Column, NavBarButton, ColumnNav, OtherColumn } from "./NavBar.styledComponents";
 import ReactImageFallback from "react-image-fallback";
-
-const NavBarPictureStyle = {
-    'max-width': '100%',
-'max-height': '100%',
-'min-width': '100%',
-'min-height': '100%',
-'border-radius': '50%',
-};
+import { ImageCircleStyle } from '../Global.styledComponents';
 
 const NavBar = ({ connectedUser }) => {
     const [showColumnNav, setShowColumnNav] = useState(false);
@@ -27,13 +20,7 @@ const NavBar = ({ connectedUser }) => {
         setUser(userData);
     }, [])
 
-    const mystyle = {
-        height: "100%",
-        width: "100%",
-        objectFit: "cover",
-        borderRadius: "100%"
-    };
-
+    
     return (
         <Nav>
             <Container>
@@ -56,7 +43,7 @@ const NavBar = ({ connectedUser }) => {
                                 <ReactImageFallback
                                     src={`/profile/${user?.id}/profilePicture`}
                                     fallbackImage={process.env.PUBLIC_URL + '/iconUser.jpg'}
-                                    style={NavBarPictureStyle} />
+                                    style={ImageCircleStyle} />
                             </ProfileCard>
                         </a>
                     </UserProfileMinimizedNavBar> :
@@ -75,7 +62,7 @@ const NavBar = ({ connectedUser }) => {
                                     <ReactImageFallback
                                     src={`/profile/${user?.id}/profilePicture`}
                                     fallbackImage={process.env.PUBLIC_URL + '/iconUser.jpg'}
-                                    style={NavBarPictureStyle} />
+                                    style={ImageCircleStyle} />
                                     </ProfileCard>
                                 </a>
                                 <a href={`/`}>

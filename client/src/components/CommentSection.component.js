@@ -7,6 +7,7 @@ import { useState } from 'react';
 import useCommentSearch from '../customHooks/useCommentSearch';
 import { postComment } from '../services/CommentsServices';
 import ReactImageFallback from "react-image-fallback";
+import { ImageCircleStyle } from './Global.styledComponents';
 
 export const CommentSection = ({ postID, connectedUser, commentCount }) => {
     console.log(postID, connectedUser);
@@ -15,13 +16,6 @@ export const CommentSection = ({ postID, connectedUser, commentCount }) => {
     const [pageNumber, setPageNumber] = useState(1);
     const { comments, hasMore, loading } = useCommentSearch(pageNumber, id);
 
-    const CommentPicture = {
-        'max-width': '100%',
-    'max-height': '100%',
-    'min-width': '100%',
-    'min-height': '100%',
-    'border-radius': '50%',
-    };
     const onScroll = () => {
         const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
         if (bottom && hasMore) {
@@ -64,7 +58,7 @@ export const CommentSection = ({ postID, connectedUser, commentCount }) => {
                         <ReactImageFallback
                     src={`/profile/${connectedUser?.id}/profilePicture`}
                     fallbackImage={process.env.PUBLIC_URL + '/iconUser.jpg'}
-                    style={CommentPicture} />
+                    style={ImageCircleStyle} />
                     </ImageDiv>
                     <CommentInputContainer>
                         <CommentInputTextArea
