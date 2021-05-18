@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import NavBar from "./NavBar/NavBar.component";
@@ -17,6 +17,9 @@ export const ShowPost = ({ connectedUser }) => {
   const [applicationsData, setApplicationData] = useState({});
   const [loading, setLoading] = useState(true);
   const [modalApplicants, setModalApplicantsIsOpen] = useState(false);
+  const [applied, setApplied] = useState(false);
+  const applyRef = useRef(false)
+
   const openModalApplicants = () => {
     setModalApplicantsIsOpen(true);
   }
@@ -48,23 +51,20 @@ export const ShowPost = ({ connectedUser }) => {
     }
     , []);
 
-    
-  console.log(applicationsData);
-  
-  var iApplied = false;
-  if(applicationsData.applications && connectedUser)
-  {
-    applicationsData.applications.forEach(application => {
+  useEffect(() => {
+    if(applicationsData.applications && connectedUser)
+    {
+      applicationsData.applications.forEach(application => {
       if(connectedUser.id ==  application.applicant._id) {
         console.log("I already applied");
-        iApplied = true;
+        applyRef.current = true;
       }
     });
-  }
-
-  
-  ///////////
-
+      if (applyRef.current)
+        setApplied(true);
+    }
+  }, [applicationsData])
+    
   const history = useHistory();
   const deleteThisPost = () => {
     deletePost(id).then(res => {
@@ -102,8 +102,8 @@ export const ShowPost = ({ connectedUser }) => {
 
         { connectedUser ? ((connectedUser.role === 'student' && !userPost(connectedUser, postData) && postData?.post?.type === 'offer') ?
                 <>
-                {!iApplied ? 
-                  <ApplyButton onClick={() => createApplication(id, connectedUser.id, postData?.post?.createdBy_id) }> APPLY </ApplyButton>
+                {!applied ? 
+                  <ApplyButton onClick={() => {createApplication(id, connectedUser.id, postData?.post?.createdBy_id); setApplied(true);} }> APPLY </ApplyButton>
                 : (<ApplyButton style={{"background" : "grey", "cursor" : "default"}}> You already applied </ApplyButton>) }
                 </>
                 : (<></>)) : (<></>)
