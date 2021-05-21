@@ -18,7 +18,8 @@ export const ShowPost = ({ connectedUser }) => {
   const [loading, setLoading] = useState(true);
   const [modalApplicants, setModalApplicantsIsOpen] = useState(false);
   const [applied, setApplied] = useState(false);
-  const applyRef = useRef(false)
+  const [commentCount, setCommentCount] = useState(0);
+  const applyRef = useRef(false);
 
   const openModalApplicants = () => {
     setModalApplicantsIsOpen(true);
@@ -41,7 +42,6 @@ export const ShowPost = ({ connectedUser }) => {
   }
     , []);
 
-  ///////////
     useEffect(() => {
       getApplications(id)
         .then(res => {
@@ -51,6 +51,9 @@ export const ShowPost = ({ connectedUser }) => {
     }
     , []);
 
+    useEffect(() => {
+      setCommentCount(postData?.commentCount);
+    }, [postData])
   useEffect(() => {
     if(applicationsData.applications && connectedUser)
     {
@@ -144,7 +147,7 @@ export const ShowPost = ({ connectedUser }) => {
             <button onClick={deleteThisPost}>Delete Post</button>
           </div>}
       </ShowPostContainer>
-      <CommentSection postID={id} connectedUser={connectedUser} commentCount={postData?.commentCount}></CommentSection>
+      <CommentSection postID={id} connectedUser={connectedUser} commentCount={commentCount} setCommentCount={setCommentCount}></CommentSection>
       </ContainerDiv>
     </Container>
     

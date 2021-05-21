@@ -8,13 +8,15 @@ import useCommentSearch from '../customHooks/useCommentSearch';
 import { postComment } from '../services/CommentsServices';
 import ReactImageFallback from "react-image-fallback";
 import { ImageCircleStyle } from './Global.styledComponents';
+import { getUserData } from '../services/localStorageManagment';
 
-export const CommentSection = ({ postID, connectedUser, commentCount }) => {
-    console.log(postID, connectedUser);
+export const CommentSection = ({ postID, connectedUser, commentCount, setCommentCount }) => {
+    //console.log(postID, connectedUser);
     const { id } = useParams();
     const [commentAdded, setComentAdded] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const { comments, hasMore, loading } = useCommentSearch(pageNumber, id);
+    const [commentsList, setCommentsList] = useState([]);
 
     const onScroll = () => {
         const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
@@ -28,19 +30,29 @@ export const CommentSection = ({ postID, connectedUser, commentCount }) => {
         return () => document.removeEventListener("scroll", onScroll);
     }, [hasMore]);
 
+    useEffect(() => {
+        setCommentsList(Array.from(new Set([...commentsList, ...comments])));
+    }, [comments])
+
     const submitComment = e => {
         e.preventDefault();
         const comment = commentAdded;
         if (commentAdded !== "") {
             postComment(id, { comment })
                 .then(res => {
-                    window.location.reload();
+                    const data = JSON.parse(JSON.stringify(res.data));
+                    data.commentator = getUserData();
+                    console.log(data);
+                    console.log(commentsList);
+                    setCommentCount((prevCount) => prevCount + 1);
+                    setCommentsList([data, ...commentsList]);
                 })
                 .catch(err => {
                     console.log(err);
                 });
         }
     }
+
     return (
         <Container>
             <CommentInfo>
@@ -70,14 +82,14 @@ export const CommentSection = ({ postID, connectedUser, commentCount }) => {
                         <PostCommentButton onClick={submitComment}>Posteaza</PostCommentButton>
                     </CommentInputContainer>
                 </AddComment>}
-            {comments.length === 0
+            {commentsList.length === 0
                 ?
                 !loading
                     ?
                     <center>No comments yet!</center>
                     : null
-                : comments?.map((comment, idx) => (
-                    <Comment key={idx} comment={comment} connectedUser={connectedUser}></Comment>
+                : commentsList?.map((comment, idx) => (
+                    <Comment key={comment._id} comment={comment} connectedUser={connectedUser} setCommentCount={setCommentCount}></Comment>
                 ))
             }
             {loading && <center><strong>Loading</strong></center>}

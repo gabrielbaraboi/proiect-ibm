@@ -6,7 +6,7 @@ import { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInit
 import ReactImageFallback from "react-image-fallback";
 import { ImageCircleStyle } from '../Global.styledComponents';
 
-export const Comment = ({ comment, connectedUser }) => {
+export const Comment = ({ comment, connectedUser, setCommentCount }) => {
     const [isDeleted, setIsDeleted] = useState(false);
     const [editing, setEditing] = useState(false);
     const [updatedCommentValue, setUpdatedCommentValue] = useState(comment?.comment);
@@ -18,6 +18,7 @@ export const Comment = ({ comment, connectedUser }) => {
             .then(res => {
                 console.log(res);
                 setIsDeleted(true);
+                setCommentCount((prevCount) => prevCount - 1);
             })
             .catch(err => console.log(err));
     };
