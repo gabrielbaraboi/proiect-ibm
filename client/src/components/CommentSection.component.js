@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from "styled-components"
 import { LabelPost } from "./ShowPost.component";
 import { Comment } from "./Comment/Comment.component";
@@ -9,6 +9,8 @@ import { postComment } from '../services/CommentsServices';
 import ReactImageFallback from "react-image-fallback";
 import { ImageCircleStyle } from './Global.styledComponents';
 import { getUserData } from '../services/localStorageManagment';
+import socketIOClient from "socket.io-client";
+const ENDPOINT = `http://127.0.0.1:9001`;
 
 export const CommentSection = ({ postID, connectedUser, commentCount, setCommentCount }) => {
     //console.log(postID, connectedUser);
@@ -17,6 +19,7 @@ export const CommentSection = ({ postID, connectedUser, commentCount, setComment
     const [pageNumber, setPageNumber] = useState(1);
     const { comments, hasMore, loading } = useCommentSearch(pageNumber, id);
     const [commentsList, setCommentsList] = useState([]);
+    const socketRef = useRef(null);
 
     const onScroll = () => {
         const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
@@ -42,8 +45,9 @@ export const CommentSection = ({ postID, connectedUser, commentCount, setComment
                 .then(res => {
                     const data = JSON.parse(JSON.stringify(res.data));
                     data.commentator = getUserData();
-                    console.log(data);
-                    console.log(commentsList);
+                    //console.log(data);
+                    //console.log(commentsList);
+                    socketRef.current.emit(`AddComment`, data);
                     setCommentCount((prevCount) => prevCount + 1);
                     setCommentsList([data, ...commentsList]);
                 })
@@ -52,7 +56,24 @@ export const CommentSection = ({ postID, connectedUser, commentCount, setComment
                 });
         }
     }
+  
+    useEffect(() => {
+        const socket = socketIOClient(ENDPOINT);
+        socketRef.current = socket;
+        socket.on(`AddComment`, data => {
+          if (data.postID === id){
+            setCommentCount((prevCount) => prevCount + 1);
+            setCommentsList([data, ...commentsList]);
+          }
+        })
+        return () => {
+          socket.disconnect();
+        }
+      },[commentsList])
 
+    //   useEffect(() => {
+    //       console.log(commentsList)
+    //   }, [commentsList])
     return (
         <Container>
             <CommentInfo>

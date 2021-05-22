@@ -1,27 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { deleteComment, updateComment } from "../../services/CommentsServices";
 import { mdiDotsVertical, mdiDelete, mdiCommentEdit, mdiClose, mdiCancel} from '@mdi/js';
 import Icon from '@mdi/react';
 import { Container, ImageDiv, CommentDiv, CommentUserName, CommentText, UserInitial, CommentMenu, DropdownMenu, DropdownMenuIcon, IconContainer, CancelIcon, SaveDiv, SaveButton, EditedI } from "./Comment.StyledComponents";
 import ReactImageFallback from "react-image-fallback";
 import { ImageCircleStyle } from '../Global.styledComponents';
+import socketIOClient from "socket.io-client";
+const ENDPOINT = `http://127.0.0.1:9001`;
 
-export const Comment = ({ comment, connectedUser, setCommentCount }) => {
+export const Comment = ({ comment, connectedUser, setCommentCount}) => {
     const [isDeleted, setIsDeleted] = useState(false);
     const [editing, setEditing] = useState(false);
     const [updatedCommentValue, setUpdatedCommentValue] = useState(comment?.comment);
     const [edited, setEdited] = useState(comment?.datePosted < comment?.updatedAt);
     const [showDropdownMenu, setShowDropdownMenu] = useState(false);
+    const socketRef = useRef(null);
 
     const deleteThisComment = () => {
         deleteComment(comment._id)
             .then(res => {
                 console.log(res);
+                socketRef.current.emit(`deleteComment`, comment);
                 setIsDeleted(true);
                 setCommentCount((prevCount) => prevCount - 1);
             })
             .catch(err => console.log(err));
     };
+
+    useEffect(() => {
+        const socket = socketIOClient(ENDPOINT);
+        socketRef.current = socket;
+        socket.on(`deleteComment`, commId =>{
+            console.log(`eeeee`);
+            if (commId === comment._id){
+                console.log(comment);
+                setIsDeleted(true);
+                setCommentCount((prevCount) => prevCount - 1);
+                
+            }
+        });
+
+        socket.on(`editComment`, comm => {
+            if (comm._id === comment._id){
+                console.log(comm);
+                comment.comment = comm.comment;
+                setUpdatedCommentValue(comm.comment);
+                setEdited(true);
+            }
+        })
+        return () => {
+            socket.disconnect();
+        }
+    },[])
+
     const startEditing = () => {
         setUpdatedCommentValue(comment?.comment);
         setEditing(true);
@@ -36,12 +67,15 @@ export const Comment = ({ comment, connectedUser, setCommentCount }) => {
             .then(res => {
                 console.log(res);
                 comment.comment = updatedCommentValue;
+                socketRef.current.emit(`editComment`, comment);
                 setEdited(true);
             })
             .catch(err => console.log(err));
         setEditing(false);
 
     }
+
+  
 
     return (
         <Container>

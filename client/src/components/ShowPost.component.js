@@ -31,6 +31,8 @@ export const ShowPost = ({ connectedUser }) => {
   const userPost = (user, post) => {
     return (post?.post?.createdBy === user?.id) || (user?.role === 'admin');
   };
+
+  
   useEffect(() => {
     setLoading(true);
     getPostDetails(id)
