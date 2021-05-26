@@ -79,7 +79,7 @@ export const ShowPost = ({ connectedUser }) => {
       .catch(err => console.log(err));
   };
 
-
+  console.log(applicationsData);
   return (
     <div>
     <NavBar></NavBar>
@@ -113,7 +113,7 @@ export const ShowPost = ({ connectedUser }) => {
                 </>
                 : (<></>)) : (<></>)
           }
-        {userPost(connectedUser, postData) ? 
+        {userPost(connectedUser, postData) && connectedUser.role === 'company' ? 
           <ApplyButton onClick={() => openModalApplicants()} > Applicants </ApplyButton>
           : <></>
         }
@@ -171,8 +171,15 @@ export const ShowPost = ({ connectedUser }) => {
                   <tbody>
                     {applicationsData.applications.map((application, key) =>
                       <tr key={key}>
-                        <td>{application?.applicant?.firstName + ' ' + application?.applicant?.lastName} </td>
-                        <td>{application?.dateCreated.slice(0, 10).replaceAll('-', '.')}</td>
+
+                        <td>
+                            <DataItem>
+                            <Link to={`/profile/${application?.applicant?._id}`}>
+                              {application?.applicant?.firstName + ' ' + application?.applicant?.lastName}
+                            </Link> 
+                            </DataItem>
+                        </td>
+                        <td style={{"textAlign" : "center"}}>{application?.dateCreated.slice(0, 10).replaceAll('-', '.')}</td>
                       </tr>
                     )}
                   </tbody> </> : (<>No applicants</>)} </>
@@ -325,6 +332,21 @@ margin-bottom: 1rem;
   cursor: pointer;
 }
 `;
+
+
+const DataItem = styled.div`
+    text-align: center;
+    color: #66727E;
+    a {
+        color: black;
+        transition: all .2s ease-in-out;
+    }
+    a:hover {
+        color: #6672B4;
+        text-decoration: underline
+    }
+`
+
 
 export const modalStyles = {
   content: {

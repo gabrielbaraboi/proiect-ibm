@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
-import { Detail, ImagePlace, AboutMeCard, InformationCard, Informations, GeneralInformation, CoverImagePlace, Details, modalStyles, ProfilePicture, Social, SocialLinks, ProfilePictureDiv } from '../ProfileStyledComponents';
+import { Detail, ImagePlace, AboutMeCard, InformationCard, Informations, GeneralInformation, CoverImagePlace, Details, modalStyles, ProfilePicture, Social, SocialLinks, ProfilePictureDiv, DataItem } from '../ProfileStyledComponents';
 import { EditDescription, EditName, EditDoB, EditNetworks, EditProfilePicture, EditCoverPicture, EditCV } from "../IndividualEditing";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faFilePdf } from '@fortawesome/free-solid-svg-icons'
@@ -224,40 +224,65 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
         }
       </AboutMeCard>
       <InformationCard>
-        <table id="table_id" class="display">
-          <thead>
-            {(postData?.details?.role === "student") ?
-              (
-                <tr>
-                  <th>Offer Creator</th>
-                  <th>Offer Title</th>
-                  <th>Creation Date</th>
+          {applicationData.length != 0 ?
+          <table id="table_id" class="display">
+            <thead>
+              {(postData?.details?.role === "student") ?
+                (
+                  <tr>
+                    <th>Offer Creator</th>
+                    <th>Offer Title</th>
+                    <th>Creation Date</th>
+                  </tr>
+                ) : (
+                  <tr>
+                    <th>Application Creator</th>
+                    <th>Offer Title</th>
+                    <th>Creation Date</th>
+                  </tr>
+                )
+              }
+            </thead>
+            <tbody>
+              {applicationData.map((application, key) =>
+                <tr key={key}>
+                  {(postData?.details?.role === "student") ?
+                    (
+                      <td>
+                        <DataItem>
+                        <Link to={`/profile/${application?.offerCreator?._id}`}>
+                          {application?.offerCreator?.companyName}
+                        </Link>
+                        </DataItem>
+                      </td>
+                    ) : (
+                      <td>
+                        <DataItem>
+                        <Link to={`/profile/${application?.applicant?._id}`}>
+                          {application?.applicant?.firstName + ' ' + application?.applicant?.lastName} 
+                        </Link>
+                        </DataItem>
+                      </td>
+                    )
+                  }
+                  <td>
+                    <DataItem>
+                    <Link to={`/post/${application?.offer?._id}`}>
+                        {application?.offer?.title}
+                    </Link>
+                    </DataItem>
+                  </td>
+                  <td style={{"textAlign" : "center"}}>{application?.dateCreated.slice(0, 10).replaceAll('-', '.')}</td>
                 </tr>
-              ) : (
-                <tr>
-                  <th>Application Creator</th>
-                  <th>Offer Title</th>
-                  <th>Creation Date</th>
-                </tr>
-              )
-            }
-          </thead>
-          <tbody>
-            {applicationData.map((application, key) =>
-              <tr key={key}>
-                {(postData?.details?.role === "student") ?
-                  (
-                    <td>{application?.offerCreator?.companyName}</td>
-                  ) : (
-                    <td>{application?.applicant?.firstName + ' ' + application?.applicant?.lastName} </td>
-                  )
-                }
-                <td>{application?.offer?.title}</td>
-                <td>{application?.dateCreated.slice(0, 10).replaceAll('-', '.')}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+          : (<>
+              {postData?.details?.role === "student" ? 
+                 <>You have not applied for any position.</> :
+                 <>Nobody applied yet.</>
+              }
+              </>)}
       </InformationCard>
       <InformationCard>
         <button onClick={() => openModalDelete()}>Delete your account</button>

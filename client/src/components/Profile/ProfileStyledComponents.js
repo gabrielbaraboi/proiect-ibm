@@ -195,3 +195,16 @@ export const ProfilePictureDiv = styled.div`
     cursor: pointer;
   }
 `
+
+export const DataItem = styled.div`
+    text-align: center;
+    color: #66727E;
+    a {
+        color: black;
+        transition: all .2s ease-in-out;
+    }
+    a:hover {
+        color: #6672B4;
+        text-decoration: underline
+    }
+`
