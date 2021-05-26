@@ -113,9 +113,10 @@ export const ShowPost = ({ connectedUser }) => {
                 </>
                 : (<></>)) : (<></>)
           }
-        {userPost(connectedUser, postData) && connectedUser.role === 'company' ? 
+        {connectedUser ? userPost(connectedUser, postData) && connectedUser.role === 'company' ? 
           <ApplyButton onClick={() => openModalApplicants()} > Applicants </ApplyButton>
           : <></>
+        :(<></>)
         }
         <PostData>
           <PostDataRow>
