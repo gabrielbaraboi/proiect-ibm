@@ -224,6 +224,7 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
         }
       </AboutMeCard>
       <InformationCard>
+        <center>
           {applicationData.length != 0 ?
           <table id="table_id" class="display">
             <thead>
@@ -250,17 +251,17 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
                     (
                       <td>
                         <DataItem>
-                        <Link to={`/profile/${application?.offerCreator?._id}`}>
+                        <a href={`/profile/${application?.offerCreator?._id}`}>
                           {application?.offerCreator?.companyName}
-                        </Link>
+                        </a>
                         </DataItem>
                       </td>
                     ) : (
                       <td>
                         <DataItem>
-                        <Link to={`/profile/${application?.applicant?._id}`}>
+                        <a href={`/profile/${application?.applicant?._id}`}>
                           {application?.applicant?.firstName + ' ' + application?.applicant?.lastName} 
-                        </Link>
+                        </a>
                         </DataItem>
                       </td>
                     )
@@ -283,9 +284,10 @@ export const OwnerProfile = ({ postData, deleteThisUser }) => {
                  <>Nobody applied yet.</>
               }
               </>)}
+          </center>
       </InformationCard>
       <InformationCard>
-        <button onClick={() => openModalDelete()}>Delete your account</button>
+        <center><button onClick={() => openModalDelete()}>Delete your account</button></center>
       </InformationCard>
 
       <Modal
